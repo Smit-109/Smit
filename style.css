@@ -1,0 +1,91 @@
+/* Core Styles and Resets */
+:root {
+  --navy: #0a0e14;
+  --gold: #d4af37;
+  --ether: #7df9ff;
+  --charcoal: #1a1e24;
+}
+
+body {
+  background-color: var(--navy);
+}
+
+/* Glassmorphism Utilities */
+.glass-card {
+  background: rgba(26, 30, 36, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(125, 249, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* Specific glows and shadows */
+.shadow-glow-ether {
+  box-shadow: 0 0 20px rgba(125, 249, 255, 0.2);
+}
+
+.shadow-glow-gold {
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+/* Sacred Geometry Animations */
+@keyframes slowRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.sacred-paths {
+  animation: slowRotate 120s linear infinite;
+  transform-origin: center;
+}
+
+/* Scroll Line Animation */
+@keyframes scrollLine {
+  0% { transform: scaleY(0); transform-origin: top; opacity: 1;}
+  50% { transform: scaleY(1); transform-origin: top; opacity: 1;}
+  50.1% { transform: scaleY(1); transform-origin: bottom; opacity: 1;}
+  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0;}
+}
+
+.scroll-line {
+  animation: scrollLine 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+}
+
+/* Elemental Cards Hover Glow (CSS Fallback, enhanced by JS) */
+.element-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Graceful Degradation */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .sacred-paths {
+    animation: none;
+  }
+}
+
+/* Fallback if JS is disabled */
+noscript .opacity-0 {
+  opacity: 1 !important;
+}
+
+noscript .timeline-item {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Custom Selection */
+::selection {
+  background-color: var(--ether);
+  color: var(--navy);
+}
