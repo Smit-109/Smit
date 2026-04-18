@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DSA - Data Structure And Algorithm</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <button class="mobile-menu-btn">&#9776;</button>
+<a href="#" class="logo">
+ <div class="logo-icon">DSA</div>
+ Data Structure And Algorithm
+ </a>
+  <div class="search-bar">
+    <span class="search-icon">&#128269;</span>
+    <input type="text" placeholder="Search topics, algorithms...">
+    <div class="search-results"></div>
+  </div>
+  <button class="theme-toggle">&#9790;</button>
+</header>
+
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Getting Started</div>
+    <a href="#home" class="sidebar-link active">Overview</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Ch 1 - Fundamentals</div>
+    <a href="#ch1" class="sidebar-link">Chapter Overview</a>
+    <a href="#s1-1" class="sidebar-link sidebar-sublink">Algorithm Basics</a>
+    <a href="#s1-2" class="sidebar-link sidebar-sublink">Algorithm Paradigms</a>
+    <a href="#s1-3" class="sidebar-link sidebar-sublink">Complexity Analysis</a>
+    <a href="#s1-4" class="sidebar-link sidebar-sublink">Math Toolkit</a>
+    <a href="#s1-5" class="sidebar-link sidebar-sublink">Bit Operations</a>
+    <a href="#s1-6" class="sidebar-link sidebar-sublink">Classic Challenges</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Ch 2 - Data Structures</div>
+    <a href="#ch2" class="sidebar-link">Chapter Overview</a>
+    <a href="#s2-1" class="sidebar-link sidebar-sublink">Arrays &amp; Strings</a>
+    <a href="#s2-2" class="sidebar-link sidebar-sublink">Stacks &amp; Queues</a>
+    <a href="#s2-3" class="sidebar-link sidebar-sublink">Hash Tables</a>
+    <a href="#s2-4" class="sidebar-link sidebar-sublink">Probabilistic Structures</a>
+    <a href="#s2-5" class="sidebar-link sidebar-sublink">Linked Lists</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Ch 3 - Graphs &amp; Trees</div>
+    <a href="#ch3" class="sidebar-link">Chapter Overview</a>
+    <a href="#s3-1" class="sidebar-link sidebar-sublink">Graph Fundamentals</a>
+    <a href="#s3-2" class="sidebar-link sidebar-sublink">Graph Traversal</a>
+    <a href="#s3-3" class="sidebar-link sidebar-sublink">Shortest Paths</a>
+    <a href="#s3-4" class="sidebar-link sidebar-sublink">Spanning Trees &amp; Components</a>
+    <a href="#s3-5" class="sidebar-link sidebar-sublink">Tree Structures</a>
+    <a href="#s3-6" class="sidebar-link sidebar-sublink">Advanced Trees</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Ch 4 - Sorting &amp; Searching</div>
+    <a href="#ch4" class="sidebar-link">Chapter Overview</a>
+    <a href="#s4-1" class="sidebar-link sidebar-sublink">Elementary Sorts</a>
+    <a href="#s4-2" class="sidebar-link sidebar-sublink">Efficient Sorts</a>
+    <a href="#s4-3" class="sidebar-link sidebar-sublink">Specialized Sorts</a>
+    <a href="#s4-4" class="sidebar-link sidebar-sublink">Search Techniques</a>
+    <a href="#s4-5" class="sidebar-link sidebar-sublink">Pattern Matching</a>
+  </div>
+</aside>
+
+<main class="main-content">
+
+<section id="home" class="hero">
+ <h1>DSA</h1>
+ <p>Data Structure And Algorithm - A comprehensive study guide for mastering fundamental CS concepts.</p>
+    <div class="hero-badges">
+      <span class="badge badge-blue">4 Chapters</span>
+      <span class="badge badge-purple">40+ Topics</span>
+      <span class="badge badge-green">Open Study Resource</span>
+    </div>
+  </section>
+  <section id="ch1" class="chapter">
+    <div class="chapter-header"><div class="chapter-number ch1">1</div><h2>Fundamentals</h2></div>
+    <p>Core concepts every programmer needs: how algorithms work, how to measure their performance, essential math, and famous computational puzzles.</p>
+    <section id="s1-1" class="section">
+      <h3>Algorithm Basics</h3>
+      <div class="concept-box definition"><div class="label def">Definition</div><h4>What is an Algorithm?</h4>
+        <p>An algorithm is a finite sequence of unambiguous instructions that transforms some input into a desired output. Think of it as a recipe: you start with ingredients (input), follow steps, and arrive at a finished dish (output).</p>
+        <p>For instance, to check if a number is even, one algorithm could be: verify whether the number leaves no remainder when divided by 2.</p>
+      </div>
+      <div class="concept-box definition"><div class="label def">Definition</div><h4>Iteration vs Recursion</h4>
+        <p><strong>Iterative</strong> algorithms repeat a block of code using loops (for, while). They process elements one after another until a condition is met.</p>
+        <p><strong>Recursive</strong> algorithms solve a problem by having a function call itself. Every recursive solution needs two things:</p>
+        <ul><li><strong>Base case</strong> &mdash; the simplest input where the answer is known directly.</li><li><strong>Recursive step</strong> &mdash; expresses the current answer in terms of smaller sub-problems.</li></ul>
+        <p>A classic example: computing x^n without a power operator. The insight is that x^n = x^(n/2) * x^(n/2) when n is even, and x^n = x * x^((n-1)/2) * x^((n-1)/2) when n is odd, with the base case x^0 = 1.</p>
+      </div>
+      <div class="concept-box property"><div class="label prop">Key Concept</div><h4>Call Stack &amp; Stack Overflow</h4>
+        <p>Each recursive call occupies a slot in the <strong>call stack</strong>. If recursion goes too deep, it can exceed the maximum stack size, causing a <strong>stack overflow</strong>. Converting recursion to iteration avoids this because heap memory is typically much larger than stack space.</p>
+      </div>
+      <div class="concept-box algorithm"><div class="label algo">Technique</div><h4>Memoization</h4>
+        <p>Cache the result of expensive function calls. When the same inputs appear again, return the cached value instantly. This transforms many exponential-time recursive algorithms into polynomial-time solutions.</p>
+      </div>
+    </section>
+    <section id="s1-2" class="section">
+      <h3>Algorithm Paradigms</h3>
+      <div class="comparison-grid">
+        <div class="comparison-card"><h5 style="color:var(--accent-blue)">Brute Force</h5><p>Enumerate every possible answer and test each one. Simple but often the slowest approach.</p><p>Example: Finding a pair summing to S in an array by trying all n^2 pairs.</p></div>
+        <div class="comparison-card"><h5 style="color:var(--accent-purple)">Backtracking</h5><p>Like brute force, but abandon invalid partial solutions early (pruning). Avoids wasting time on dead ends.</p><p>Example: N-Queens &mdash; place queens one at a time and backtrack whenever two can attack.</p></div>
+        <div class="comparison-card"><h5 style="color:var(--accent-green)">Greedy</h5><p>Make the locally optimal choice at every step. Fast, but may not produce the globally optimal result.</p><p>Example: Picking the heaviest edge at each step &mdash; might miss a better route hidden behind a lighter edge.</p></div>
+        <div class="comparison-card"><h5 style="color:var(--accent-orange)">Divide &amp; Conquer</h5><p>Split the problem into <em>independent</em> sub-problems, solve each, then combine. Merge sort and quick sort follow this strategy.</p></div>
+        <div class="comparison-card"><h5 style="color:var(--accent-cyan)">Dynamic Programming</h5><p>Solve <em>overlapping</em> sub-problems once and reuse the results. Two styles:</p><ul><li><strong>Top-down</strong> &mdash; recursive + memoization</li><li><strong>Bottom-up</strong> &mdash; iteratively fill a table from known base values</li></ul><p>Example: Fibonacci numbers.</p></div>
+      </div>
+      <div class="concept-box remark"><div class="label note">Key Distinction</div><h4>D&amp;C vs DP</h4>
+        <p>Divide &amp; Conquer works with <em>independent</em> sub-problems; DP works with <em>overlapping</em> ones. If you re-compute the same thing in a D&amp;C solution, switch to DP.</p>
+      </div>
+    </section>
+    <section id="s1-3" class="section">
+      <h3>Complexity Analysis</h3>
+      <div class="concept-box definition"><div class="label def">Definition</div><h4>Time &amp; Space Complexity</h4>
+        <p>Complexity measures how an algorithm's resource usage scales with input size n:</p>
+        <ul><li><strong>Time complexity</strong> &mdash; how many operations are performed.</li><li><strong>Space complexity</strong> &mdash; how much extra memory is consumed.</li></ul>
+      </div>
+      <h4>Asymptotic Notations</h4>
+      <table class="complexity-table"><thead><tr><th>Notation</th><th>Intuition</th><th>Formal</th></tr></thead><tbody>
+        <tr><td><code>O(g)</code></td><td>Upper bound</td><td>|f(n)| &le; c|g(n)| for large n</td></tr>
+        <tr><td><code>&Omega;(g)</code></td><td>Lower bound</td><td>|f(n)| &ge; c|g(n)| for large n</td></tr>
+        <tr><td><code>&Theta;(g)</code></td><td>Tight bound</td><td>Both O and &Omega;</td></tr>
+        <tr><td><code>o(g)</code></td><td>Strictly smaller</td><td>f(n)/g(n) &rarr; 0</td></tr>
+      </tbody></table>
+      <h4>Growth Rates</h4>
+      <table class="complexity-table"><thead><tr><th>Complexity</th><th>Name</th><th>n=10</th><th>n=100</th><th>Example</th></tr></thead><tbody>
+        <tr><td><code>O(1)</code></td><td>Constant</td><td>1</td><td>1</td><td>Hash table lookup</td></tr>
+        <tr><td><code>O(log n)</code></td><td>Logarithmic</td><td>~3</td><td>~7</td><td>Binary search</td></tr>
+        <tr><td><code>O(n)</code></td><td>Linear</td><td>10</td><td>100</td><td>Linear scan</td></tr>
+        <tr><td><code>O(n log n)</code></td><td>Linearithmic</td><td>~33</td><td>~664</td><td>Merge sort</td></tr>
+        <tr><td><code>O(n&sup2;)</code></td><td>Quadratic</td><td>100</td><td>10K</td><td>Bubble sort</td></tr>
+        <tr><td><code>O(2^n)</code></td><td>Exponential</td><td>~1K</td><td>~10^30</td><td>0/1 Knapsack (naive)</td></tr>
+        <tr><td><code>O(n!)</code></td><td>Factorial</td><td>~3.6M</td><td>&mdash;</td><td>TSP (naive)</td></tr>
+      </tbody></table>
+      <div class="concept-box algorithm"><div class="label algo">Theorem</div><h4>Master Theorem</h4>
+        <p>For T(n) = aT(n/b) + &Theta;(n^d):</p>
+        <table class="complexity-table"><thead><tr><th>Condition</th><th>Result</th><th>Example</th></tr></thead><tbody>
+          <tr><td>d &lt; log_b(a)</td><td>&Theta;(n^{log_b(a)})</td><td>T(n)=2T(n/2) &rarr; &Theta;(n)</td></tr>
+          <tr><td>d = log_b(a)</td><td>&Theta;(n^d log n)</td><td>T(n)=T(n/2)+&Theta;(1) &rarr; &Theta;(log n)</td></tr>
+          <tr><td>d &gt; log_b(a)</td><td>&Theta;(n^d)</td><td>T(n)=4T(n/2)+&Theta;(n&sup3;) &rarr; &Theta;(n&sup3;)</td></tr>
+        </tbody></table>
+      </div>
+      <div class="concept-box property"><div class="label prop">Classification</div><h4>P vs NP</h4>
+        <ul><li><strong>P</strong> &mdash; problems solvable in polynomial time.</li><li><strong>NP</strong> &mdash; solutions can be verified in polynomial time.</li><li><strong>NP-hard</strong> &mdash; at least as hard as any NP problem.</li><li><strong>NP-complete</strong> &mdash; NP-hard problems that are also in NP.</li></ul>
+        <p>Whether P = NP remains one of the biggest open questions in computer science.</p>
+      </div>
+    </section>
+    <section id="s1-4" class="section">
+      <h3>Math Toolkit</h3>
+      <div class="concept-box definition"><div class="label def">Definition</div><h4>Combinatorics Essentials</h4>
+        <table class="complexity-table"><thead><tr><th>Concept</th><th>Formula</th><th>Meaning</th></tr></thead><tbody>
+          <tr><td>Factorial</td><td>n! = n &times; (n-1) &times; ... &times; 1</td><td>Ways to arrange n items. 0! = 1</td></tr>
+          <tr><td>Combination</td><td>C(n,k) = n! / (k!(n-k)!)</td><td>Choose k from n (order irrelevant)</td></tr>
+          <tr><td>Permutation</td><td>P(n,k) = n! / (n-k)!</td><td>Choose k from n (order matters)</td></tr>
+          <tr><td>Pascal's Rule</td><td>C(n,k) = C(n-1,k) + C(n-1,k-1)</td><td>Builds Pascal's Triangle</td></tr>
+          <tr><td>Binomial Theorem</td><td>(x+y)^n = sum of C(n,k) x^(n-k) y^k</td><td>When x=y=1: sum = 2^n</td></tr>
+        </tbody></table>
+      </div>
+      <div class="concept-box property"><div class="label prop">Principle</div><h4>Pigeonhole Principle</h4>
+        <p>If you place more than m items into m containers, at least one container holds more than one item.</p>
+      </div>
+      <div class="concept-box definition"><div class="label def">Definition</div><h4>Sequences &amp; Statistics</h4>
+        <p><strong>Fibonacci:</strong> F(0)=0, F(1)=1, F(n)=F(n-1)+F(n-2). First ten: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34.</p>
+        <p><strong>Euclidean division:</strong> a = b*q + r where 0 &le; r &lt; b.</p>
+        <p><strong>Statistics:</strong> Mean = sum/count. Median = middle value. Mode = most frequent value.</p>
+      </div>
+    </section>
+    <section id="s1-5" class="section">
+      <h3>Bit Operations</h3>
+      <div class="concept-box definition"><div class="label def">Definition</div><h4>Number Bases</h4>
+        <p>Any integer n has a unique representation in base b: n = sum of n_k &times; b^k.</p>
+        <table class="complexity-table"><thead><tr><th>Base</th><th>Digits</th><th>Use Case</th></tr></thead><tbody>
+          <tr><td>Binary (2)</td><td>{0, 1}</td><td>Low-level logic &amp; bit tricks</td></tr>
+          <tr><td>Decimal (10)</td><td>{0..9}</td><td>Everyday arithmetic</td></tr>
+          <tr><td>Hexadecimal (16)</td><td>{0..9, A..F}</td><td>Memory addresses</td></tr>
+        </tbody></table>
+      </div>
+      <div class="concept-box property"><div class="label prop">Reference</div><h4>Bitwise Operators</h4>
+        <table class="complexity-table"><thead><tr><th>Operation</th><th>Symbol</th><th>Result</th></tr></thead><tbody>
+          <tr><td>OR</td><td><code>x | y</code></td><td>1 if either is 1</td></tr>
+          <tr><td>XOR</td><td><code>x ^ y</code></td><td>1 if exactly one is 1</td></tr>
+          <tr><td>AND</td><td><code>x &amp; y</code></td><td>1 if both are 1</td></tr>
+          <tr><td>Left shift</td><td><code>x &lt;&lt; k</code></td><td>Multiply by 2^k</td></tr>
+          <tr><td>Right shift</td><td><code>x &gt;&gt; k</code></td><td>Integer divide by 2^k</td></tr>
+        </tbody></table>
+      </div>
+      <div class="concept-box algorithm"><div class="label algo">Tricks</div><h4>Bit Manipulation Shortcuts</h4>
+        <table class="complexity-table"><thead><tr><th>Expression</th><th>Meaning</th></tr></thead><tbody>
+          <tr><td><code>x &amp; (x-1) == 0</code></td><td>x is a power of 2</td></tr>
+          <tr><td><code>x &amp; 1 == 0</code></td><td>x is even</td></tr>
+          <tr><td><code>1 &lt;&lt; j</code></td><td>Produces 2^j</td></tr>
+        </tbody></table>
+      </div>
+      <div class="concept-box warning"><div class="label warn">Pitfall</div><h4>Integer Overflow</h4>
+        <p>An N-bit integer cannot exceed 2^N - 1. To safely average a and b, prefer <code>a + (b-a)/2</code> over <code>(a+b)/2</code> &mdash; the latter can overflow before the division.</p>
+      </div>
+    </section>
+    <section id="s1-6" class="section">
+      <h3>Classic Challenges</h3>
+      <div class="collapsible-header"><h4>Traveling Salesperson Problem (TSP)</h4><span class="collapsible-arrow">&#9654;</span></div>
+      <div class="collapsible-body"><p><strong>Goal:</strong> Find the shortest tour visiting every city exactly once, returning to start.</p><p>Naive: try all (n-1)! permutations. <strong>Held-Karp (DP):</strong> For each subset of cities and possible last city, store minimum distance. <span class="tag tag-time">O(n^2 2^n)</span> <span class="tag tag-space">O(n 2^n)</span></p></div>
+      <div class="collapsible-header"><h4>0/1 Knapsack Problem</h4><span class="collapsible-arrow">&#9654;</span></div>
+      <div class="collapsible-body"><p><strong>Goal:</strong> Choose items to maximize value without exceeding weight capacity C.</p><p><strong>DP:</strong> Build table V[i][j] = max value using items 1..i with capacity j. Transition: V[i][j] = max(V[i-1][j], V[i-1][j-w_i] + v_i). Answer: V[n][C]. <span class="tag tag-time">O(nC)</span> <span class="tag tag-space">O(nC)</span></p></div>
+      <div class="collapsible-header"><h4>N-Queens</h4><span class="collapsible-arrow">&#9654;</span></div>
+      <div class="collapsible-body"><p><strong>Goal:</strong> Place N queens on NxN board so no two attack each other.</p><p><strong>Backtracking:</strong> Place queens one column at a time. Undo if invalid, try next row.</p></div>
+      <div class="collapsible-header"><h4>Coin Change</h4><span class="collapsible-arrow">&#9654;</span></div>
+      <div class="collapsible-body"><p><strong>Goal:</strong> Given unlimited coins of denominations {c1, ..., ck}, find min coins to make amount S.</p><p><strong>Bottom-up DP:</strong> D[s] = min(D[s - c_i] + 1) over valid denominations. Answer: D[S]. <span class="tag tag-time">O(S)</span> <span class="tag tag-space">O(S)</span></p></div>
+    </section>
+    <hr class="divider">
+  <div id="ch2" class="chapter-header"><div class="chapter-number ch2">2</div><h2>Data Structures</h2></div>
+  <p>The building blocks for organizing and accessing data efficiently: arrays, strings, stacks, queues, hash-based structures, and linked lists.</p>
+  <section id="s2-1" class="section"><h3>Arrays &amp; Strings</h3>
+    <div class="concept-box definition"><div class="label def">Definition</div><h4>Array</h4>
+      <p>A fixed-size container storing elements sequentially, accessed by index (0-indexed in most languages).</p>
+      <table class="complexity-table"><thead><tr><th>Operation</th><th>Time</th><th>Notes</th></tr></thead><tbody>
+        <tr><td>Access by index</td><td>O(1)</td><td>Direct lookup</td></tr>
+        <tr><td>Search</td><td>O(n)</td><td>Must scan until found</td></tr>
+        <tr><td>Insertion</td><td>O(n)</td><td>Shift elements; may resize</td></tr>
+        <tr><td>Deletion</td><td>O(n)</td><td>Shift elements left</td></tr>
+      </tbody></table>
+    </div>
+    <div class="concept-box algorithm"><div class="label algo">Algorithm</div><h4>Kadane's Algorithm (Maximum Subarray Sum)</h4>
+      <p>Finds the contiguous subarray with the largest sum in a single pass:</p>
+      <ol class="step-list"><li>Initialize current = max = A[0].</li><li>For each A[i]: if current &lt; 0, restart from A[i]; otherwise, extend with A[i].</li><li>Update max = max(max, current) at each step.</li></ol>
+      <span class="tag tag-time">O(n)</span> <span class="tag tag-space">O(1)</span>
+    </div>
+    <div class="concept-box algorithm"><div class="label algo">Algorithm</div><h4>Merge Intervals</h4>
+      <p>Given potentially overlapping intervals, produce non-overlapping ones:</p>
+      <ol class="step-list"><li>Sort intervals by start value.</li><li>Iterate: if current overlaps last merged, extend; otherwise append.</li></ol>
+      <span class="tag tag-time">O(n log n)</span> <span class="tag tag-space">O(n)</span>
+    </div>
+    <div class="concept-box definition"><div class="label def">Definition</div><h4>String</h4>
+      <p>Essentially an array of characters. Special types:</p>
+      <ul><li><strong>Palindrome</strong> &mdash; reads the same forwards and backwards (e.g., "racecar").</li><li><strong>Anagram</strong> &mdash; rearrangement of another string's letters (e.g., "listen" / "silent").</li><li><strong>Strobogrammatic</strong> &mdash; looks the same when rotated 180 degrees (e.g., "69", "818").</li></ul>
+    </div>
+    <div class="concept-box algorithm"><div class="label algo">Technique</div><h4>Sliding Window (Longest Substring Without Repeats)</h4>
+      <p>Use two pointers (left, right) defining a window. Expand right; if a duplicate appears, shrink left until valid. Track max window length. <span class="tag tag-time">O(n)</span> <span class="tag tag-space">O(n)</span></p>
+    </div>
+  </section>
+  <section id="s2-2" class="section"><h3>Stacks &amp; Queues</h3>
+    <div class="comparison-grid">
+      <div class="comparison-card"><h5 style="color:var(--accent-blue)">Stack (LIFO)</h5><p>Last In, First Out. Add and remove from the top.</p><ul><li>push &mdash; O(1)</li><li>pop &mdash; O(1)</li><li>Access/search other positions: O(n)</li></ul><p>Used in: DFS, undo operations.</p></div>
+      <div class="comparison-card"><h5 style="color:var(--accent-purple)">Queue (FIFO)</h5><p>First In, First Out. Add at tail, remove from head.</p><ul><li>enqueue &mdash; O(1)</li><li>dequeue &mdash; O(1)</li><li>Access/search other positions: O(n)</li></ul><p>Used in: BFS, task scheduling.</p></div>
+    </div>
+    <div class="concept-box algorithm"><div class="label algo">Application</div><h4>Monotonic Stack (Daily Temperatures)</h4>
+      <p>Given daily temperatures, find days until a warmer one. Use a stack of (day, temp) pairs. When a new temp arrives, pop all cooler days and record the gap. <span class="tag tag-time">O(n)</span> <span class="tag tag-space">O(n)</span></p>
+    </div>
+  </section>
+  <section id="s2-3" class="section"><h3>Hash Tables</h3>
+    <div class="concept-box definition"><div class="label def">Definition</div><h4>Hash Set &amp; Hash Map</h4>
+      <p>A <strong>hash set</strong> stores unique values; a <strong>hash map</strong> stores key-value pairs. Both use a hash function to map keys to bucket addresses for near-O(1) operations. A good hash function should: (1) be fast, (2) distribute uniformly, (3) handle collisions.</p>
+    </div>
+    <div class="concept-box property"><div class="label prop">Mechanism</div><h4>Collision Resolution</h4>
+      <p>A <strong>collision</strong> occurs when two distinct keys hash to the same bucket. Load factor &rho; = n/b (items/buckets).</p>
+      <table class="complexity-table"><thead><tr><th>Method</th><th>Type</th><th>How it works</th><th>Best when</th></tr></thead><tbody>
+        <tr><td>Linear probing</td><td>Open addressing</td><td>Try next bucket sequentially</td><td>&rho; &asymp; 0</td></tr>
+        <tr><td>Quadratic probing</td><td>Open addressing</td><td>Try buckets at 1,4,9,... away</td><td>&rho; &asymp; 0</td></tr>
+        <tr><td>Double hashing</td><td>Open addressing</td><td>Use a second hash function</td><td>&rho; &asymp; 0</td></tr>
+        <tr><td>Chaining</td><td>Closed addressing</td><td>Each bucket holds a linked list</td><td>&rho; &asymp; 1</td></tr>
+      </tbody></table>
+    </div>
+  </section>
+  <section id="s2-4" class="section"><h3>Probabilistic Structures</h3>
+    <div class="concept-box definition"><div class="label def">Definition</div><h4>Bloom Filter</h4>
+      <p>Space-efficient structure that tells if an element is <em>definitely not</em> in a set or <em>possibly</em> in it (false positives possible, never false negatives). Uses k hash functions and an m-bit array. <strong>Cannot delete.</strong> False positive rate approx (1 - e^{-kn/m})^k.</p>
+    </div>
+    <div class="concept-box definition"><div class="label def">Definition</div><h4>Count-Min Sketch</h4>
+      <p>Estimates element frequencies (returns upper bound). Uses k hash functions and a k&times;m count matrix. <strong>Insert</strong> x: increment cells. <strong>Query</strong> x: return min across all k counters. Cannot delete.</p>
+    </div>
+  </section>
+  <section id="s2-5" class="section"><h3>Linked Lists</h3>
+    <div class="comparison-grid">
+      <div class="comparison-card"><h5 style="color:var(--accent-blue)">Singly Linked List</h5><p>Each node has value and next pointer. First = head.</p><table class="complexity-table"><thead><tr><th>Op</th><th>Time</th></tr></thead><tbody><tr><td>Access / Search</td><td>O(n)</td></tr><tr><td>Insert / Delete (known pos)</td><td>O(1)</td></tr></tbody></table></div>
+      <div class="comparison-card"><h5 style="color:var(--accent-purple)">Doubly Linked List</h5><p>Each node also has prev pointer. First = head, last = tail.</p><table class="complexity-table"><thead><tr><th>Op</th><th>Time</th></tr></thead><tbody><tr><td>Access / Search</td><td>O(n)</td></tr><tr><td>Insert / Delete (known pos)</td><td>O(1)</td></tr></tbody></table></div>
+    </div>
+    <div class="concept-box algorithm"><div class="label algo">Algorithm</div><h4>Floyd's Cycle Detection (Tortoise &amp; Hare)</h4>
+      <p>Detects cycle start using two pointers:</p>
+      <ol class="step-list"><li><strong>Meeting:</strong> Slow moves 1 step, fast moves 2. They meet inside the cycle.</li><li><strong>Reset:</strong> Move slow back to head; keep fast at meeting point.</li><li><strong>Detect:</strong> Move both 1 step at a time. They meet at cycle start.</li></ol>
+      <span class="tag tag-time">O(n)</span> <span class="tag tag-space">O(1)</span>
+    </div>
+    <div class="concept-box algorithm"><div class="label algo">Application</div><h4>LRU Cache</h4>
+      <p>Combines a doubly linked list (most recent at head, least at tail) with a hash map (key to node) for O(1) access. Access: find and move to head. Insert new: evict tail if at capacity, add at head. Insert existing: move to head. <span class="tag tag-time">O(1)</span> <span class="tag tag-space">O(C)</span></p>
+    </div>
+  </section>
+  <hr class="divider">
+  <div id="ch3" class="chapter-header"><div class="chapter-number ch3">3</div><h2>Graphs &amp; Trees</h2></div>
+  <p>Graph traversal, shortest paths, spanning trees, and tree structures from basic binary trees to advanced self-balancing and range-query trees.</p>
+  <section id="s3-1" class="section"><h3>Graph Fundamentals</h3>
+    <div class="concept-box definition"><div class="label def">Definition</div><h4>Graph</h4>
+      <p>A graph G = (V, E) consists of vertices and edges. <strong>Undirected</strong> edges have no direction; <strong>directed</strong> edges go one way. Represented by <strong>adjacency list</strong> (O(V+E) space) or <strong>adjacency matrix</strong> (O(V&sup2;) space).</p>
+    </div>
+    <div class="concept-box property"><div class="label prop">Properties</div><h4>Degree &amp; Graph Types</h4>
+      <ul><li><strong>Degree</strong> = edges touching a node. Directed: in-degree, out-degree.</li><li><strong>Handshaking Lemma:</strong> Sum of degrees = 2|E|. Odd-degree nodes come in even count.</li><li><strong>DAG</strong> = Directed Acyclic Graph.</li><li>Types: <strong>Complete</strong> (all pairs connected), <strong>Connected</strong> (path between every pair), <strong>Bipartite</strong> (two disjoint sets with edges only crossing between them).</li></ul>
+    </div>
+  </section>
+  <section id="s3-2" class="section"><h3>Graph Traversal</h3>
+    <div class="comparison-grid">
+      <div class="comparison-card"><h5 style="color:var(--accent-blue)">BFS</h5><p>Level by level, using a queue. <span class="tag tag-time">O(V+E)</span> <span class="tag tag-space">O(V)</span></p><ol><li>Enqueue start node.</li><li>Dequeue, mark visited, enqueue unvisited neighbors.</li><li>Repeat until empty.</li></ol></div>
+      <div class="comparison-card"><h5 style="color:var(--accent-purple)">DFS</h5><p>Go deep first, using a stack or recursion. <span class="tag tag-time">O(V+E)</span> <span class="tag tag-space">O(V)</span></p><ol><li>Push start node.</li><li>Pop, mark visited, push unvisited neighbors.</li><li>Repeat until empty.</li></ol></div>
+    </div>
+    <div class="concept-box algorithm"><div class="label algo">Algorithm</div><h4>Topological Sort (Kahn's Algorithm)</h4>
+      <p>Linear ordering of a DAG where every edge (A,B) places A before B:</p>
+      <ol class="step-list"><li>Compute in-degree of every node.</li><li>Enqueue nodes with in-degree 0.</li><li>Dequeue, add to result, decrement neighbors. Enqueue any reaching 0.</li><li>Repeat. If result lacks all nodes, a cycle exists.</li></ol>
+      <span class="tag tag-time">O(V+E)</span> <span class="tag tag-space">O(V)</span>
+    </div>
+  </section>
+  <section id="s3-3" class="section"><h3>Shortest Path Algorithms</h3>
+    <table class="complexity-table"><thead><tr><th>Algorithm</th><th>Finds</th><th>Neg. weights?</th><th>Time</th><th>Space</th></tr></thead><tbody>
+      <tr><td>Dijkstra's</td><td>Source to all</td><td>No</td><td>O(E log V)</td><td>O(V)</td></tr>
+      <tr><td>A*</td><td>Source to target</td><td>No</td><td>O(E log V)*</td><td>O(V)</td></tr>
+      <tr><td>Bellman-Ford</td><td>Source to all</td><td>Yes</td><td>O(V*E)</td><td>O(V)</td></tr>
+      <tr><td>Floyd-Warshall</td><td>All pairs</td><td>Yes</td><td>O(V&sup3;)</td><td>O(V&sup2;)</td></tr>
+    </tbody></table>
+    <div class="collapsible-header"><h4>Dijkstra's Algorithm</h4><span class="collapsible-arrow">&#9654;</span></div>
+    <div class="collapsible-body"><p>Greedy algorithm for non-negative weighted graphs:</p><ol class="step-list"><li>Set source distance = 0; all others = infinity.</li><li>Pick unvisited node with smallest distance. Visit it.</li><li>Update neighbors' distances if path through current node is shorter.</li><li>Repeat until all visited.</li></ol><p><strong>No negative edges:</strong> Once visited, distance is finalized.</p></div>
+    <div class="collapsible-header"><h4>A* Search</h4><span class="collapsible-arrow">&#9654;</span></div>
+    <div class="collapsible-body"><p>Extends Dijkstra's with a heuristic h(j, target) estimating remaining distance. Node selection: d(source,j) + h(j,target). Biases exploration toward the goal.</p></div>
+    <div class="collapsible-header"><h4>Bellman-Ford</h4><span class="collapsible-arrow">&#9654;</span></div>
+    <div class="collapsible-body"><p>Relaxes every edge up to V-1 times. Supports negative weights but not negative cycles. If distances still decrease after V-1 rounds, a negative cycle exists.</p></div>
+    <div class="collapsible-header"><h4>Floyd-Warshall</h4><span class="collapsible-arrow">&#9654;</span></div>
+    <div class="collapsible-body"><p>Computes all-pairs shortest paths. For each intermediary k, check if i&rightarrow;k&rightarrow;j is shorter than current i&rightarrow;j. <span class="tag tag-time">O(V&sup3;)</span> <span class="tag tag-space">O(V&sup2;)</span></p></div>
+  </section>
+  <section id="s3-4" class="section"><h3>Spanning Trees &amp; Components</h3>
+    <div class="concept-box definition"><div class="label def">Definition</div><h4>Spanning Tree &amp; MST</h4>
+      <p>A <strong>spanning tree</strong> is a subgraph with the minimum edges to keep all vertices connected. A <strong>minimum spanning tree</strong> (MST) minimizes total edge weight. A graph can have multiple MSTs.</p>
+    </div>
+    <div class="comparison-grid">
+      <div class="comparison-card"><h5 style="color:var(--accent-blue)">Prim's Algorithm</h5><p>Grow MST from an arbitrary node by always adding the cheapest edge connecting a visited node to an unvisited one. <span class="tag tag-time">O(E log V)</span></p></div>
+      <div class="comparison-card"><h5 style="color:var(--accent-purple)">Kruskal's Algorithm</h5><p>Sort all edges by weight. Add each edge if it doesn't create a cycle (use union-find). <span class="tag tag-time">O(E log E)</span></p></div>
+    </div>
+    <div class="concept-box algorithm"><div class="label algo">Algorithm</div><h4>Kosaraju's Algorithm (Strongly Connected Components)</h4>
+      <p>Finds SCCs in a directed graph in two passes:</p>
+      <ol class="step-list"><li><strong>First pass:</strong> DFS on original graph. Push each node to a stack after all neighbors are visited.</li><li><strong>Second pass:</strong> DFS on reversed graph, processing nodes in stack order. Each DFS tree is one SCC.</li></ol>
+      <span class="tag tag-time">O(V+E)</span> <span class="tag tag-space">O(V)</span>
+    </div>
+  </section>
+  <section id="s3-5" class="section"><h3>Tree Structures</h3>
+    <div class="concept-box definition"><div class="label def">Definition</div><h4>Tree</h4>
+      <p>A tree is a DAG with one root (no incoming edge) where every other node has exactly one incoming edge. Internal nodes have children; leaves don't. A tree with N nodes has N-1 edges.</p>
+    </div>
+    <table class="complexity-table"><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+      <tr><td>Depth</td><td>Edges from root to the node</td></tr>
+      <tr><td>Height</td><td>Longest path from node to a leaf</td></tr>
+      <tr><td>LCA</td><td>Lowest Common Ancestor</td></tr>
+    </tbody></table>
+    <div class="concept-box definition"><div class="label def">Definition</div><h4>Binary Tree Types</h4>
+      <table class="complexity-table"><thead><tr><th>Type</th><th>Property</th></tr></thead><tbody>
+        <tr><td>Full</td><td>Every node has 0 or 2 children</td></tr>
+        <tr><td>Complete</td><td>All levels filled except possibly last (left-aligned)</td></tr>
+        <tr><td>Perfect</td><td>All internal nodes have 2 children, all leaves at same level (2^(h+1)-1 nodes)</td></tr>
+        <tr><td>Balanced</td><td>Height difference of left/right subtrees at most 1 for every node</td></tr>
+      </tbody></table>
+    </div>
+    <table class="complexity-table"><thead><tr><th>Traversal</th><th>Order</th><th>Use Case</th></tr></thead><tbody>
+      <tr><td>Pre-order</td><td>Root, Left, Right</td><td>Serialize a tree</td></tr>
+      <tr><td>In-order</td><td>Left, Root, Right</td><td>Sorted order for BST</td></tr>
+      <tr><td>Post-order</td><td>Left, Right, Root</td><td>Delete a tree</td></tr>
+    </tbody></table>
+    <div class="concept-box definition"><div class="label def">Definition</div><h4>Heap</h4>
+      <p>A complete binary tree where each node satisfies the <strong>min-heap</strong> (parent &le; children) or <strong>max-heap</strong> (parent &ge; children) property. Since it's complete, it can be stored in an array: parent of i is (i-1)/2, children are 2i+1 and 2i+2.</p>
+    </div>
+    <div class="concept-box property"><div class="label prop">Operations</div><h4>Heap Operations</h4>
+      <table class="complexity-table"><thead><tr><th>Operation</th><th>Time</th><th>Description</th></tr></thead><tbody>
+        <tr><td>Heapify Up</td><td>O(log n)</td><td>Bubble new element up to correct position</td></tr>
+        <tr><td>Heapify Down</td><td>O(log n)</td><td>Sink root element down to correct position</td></tr>
+        <tr><td>Insert</td><td>O(log n)</td><td>Add at end, heapify up</td></tr>
+        <tr><td>Delete</td><td>O(log n)</td><td>Swap with last, remove, heapify</td></tr>
+        <tr><td>Find min/max</td><td>O(1)</td><td>Look at root</td></tr>
+      </tbody></table>
+    </div>
+    <div class="concept-box definition"><div class="label def">Definition</div><h4>Binary Search Tree (BST)</h4>
+      <p>A binary tree where each node's value is greater than all values in its left subtree and less than all values in its right subtree. Height ranges from O(log n) when balanced to O(n) when degenerate.</p>
+    </div>
+    <div class="concept-box definition"><div class="label def">Definition</div><h4>Trie (Prefix Tree)</h4>
+      <p>An N-ary tree for efficient word storage and retrieval. The path from root to any node spells a prefix. Each node has a character, children hash map, and a boolean flag indicating if the path forms a complete word. Search, insert, and delete all run in O(m) where m = word length.</p>
+    </div>
+  </section>
+  <section id="s3-6" class="section"><h3>Advanced Trees</h3>
+    <div class="concept-box definition"><div class="label def">Definition</div><h4>Self-Balancing Trees</h4>
+      <p>Trees that maintain O(log n) height through rotations:</p>
+      <table class="complexity-table"><thead><tr><th>Tree</th><th>Key Property</th></tr></thead><tbody>
+        <tr><td>Red-Black Tree</td><td>Root and leaves are black; red nodes have black children; all paths from a node to leaves have same black-height</td></tr>
+        <tr><td>AVL Tree</td><td>For every node, |height(left) - height(right)| &le; 1</td></tr>
+      </tbody></table>
+    </div>
+    <div class="concept-box property"><div class="label prop">Mechanism</div><h4>Tree Rotations</h4>
+      <p>Left rotation: right child becomes new root, original root becomes left child of new root. Right rotation: mirror image. Both preserve in-order traversal and take O(1) time.</p>
+    </div>
+    <div class="concept-box definition"><div class="label def">Definition</div><h4>Range Query Structures</h4>
+      <table class="complexity-table"><thead><tr><th>Structure</th><th>Query</th><th>Update</th><th>Space</th></tr></thead><tbody>
+        <tr><td>Prefix Sum Array</td><td>O(1)</td><td>O(n)</td><td>O(n)</td></tr>
+        <tr><td>Binary Indexed Tree (Fenwick)</td><td>O(log n)</td><td>O(log n)</td><td>O(n)</td></tr>
+        <tr><td>Segment Tree</td><td>O(log n)</td><td>O(log n)</td><td>O(n)</td></tr>
+      </tbody></table>
+      <p><strong>Prefix Sum:</strong> P[i] = A[0]+...+A[i]. Range sum [i,j] = P[j] - P[i-1].</p>
+      <p><strong>Fenwick Tree:</strong> Uses binary representation of indices to define responsibility ranges. Efficient for point updates and prefix sum queries.</p>
+      <p><strong>Segment Tree:</strong> Binary tree where each node covers a range. Leaf = single element; internal node = aggregate of children. Supports min, max, sum queries.</p>
+    </div>
+  </section>
+  <hr class="divider">
+  <div id="ch4" class="chapter-header"><div class="chapter-number ch4">4</div><h2>Sorting &amp; Searching</h2></div>
+  <p>The most common sorting algorithms, from simple quadratic methods to efficient O(n log n) approaches, plus essential search techniques including string pattern matching.</p>
+  <section id="s4-1" class="section"><h3>Elementary Sorts</h3>
+    <table class="complexity-table"><thead><tr><th>Algorithm</th><th>Best</th><th>Average</th><th>Worst</th><th>Space</th><th>Stable</th></tr></thead><tbody>
+      <tr><td>Bubble Sort</td><td>O(n)</td><td>O(n&sup2;)</td><td>O(n&sup2;)</td><td>O(1)</td><td><span class="tag tag-stable">Yes</span></td></tr>
+      <tr><td>Insertion Sort</td><td>O(n)</td><td>O(n&sup2;)</td><td>O(n&sup2;)</td><td>O(1)</td><td><span class="tag tag-stable">Yes</span></td></tr>
+      <tr><td>Selection Sort</td><td>O(n&sup2;)</td><td>O(n&sup2;)</td><td>O(n&sup2;)</td><td>O(1)</td><td><span class="tag tag-stable">Yes</span></td></tr>
+      <tr><td>Cycle Sort</td><td>O(n&sup2;)</td><td>O(n&sup2;)</td><td>O(n&sup2;)</td><td>O(1)</td><td><span class="tag tag-unstable">No</span></td></tr>
+    </tbody></table>
+    <div class="collapsible-header"><h4>Bubble Sort</h4><span class="collapsible-arrow">&#9654;</span></div>
+    <div class="collapsible-body"><p>Compare consecutive elements and swap if out of order. Repeat until no swaps needed. After the k-th pass, the last k elements are in their final positions. Best case (already sorted): 1 pass.</p></div>
+    <div class="collapsible-header"><h4>Insertion Sort</h4><span class="collapsible-arrow">&#9654;</span></div>
+    <div class="collapsible-body"><p>Build a sorted subarray one element at a time. For each new element, shift larger elements right and insert it at the correct position. Efficient for small or nearly-sorted arrays.</p></div>
+    <div class="collapsible-header"><h4>Selection Sort</h4><span class="collapsible-arrow">&#9654;</span></div>
+    <div class="collapsible-body"><p>Find the minimum unsorted element and swap it to the front. Repeat for the remaining portion. Always makes O(n&sup2;) comparisons regardless of input.</p></div>
+  </section>
+  <section id="s4-2" class="section"><h3>Efficient Sorts</h3>
+    <table class="complexity-table"><thead><tr><th>Algorithm</th><th>Best</th><th>Average</th><th>Worst</th><th>Space</th><th>Stable</th></tr></thead><tbody>
+      <tr><td>Merge Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td><td><span class="tag tag-stable">Yes</span></td></tr>
+      <tr><td>Heap Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(1)</td><td><span class="tag tag-unstable">No</span></td></tr>
+      <tr><td>Quick Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n&sup2;)</td><td>O(n)</td><td><span class="tag tag-unstable">No</span></td></tr>
+    </tbody></table>
+    <div class="collapsible-header"><h4>Merge Sort</h4><span class="collapsible-arrow">&#9654;</span></div>
+    <div class="collapsible-body"><p>Divide the array into single-element subarrays, then merge pairs using the two-pointer technique until one sorted array remains. Usually implemented recursively. Guarantees O(n log n) in all cases.</p></div>
+    <div class="collapsible-header"><h4>Heap Sort</h4><span class="collapsible-arrow">&#9654;</span></div>
+    <div class="collapsible-body"><p>Build a max-heap from the array. Repeatedly extract the maximum (swap root with last element, heapify down) to build the sorted array from the end. In-place and O(n log n) guaranteed.</p></div>
+    <div class="collapsible-header"><h4>Quick Sort</h4><span class="collapsible-arrow">&#9654;</span></div>
+    <div class="collapsible-body"><p>Choose a pivot, partition the array so smaller elements go left and larger go right, then recurse. Worst case O(n&sup2;) when pivot is extreme; average O(n log n). Pivot strategies: random choice, or median-of-three. Not stable but fast in practice.</p></div>
+    <div class="concept-box remark"><div class="label note">Note</div><h4>Stability</h4>
+      <p>A sorting algorithm is <strong>stable</strong> if equal elements maintain their original relative order. Merge sort and insertion sort are stable; heap sort and quick sort are not.</p>
+    </div>
+  </section>
+  <section id="s4-3" class="section"><h3>Specialized Sorts</h3>
+    <table class="complexity-table"><thead><tr><th>Algorithm</th><th>Time</th><th>Space</th><th>Stable</th><th>When to use</th></tr></thead><tbody>
+      <tr><td>Counting Sort</td><td>O(n+k)</td><td>O(n+k)</td><td><span class="tag tag-stable">Yes</span></td><td>Small integer range [0,k]</td></tr>
+      <tr><td>Radix Sort</td><td>O(d(n+k))</td><td>O(n+k)</td><td><span class="tag tag-stable">Yes</span></td><td>Limited-digit integers with base k</td></tr>
+    </tbody></table>
+    <div class="concept-box algorithm"><div class="label algo">Algorithm</div><h4>Counting Sort</h4>
+      <p>Count occurrences of each value, compute cumulative counts, then place each element at its correct position. Stable and linear when k = O(n).</p>
+    </div>
+    <div class="concept-box algorithm"><div class="label algo">Algorithm</div><h4>Radix Sort</h4>
+      <p>Sort elements digit by digit using counting sort, starting from the least significant digit. The stability of counting sort ensures that earlier (weaker) digit orderings are preserved when later (stronger) digits are processed.</p>
+    </div>
+  </section>
+  <section id="s4-4" class="section"><h3>Search Techniques</h3>
+    <div class="concept-box algorithm"><div class="label algo">Technique</div><h4>Linear Search</h4>
+      <p>Scan elements one by one until the target is found or the end is reached. <span class="tag tag-time">O(n)</span> <span class="tag tag-space">O(1)</span></p>
+    </div>
+    <div class="concept-box algorithm"><div class="label algo">Technique</div><h4>Two-Pointer Technique</h4>
+      <p>Use two pointers (often at opposite ends) to scan a sorted array efficiently. Example: find a pair summing to S by adjusting pointers based on the current sum vs. target. <span class="tag tag-time">O(n)</span></p>
+    </div>
+    <div class="concept-box algorithm"><div class="label algo">Algorithm</div><h4>Binary Search</h4>
+      <p>Find a target in a sorted array by repeatedly halving the search space:</p>
+      <ol class="step-list"><li>Set left = 0, right = n-1.</li><li>Compute mid = left + (right-left)/2 (avoids overflow).</li><li>If A[mid] equals target: found. If A[mid] &lt; target: search right half. If A[mid] &gt; target: search left half.</li><li>Repeat until found or left &gt; right (not found).</li></ol>
+      <span class="tag tag-time">O(log n)</span> <span class="tag tag-space">O(1)</span>
+    </div>
+    <div class="concept-box algorithm"><div class="label algo">Application</div><h4>Trapping Rain Water</h4>
+      <p>Given building heights, find trapped water volume. Water at index i = min(tallest left, tallest right) - height[i]. Use two pointers from both ends, tracking max heights. <span class="tag tag-time">O(n)</span> <span class="tag tag-space">O(1)</span></p>
+    </div>
+  </section>
+  <section id="s4-5" class="section"><h3>Pattern Matching</h3>
+    <div class="concept-box definition"><div class="label def">Definition</div><h4>String Pattern Matching</h4>
+      <p>Given a string s (length n) and a pattern p (length m), determine if p appears in s.</p>
+    </div>
+    <div class="concept-box algorithm"><div class="label algo">Algorithm</div><h4>Brute-Force Approach</h4>
+      <p>Check every possible starting position in s against p. <span class="tag tag-time">O(n&times;m)</span> <span class="tag tag-space">O(1)</span></p>
+    </div>
+    <div class="concept-box algorithm"><div class="label algo">Algorithm</div><h4>Knuth-Morris-Pratt (KMP)</h4>
+      <p>Avoid restarting the pattern search from scratch after a failed match. Build a prefix-suffix array that indicates where to resume matching:</p>
+      <ol class="step-list"><li><strong>Build prefix-suffix array:</strong> For each position i in the pattern, compute the length of the longest proper prefix that is also a suffix of p[0..i]. <span class="tag tag-time">O(m)</span></li>
+      <li><strong>Search:</strong> When a mismatch occurs at pattern position j, jump to position q[j-1] instead of restarting from 0. <span class="tag tag-time">O(n)</span></li></ol>
+      Total: <span class="tag tag-time">O(n+m)</span> <span class="tag tag-space">O(m)</span>
+    </div>
+    <div class="concept-box algorithm"><div class="label algo">Algorithm</div><h4>Rabin-Karp</h4>
+      <p>Use hashing to compare the pattern against substrings of the same length. Compute a rolling hash so each new substring hash can be derived from the previous one in O(1) time. If hashes match, verify character-by-character to rule out false positives. Expected <span class="tag tag-time">O(n+m)</span> but worst case O(n&times;m) with many collisions.</p>
+    </div>
+  </section>
+  <footer class="footer">
+    <p>DSA &mdash; Data Structure And Algorithm Study Resource</p>
+    <p>All content is independently written for educational purposes. Concepts are standard computer science topics.</p>
+  </footer>
+</main>
+<button class="back-to-top">&#8593;</button>
+<script src="script.js"></script>
+</body>
+</html>

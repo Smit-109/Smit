@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>ML - Machine Learning Study Hub</title>
+ <meta name="description" content="A free, community-driven study resource for understanding machine learning concepts, algorithms, and applications.">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="style.css">
+</head>
+<body>
+ <header class="site-header">
+ <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+ <div class="logo">ML</div>
+ <div class="search-box">
+ <input type="text" placeholder="Search topics..." aria-label="Search topics">
+ </div>
+ <div class="progress-display">0%</div>
+ <button class="theme-toggle" aria-label="Toggle theme">&#9790;</button>
+ </header>
+ <div class="progress-bar-container">
+ <div class="progress-bar" style="width:0%"></div>
+ </div>
+ <aside class="sidebar">
+ <nav>
+ <a href="#home" class="nav-link active" data-section="home">Home</a>
+ <div class="nav-group">
+ <a href="#s1-intro" class="nav-link" data-section="s1-intro">Part 1: Foundations</a>
+ <a href="#s1-intro" class="nav-link sub" data-section="s1-intro">What is ML?</a>
+ <a href="#s1-types" class="nav-link sub" data-section="s1-types">Types of Learning</a>
+ <a href="#s1-pipeline" class="nav-link sub" data-section="s1-pipeline">ML Pipeline</a>
+ </div>
+ <div class="nav-group">
+ <a href="#s2-supervised" class="nav-link" data-section="s2-supervised">Part 2: Supervised Learning</a>
+ <a href="#s2-regression" class="nav-link sub" data-section="s2-regression">Regression</a>
+ <a href="#s2-classification" class="nav-link sub" data-section="s2-classification">Classification</a>
+ </div>
+ <div class="nav-group">
+ <a href="#s3-unsupervised" class="nav-link" data-section="s3-unsupervised">Part 3: Unsupervised Learning</a>
+ <a href="#s3-clustering" class="nav-link sub" data-section="s3-clustering">Clustering</a>
+ <a href="#s3-dim-reduction" class="nav-link sub" data-section="s3-dim-reduction">Dimensionality Reduction</a>
+ </div>
+ <div class="nav-group">
+ <a href="#s4-nn" class="nav-link" data-section="s4-nn">Part 4: Neural Networks</a>
+ <a href="#s4-perceptron" class="nav-link sub" data-section="s4-perceptron">Perceptron</a>
+ <a href="#s4-mlp" class="nav-link sub" data-section="s4-mlp">Multi-Layer Perceptron</a>
+ <a href="#s4-training" class="nav-link sub" data-section="s4-training">Training Neural Networks</a>
+ </div>
+ <div class="nav-group">
+ <a href="#s5-advanced" class="nav-link" data-section="s5-advanced">Part 5: Advanced Topics</a>
+ <a href="#s5-ensemble" class="nav-link sub" data-section="s5-ensemble">Ensemble Methods</a>
+ <a href="#s5-evaluation" class="nav-link sub" data-section="s5-evaluation">Model Evaluation</a>
+ </div>
+ </nav>
+ </aside>
+ <div class="mobile-overlay"></div>
+ <main>
+ <div class="content">
+
+ <section id="home" class="section" data-section="home" data-searchable>
+ <div class="chapter-header">
+ <span class="section-badge">Welcome</span>
+ <h1>Machine Learning</h1>
+ <p>Your comprehensive guide to machine learning fundamentals and applications</p>
+ </div>
+ <div class="topic-nav">
+ <a href="#s1-intro" class="topic-card" data-section="s1-intro">
+ <h3>Part 1: Foundations</h3>
+ <p>What is ML, types of learning, and the ML pipeline</p>
+ </a>
+ <a href="#s2-supervised" class="topic-card" data-section="s2-supervised">
+ <h3>Part 2: Supervised Learning</h3>
+ <p>Regression and classification algorithms</p>
+ </a>
+ <a href="#s3-unsupervised" class="topic-card" data-section="s3-unsupervised">
+ <h3>Part 3: Unsupervised Learning</h3>
+ <p>Clustering, dimensionality reduction, and density estimation</p>
+ </a>
+ <a href="#s4-nn" class="topic-card" data-section="s4-nn">
+ <h3>Part 4: Neural Networks</h3>
+ <p>Perceptron, MLP, backpropagation, and training</p>
+ </a>
+ <a href="#s5-advanced" class="topic-card" data-section="s5-advanced">
+ <h3>Part 5: Advanced Topics</h3>
+ <p>Ensemble methods and model evaluation</p>
+ </a>
+ </div>
+ <div class="info-box tip">
+ <div class="info-box-title">About ML Study Hub</div>
+ <p>ML is an independent community study resource. It is not affiliated with any publisher, company, or academic institution. All explanations and examples are written from scratch by contributors who want to make ML concepts accessible to everyone.</p>
+ </div>
+ </section>
+
+ <div class="section-divider"></div>
+
+ <section id="s1-intro" class="section" data-section="s1-intro" data-searchable>
+ <div class="chapter-header">
+ <span class="section-badge">Part 1</span>
+ <h1>What is Machine Learning?</h1>
+ </div>
+ <div class="breadcrumb">
+ <a href="#home">Home</a> &rsaquo; <span>Part 1: Foundations</span> &rsaquo; <span>What is ML?</span>
+ </div>
+
+ <div class="concept-card">
+ <div class="concept-icon">&#9881;</div>
+ <h2>Overview</h2>
+ <p>Machine learning is a subset of artificial intelligence that enables systems to learn and improve from experience without being explicitly programmed. Instead of following rigid instructions, ML algorithms identify patterns in data and make decisions with minimal human intervention.</p>
+ </div>
+
+ <h2>The ML Revolution</h2>
+ <p>Traditional programming requires developers to write explicit rules that tell computers how to solve problems. Machine learning takes a different approach: instead of programming the solution, we program the system to learn the solution from examples.</p>
+ <div class="comparison">
+ <div class="comparison-card">
+ <h3>Traditional Programming</h3>
+ <p>Human writes explicit rules (code) that are applied to data to produce answers.</p>
+ <div class="step-list">
+ <div class="step"><strong>Input:</strong> Data + Rules</div>
+ <div class="step"><strong>Process:</strong> Computer executes rules</div>
+ <div class="step"><strong>Output:</strong> Answers</div>
+ </div>
+ </div>
+ <div class="comparison-card">
+ <h3>Machine Learning</h3>
+ <p>System learns rules automatically by finding patterns in data.</p>
+ <div class="step-list">
+ <div class="step"><strong>Input:</strong> Data + Answers</div>
+ <div class="step"><strong>Process:</strong> ML algorithm learns rules</div>
+ <div class="step"><strong>Output:</strong> Learned rules (model)</div>
+ </div>
+ </div>
+ </div>
+
+ <h2>Applications of ML</h2>
+ <div class="step-list">
+ <div class="step"><strong>Computer Vision</strong> &mdash; Image classification, object detection, facial recognition, medical imaging analysis.</div>
+ <div class="step"><strong>Natural Language Processing</strong> &mdash; Machine translation, sentiment analysis, chatbots, text summarization.</div>
+ <div class="step"><strong>Recommendation Systems</strong> &mdash; Netflix movie recommendations, Amazon product suggestions, Spotify playlists.</div>
+ <div class="step"><strong>Autonomous Systems</strong> &mdash; Self-driving cars, robotic control, game-playing agents (AlphaGo, chess AI).</div>
+ <div class="step"><strong>Healthcare</strong> &mdash; Disease diagnosis, drug discovery, patient outcome prediction, medical imaging.</div>
+ </div>
+ </section>
+
+ <div class="section-divider"></div>
+
+ <section id="s1-types" class="section" data-section="s1-types" data-searchable>
+ <div class="chapter-header">
+ <span class="section-badge">Part 1</span>
+ <h1>Types of Machine Learning</h1>
+ </div>
+ <div class="breadcrumb">
+ <a href="#home">Home</a> &rsaquo; <span>Part 1: Foundations</span> &rsaquo; <span>Types of Learning</span>
+ </div>
+
+ <div class="comparison">
+ <div class="comparison-card">
+ <h3>Supervised Learning</h3>
+ <p>Learning from labeled data where we know the correct answers (ground truth). The algorithm learns to map inputs to outputs.</p>
+ <ul>
+ <li>Email spam detection: labeled spam/not-spam emails</li>
+ <li>Image classification: images with category labels</li>
+ <li>Price prediction: historical prices with known values</li>
+ </ul>
+ </div>
+ <div class="comparison-card">
+ <h3>Unsupervised Learning</h3>
+ <p>Learning from unlabeled data to discover hidden patterns or structures. No ground truth is provided.</p>
+ <ul>
+ <li>Customer segmentation: finding natural groupings</li>
+ <li>Anomaly detection: identifying unusual patterns</li>
+ <li>Topic modeling: discovering document themes</li>
+ </ul>
+ </div>
+ <div class="comparison-card">
+ <h3>Reinforcement Learning</h3>
+ <p>Learning through interaction with an environment, receiving rewards or penalties for actions taken.</p>
+ <ul>
+ <li>Game playing: learn optimal strategies</li>
+ <li>Robotics: control policies for manipulation</li>
+ <li>Resource management: optimal allocation</li>
+ </ul>
+ </div>
+ </div>
+
+ <h2>Semi-Supervised and Transfer Learning</h2>
+ <div class="info-box">
+ <div class="info-box-title">Semi-Supervised Learning</div>
+ <p>Uses a small amount of labeled data combined with a large amount of unlabeled data. This is practical when labeling is expensive but unlabeled data is abundant (e.g., medical imaging, language translation).</p>
+ </div>
+ <div class="info-box">
+ <div class="info-box-title">Transfer Learning</div>
+ <p>Leverages knowledge from a related task that has been learned. For example, a model trained to recognize cars can be fine-tuned for truck recognition with less data.</p>
+ </div>
+ </section>
+
+ <div class="section-divider"></div>
+
+ <section id="s1-pipeline" class="section" data-section="s1-pipeline" data-searchable>
+ <div class="chapter-header">
+ <span class="section-badge">Part 1</span>
+ <h1>The ML Pipeline</h1>
+ </div>
+ <div class="breadcrumb">
+ <a href="#home">Home</a> &rsaquo; <span>Part 1: Foundations</span> &rsaquo; <span>ML Pipeline</span>
+ </div>
+
+ <h2>The ML Workflow</h2>
+ <div class="step-list">
+ <div class="step"><strong>1. Problem Definition</strong> &mdash; Define what problem we're solving, what kind of prediction is needed, and what success looks like.</div>
+ <div class="step"><strong>2. Data Collection</strong> &mdash; Gather relevant data from databases, APIs, web scraping, or experiments.</div>
+ <div class="step"><strong>3. Data Preparation</strong> &mdash; Clean data, handle missing values, remove outliers, and transform features.</div>
+ <div class="step"><strong>4. Feature Engineering</strong> &mdash; Create meaningful features that help the model learn patterns.</div>
+ <div class="step"><strong>5. Model Selection</strong> &mdash; Choose appropriate algorithms based on problem type and data characteristics.</div>
+ <div class="step"><strong>6. Training</strong> &mdash; Feed data to the model to learn patterns and optimize parameters.</div>
+ <div class="step"><strong>7. Evaluation</strong> &mdash; Assess model performance using appropriate metrics on held-out data.</div>
+ <div class="step"><strong>8. Deployment</strong> &mdash; Deploy the model to production and monitor its performance over time.</div>
+ <div class="step"><strong>9. Iteration</strong> &mdash; Continuously improve based on feedback and new data.</div>
+ </div>
+
+ <h2>Feature Engineering</h2>
+ <div class="concept-card">
+ <div class="concept-icon">&#128200;</div>
+ <p>Features are individual measurable properties of the data that are used as inputs to the model. Good features make the learning problem easier and improve model performance.</p>
+ </div>
+ <table class="data-table">
+ <thead>
+ <tr><th>Technique</th><th>Description</th><th>Example</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Scaling</td><td>Normalize feature ranges</td><td>StandardScaler, MinMaxScaler</td></tr>
+ <tr><td>Encoding</td><td>Convert categorical to numeric</td><td>One-hot, Label encoding</td></tr>
+ <tr><td>Binning</td><td>Group continuous values</td><td>Age groups, income brackets</td></tr>
+ <tr><td>Polynomial Features</td><td>Create interaction terms</td><td>x1*x2, x1^2</td></tr>
+ <tr><td>Log Transform</td><td>Handle skewed distributions</td><td>log(1 + x)</td></tr>
+ </tbody>
+ </table>
+ </section>
+
+ <div class="section-divider"></div>
+
+ <section id="s2-supervised" class="section" data-section="s2-supervised" data-searchable>
+ <div class="chapter-header">
+ <span class="section-badge">Part 2</span>
+ <h1>Supervised Learning</h1>
+ </div>
+ <div class="breadcrumb">
+ <a href="#home">Home</a> &rsaquo; <span>Part 2: Supervised Learning</span> &rsaquo; <span>Regression</span>
+ </div>
+
+ <div class="concept-card">
+ <div class="concept-icon">&#128200;</div>
+ <p>Supervised learning uses labeled training data where each example consists of an input and its corresponding desired output. The goal is to learn a mapping function from inputs to outputs that generalizes well to unseen data.</p>
+ </div>
+
+ <h2>Regression vs Classification</h2>
+ <div class="comparison">
+ <div class="comparison-card">
+ <h3>Regression</h3>
+ <p>Predicts continuous numerical values. The output is a quantity.</p>
+ <ul>
+ <li>House price prediction</li>
+ <li>Temperature forecasting</li>
+ <li>Stock market prediction</li>
+ </ul>
+ </div>
+ <div class="comparison-card">
+ <h3>Classification</h3>
+ <p>Predicts discrete class labels. The output is a category.</p>
+ <ul>
+ <li>Email spam detection (spam/not spam)</li>
+ <li>Image categorization (cat/dog/bird)</li>
+ <li>Disease diagnosis (positive/negative)</li>
+ </ul>
+ </div>
+ </div>
+ </section>
+
+ <div class="section-divider"></div>
+
+ <section id="s2-regression" class="section" data-section="s2-regression" data-searchable>
+ <div class="chapter-header">
+ <span class="section-badge">Part 2</span>
+ <h1>Regression Algorithms</h1>
+ </div>
+ <div class="breadcrumb">
+ <a href="#home">Home</a> &rsaquo; <span>Part 2: Supervised Learning</span> &rsaquo; <span>Regression</span>
+ </div>
+
+ <h2>Linear Regression</h2>
+ <div class="concept-card">
+ <div class="concept-icon">&#128189;</div>
+ <p>Linear regression finds the best-fitting straight line through the data points. It assumes a linear relationship between input features and the output.</p>
+ </div>
+ <div class="formula-box">
+ <p><strong>Simple Linear Regression:</strong> y = mx + b</p>
+ <p>where m is the slope and b is the y-intercept.</p>
+ <p><strong>Multiple Linear Regression:</strong> y = &beta;0 + &beta;1x1 + &beta;2x2 + ... + &beta;nxn</p>
+ </div>
+
+ <h2>Polynomial Regression</h2>
+ <p>When the relationship is nonlinear, polynomial regression fits a curved line to the data:</p>
+ <div class="formula-box">
+ <p>y = &beta;0 + &beta;1x + &beta;2x^2 + ... + &beta;nx^n</p>
+ </div>
+
+ <h2>Regularization</h2>
+ <div class="info-box warning">
+ <div class="info-box-title">Overfitting</div>
+ <p>High-degree polynomials can fit training data perfectly but fail to generalize to new data. This is called overfitting.</p>
+ </div>
+ <table class="data-table">
+ <thead>
+ <tr><th>Method</th><th>What it Does</th><th>When to Use</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>L1 (Lasso)</td><td>Adds |w| penalty, encourages sparsity</td><td>Feature selection</td></tr>
+ <tr><td>L2 (Ridge)</td><td>Adds w^2 penalty, shrinks weights</td><td>Multicollinearity</td></tr>
+ <tr><td>Elastic Net</td><td>Combines L1 and L2</td><td>Best of both worlds</td></tr>
+ </tbody>
+ </table>
+ </section>
+
+ <div class="section-divider"></div>
+
+ <section id="s2-classification" class="section" data-section="s2-classification" data-searchable>
+ <div class="chapter-header">
+ <span class="section-badge">Part 2</span>
+ <h1>Classification Algorithms</h1>
+ </div>
+ <div class="breadcrumb">
+ <a href="#home">Home</a> &rsaquo; <span>Part 2: Supervised Learning</span> &rsaquo; <span>Classification</span>
+ </div>
+
+ <h2>Logistic Regression</h2>
+ <div class="concept-card">
+ <div class="concept-icon">&#128178;</div>
+ <p>Despite its name, logistic regression is used for classification. It predicts the probability that an input belongs to a particular class using the sigmoid function.</p>
+ </div>
+ <div class="formula-box">
+ <p><strong>Sigmoid:</strong> &sigma;(z) = 1 / (1 + e<sup>-z</sup>)</p>
+ <p>The output is a probability between 0 and 1.</p>
+ </div>
+
+ <h2>Decision Trees</h2>
+ <p>Decision trees make predictions by learning simple decision rules from data features. They are intuitive and easy to interpret.</p>
+ <div class="info-box">
+ <div class="info-box-title">How Decision Trees Work</div>
+ <p>At each node, the tree splits the data based on a feature value that best separates the classes. The goal is to maximize information gain or minimize impurity.</p>
+ </div>
+
+ <h2>Support Vector Machines (SVM)</h2>
+ <div class="concept-card">
+ <div class="concept-icon">&#128207;</div>
+ <p>SVM finds the optimal hyperplane that maximally separates different classes. The support vectors are the data points closest to the decision boundary.</p>
+ </div>
+
+ <h2>k-Nearest Neighbors (k-NN)</h2>
+ <p>k-NN classifies a data point by looking at its k closest neighbors and taking a majority vote. It's simple but can be slow for large datasets.</p>
+ </section>
+
+ <div class="section-divider"></div>
+
+ <section id="s3-unsupervised" class="section" data-section="s3-unsupervised" data-searchable>
+ <div class="chapter-header">
+ <span class="section-badge">Part 3</span>
+ <h1>Unsupervised Learning</h1>
+ </div>
+ <div class="breadcrumb">
+ <a href="#home">Home</a> &rsaquo; <span>Part 3: Unsupervised Learning</span> &rsaquo; <span>Clustering</span>
+ </div>
+
+ <div class="concept-card">
+ <div class="concept-icon">&#128101;</div>
+ <p>Unsupervised learning discovers hidden patterns in data without pre-existing labels. The system explores the structure of the data to find meaningful groups or representations.</p>
+ </div>
+
+ <h2>Clustering</h2>
+ <p>Clustering groups similar data points together. The number of clusters may be known or discovered.</p>
+ <div class="comparison">
+ <div class="comparison-card">
+ <h3>k-Means</h3>
+ <p>Partitions data into k clusters by minimizing within-cluster variance. Fast and scalable.</p>
+ <ul>
+ <li>Initialize k centroids</li>
+ <li>Assign points to nearest centroid</li>
+ <li>Update centroids</li>
+ <li>Repeat until convergence</li>
+ </ul>
+ </div>
+ <div class="comparison-card">
+ <h3>Hierarchical Clustering</h3>
+ <p>Creates a hierarchy of clusters using dendrograms. Doesn't require specifying k upfront.</p>
+ <ul>
+ <li>Agglomerative (bottom-up)</li>
+ <li>Divisive (top-down)</li>
+ </ul>
+ </div>
+ <div class="comparison-card">
+ <h3>DBSCAN</h3>
+ <p>Density-based clustering that finds arbitrarily-shaped clusters and identifies outliers.</p>
+ <ul>
+ <li>Core points: dense regions</li>
+ <li>Border points: near dense regions</li>
+ <li>Noise points: outliers</li>
+ </ul>
+ </div>
+ </div>
+ </section>
+
+ <div class="section-divider"></div>
+
+ <section id="s3-clustering" class="section" data-section="s3-clustering" data-searchable>
+ <div class="chapter-header">
+ <span class="section-badge">Part 3</span>
+ <h1>Clustering Algorithms</h1>
+ </div>
+ <div class="breadcrumb">
+ <a href="#home">Home</a> &rsaquo; <span>Part 3: Unsupervised Learning</span> &rsaquo; <span>Clustering</span>
+ </div>
+
+ <h2>Evaluating Clusters</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Metric</th><th>What it Measures</th><th>Best Value</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Silhouette Score</td><td>How similar points are to their own cluster vs other clusters</td><td>-1 to 1 (higher is better)</td></tr>
+ <tr><td>Davies-Bouldin Index</td><td>Average similarity between clusters</td><td>Lower is better</td></tr>
+ <tr><td>Calinski-Harabasz Index</td><td>Ratio of between-cluster to within-cluster variance</td><td>Higher is better</td></tr>
+ </tbody>
+ </table>
+ </section>
+
+ <div class="section-divider"></div>
+
+ <section id="s3-dim-reduction" class="section" data-section="s3-dim-reduction" data-searchable>
+ <div class="chapter-header">
+ <span class="section-badge">Part 3</span>
+ <h1>Dimensionality Reduction</h1>
+ </div>
+ <div class="breadcrumb">
+ <a href="#home">Home</a> &rsaquo; <span>Part 3: Unsupervised Learning</span> &rsaquo; <span>Dimensionality Reduction</span>
+ </div>
+
+ <h2>Why Reduce Dimensions?</h2>
+ <div class="step-list">
+ <div class="step"><strong>Curse of Dimensionality</strong> &mdash; As dimensions increase, data becomes sparse and distances lose meaning.</div>
+ <div class="step"><strong>Computational Efficiency</strong> &mdash; Fewer features mean faster training and inference.</div>
+ <div class="step"><strong>Visualization</strong> &mdash; Reduce to 2-3 dimensions for visualization.</div>
+ <div class="step"><strong>Noise Reduction</strong> &mdash; Remove irrelevant or redundant features.</div>
+ </div>
+
+ <h2>Principal Component Analysis (PCA)</h2>
+ <div class="concept-card">
+ <div class="concept-icon">&#128300;</div>
+ <p>PCA finds the directions of maximum variance in high-dimensional data and projects it onto a lower-dimensional subspace while preserving as much variance as possible.</p>
+ </div>
+ <div class="formula-box">
+ <p><strong>Steps:</strong></p>
+ <ol>
+ <li>Standardize the data</li>
+ <li>Compute covariance matrix</li>
+ <li>Find eigenvectors (principal components)</li>
+ <li>Project data onto top k components</li>
+ </ol>
+ </div>
+
+ <h2>t-SNE</h2>
+ <p>t-SNE is a non-linear technique for dimensionality reduction particularly well-suited for visualization of high-dimensional datasets. It preserves local structure.</p>
+ </section>
+
+ <div class="section-divider"></div>
+
+ <section id="s4-nn" class="section" data-section="s4-nn" data-searchable>
+ <div class="chapter-header">
+ <span class="section-badge">Part 4</span>
+ <h1>Neural Networks</h1>
+ </div>
+ <div class="breadcrumb">
+ <a href="#home">Home</a> &rsaquo; <span>Part 4: Neural Networks</span> &rsaquo; <span>Perceptron</span>
+ </div>
+
+ <div class="concept-card">
+ <div class="concept-icon">&#129504;</div>
+ <p>Neural networks are computing systems inspired by biological neural networks. They consist of interconnected nodes (neurons) organized in layers that learn to recognize patterns from data.</p>
+ </div>
+
+ <h2>The Perceptron</h2>
+ <p>The perceptron is the simplest neural network: a single neuron that makes decisions by weighing up evidence.</p>
+ <div class="formula-box">
+ <p><strong>Output:</strong> y = 1 if (w&middot;x + b) > 0, else 0</p>
+ <p>where w is the weight vector, x is the input, and b is the bias.</p>
+ </div>
+ </section>
+
+ <div class="section-divider"></div>
+
+ <section id="s4-perceptron" class="section" data-section="s4-perceptron" data-searchable>
+ <div class="chapter-header">
+ <span class="section-badge">Part 4</span>
+ <h1>The Perceptron</h1>
+ </div>
+ <div class="breadcrumb">
+ <a href="#home">Home</a> &rsaquo; <span>Part 4: Neural Networks</span> &rsaquo; <span>Perceptron</span>
+ </div>
+
+ <h2>Limitations of Perceptrons</h2>
+ <div class="info-box warning">
+ <div class="info-box-title">XOR Problem</div>
+ <p>A single perceptron cannot learn the XOR function because the classes are not linearly separable. This limitation led to the development of multi-layer networks.</p>
+ </div>
+ <p>Minsky and Papert's 1969 book "Perceptrons" demonstrated this and temporarily halted neural network research, leading to the "AI winter."</p>
+ </section>
+
+ <div class="section-divider"></div>
+
+ <section id="s4-mlp" class="section" data-section="s4-mlp" data-searchable>
+ <div class="chapter-header">
+ <span class="section-badge">Part 4</span>
+ <h1>Multi-Layer Perceptron</h1>
+ </div>
+ <div class="breadcrumb">
+ <a href="#home">Home</a> &rsaquo; <span>Part 4: Neural Networks</span> &rsaquo; <span>Multi-Layer Perceptron</span>
+ </div>
+
+ <h2>Architecture</h2>
+ <p>An MLP consists of:</p>
+ <div class="step-list">
+ <div class="step"><strong>Input Layer</strong> &mdash; Receives the feature vector.</div>
+ <div class="step"><strong>Hidden Layers</strong> &mdash; One or more layers that learn representations.</div>
+ <div class="step"><strong>Output Layer</strong> &mdash; Produces the final prediction.</div>
+ </div>
+
+ <h2>Activation Functions</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Function</th><th>Formula</th><th>Range</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Sigmoid</td><td>1/(1+e<sup>-x</sup>)</td><td>(0, 1)</td></tr>
+ <tr><td>Tanh</td><td>(e<sup>x</sup>-e<sup>-x</sup>)/(e<sup>x</sup>+e<sup>-x</sup>)</td><td>(-1, 1)</td></tr>
+ <tr><td>ReLU</td><td>max(0, x)</td><td>[0, &infin;)</td></tr>
+ <tr><td>GELU</td><td>x&middot;&Phi;(x)</td><td>Approx (-0.17, &infin;)</td></tr>
+ </tbody>
+ </table>
+ </section>
+
+ <div class="section-divider"></div>
+
+ <section id="s4-training" class="section" data-section="s4-training" data-searchable>
+ <div class="chapter-header">
+ <span class="section-badge">Part 4</span>
+ <h1>Training Neural Networks</h1>
+ </div>
+ <div class="breadcrumb">
+ <a href="#home">Home</a> &rsaquo; <span>Part 4: Neural Networks</span> &rsaquo; <span>Training</span>
+ </div>
+
+ <h2>Backpropagation</h2>
+ <div class="concept-card">
+ <div class="concept-icon">&#128260;</div>
+ <p>Backpropagation computes gradients of the loss with respect to each weight by applying the chain rule layer by layer, propagating error signals backward through the network.</p>
+ </div>
+
+ <h2>Gradient Descent</h2>
+ <div class="formula-box">
+ <p><strong>Weight update:</strong> w &larr; w - &eta; &middot; &part;L/&part;w</p>
+ <p>where &eta; is the learning rate and &part;L/&part;w is the gradient.</p>
+ </div>
+
+ <h2>Challenges in Training</h2>
+ <div class="info-box warning">
+ <div class="info-box-title">Vanishing & Exploding Gradients</div>
+ <p>When gradients become too small (vanishing) or too large (exploding), learning becomes ineffective. This is especially problematic in deep networks with sigmoid/tanh activations.</p>
+ </div>
+ <div class="info-box warning">
+ <div class="info-box-title">Overfitting</div>
+ <p>Deep networks can memorize training data instead of learning generalizable patterns. Techniques like dropout, regularization, and early stopping help prevent this.</p>
+ </div>
+ </section>
+
+ <div class="section-divider"></div>
+
+ <section id="s5-advanced" class="section" data-section="s5-advanced" data-searchable>
+ <div class="chapter-header">
+ <span class="section-badge">Part 5</span>
+ <h1>Advanced Topics</h1>
+ </div>
+ <div class="breadcrumb">
+ <a href="#home">Home</a> &rsaquo; <span>Part 5: Advanced Topics</span> &rsaquo; <span>Ensemble Methods</span>
+ </div>
+
+ <h2>Ensemble Methods</h2>
+ <p>Ensemble methods combine multiple models to improve prediction accuracy and robustness.</p>
+ <div class="comparison">
+ <div class="comparison-card">
+ <h3>Random Forest</h3>
+ <p>Ensemble of decision trees trained on random subsets of data and features. Reduces overfitting and variance.</p>
+ <div class="formula-box">Prediction = majority vote of all trees</div>
+ </div>
+ <div class="comparison-card">
+ <h3>Gradient Boosting</h3>
+ <p>Sequentially trains trees to correct errors of previous trees. Popular implementations: XGBoost, LightGBM, CatBoost.</p>
+ <div class="formula-box">F<sub>m</sub>(x) = F<sub>m-1</sub>(x) + &eta;&middot;h<sub>m</sub>(x)</div>
+ </div>
+ </div>
+ </section>
+
+ <div class="section-divider"></div>
+
+ <section id="s5-ensemble" class="section" data-section="s5-ensemble" data-searchable>
+ <div class="chapter-header">
+ <span class="section-badge">Part 5</span>
+ <h1>Ensemble Methods</h1>
+ </div>
+ <div class="breadcrumb">
+ <a href="#home">Home</a> &rsaquo; <span>Part 5: Advanced Topics</span> &rsaquo; <span>Ensemble Methods</span>
+ </div>
+
+ <h2>Bagging vs Boosting</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Aspect</th><th>Bagging</th><th>Boosting</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Training</td><td>Parallel, independent models</td><td>Sequential, dependent models</td></tr>
+ <tr><td>Focus</td><td>Reduce variance</td><td>Reduce bias</td></tr>
+ <tr><td>Examples</td><td>Random Forest</td><td>AdaBoost, XGBoost</td></tr>
+ </tbody>
+ </table>
+ </section>
+
+ <div class="section-divider"></div>
+
+ <section id="s5-evaluation" class="section" data-section="s5-evaluation" data-searchable>
+ <div class="chapter-header">
+ <span class="section-badge">Part 5</span>
+ <h1>Model Evaluation</h1>
+ </div>
+ <div class="breadcrumb">
+ <a href="#home">Home</a> &rsaquo; <span>Part 5: Advanced Topics</span> &rsaquo; <span>Model Evaluation</span>
+ </div>
+
+ <h2>Metrics for Classification</h2>
+ <table class="data-table">
+ <thead>
+ <tr><th>Metric</th><th>Formula</th><th>When to Use</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Accuracy</td><td>(TP + TN) / Total</td><td>Balanced classes</td></tr>
+ <tr><td>Precision</td><td>TP / (TP + FP)</td><td>Minimize false positives</td></tr>
+ <tr><td>Recall</td><td>TP / (TP + FN)</td><td>Minimize false negatives</td></tr>
+ <tr><td>F1 Score</td><td>2PR / (P + R)</td><td>Balance precision and recall</td></tr>
+ </tbody>
+ </table>
+
+ <h2>Cross-Validation</h2>
+ <div class="info-box">
+ <div class="info-box-title">k-Fold Cross-Validation</div>
+ <p>Split data into k folds. Train on k-1 folds and validate on the remaining fold. Repeat k times and average the results. This gives a more robust performance estimate.</p>
+ </div>
+
+ <h2>Bias-Variance Tradeoff</h2>
+ <div class="formula-box">
+ <p>Total Error = Bias<sup>2</sup> + Variance + Irreducible Error</p>
+ <p><strong>High Bias:</strong> Underfitting, model is too simple</p>
+ <p><strong>High Variance:</strong> Overfitting, model is too complex</p>
+ </div>
+ </section>
+
+ </main>
+ <button class="back-to-top">&#8593;</button>
+ <script src="script.js"></script>
+</body>
+</html>
