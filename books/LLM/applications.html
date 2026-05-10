@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applications - Transformers & LLMs</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <h1>Transformers & LLMs</h1>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="foundations.html">Foundations</a></li>
+                <li><a href="embeddings.html">Embeddings</a></li>
+                <li><a href="transformers.html">Transformers</a></li>
+                <li><a href="llm.html">LLMs</a></li>
+                <li><a href="applications.html">Applications</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="hero-content">
+            <div class="badge">Section 5</div>
+            <h1>Applications</h1>
+            <p class="subtitle">NLP Tasks, Evaluation Benchmarks, Translation, Summarization, and RAG</p>
+        </div>
+    </header>
+
+    <main class="content-area">
+        <div class="container">
+
+            <!-- 5.1 Evaluation Framework -->
+            <section id="evaluation" class="section">
+                <h2 class="section-title">5.1 Evaluation Framework</h2>
+
+                <div class="topic-block">
+                    <h3>5.1.1 General Concepts</h3>
+
+                    <h4>NLP Subfields</h4>
+                    <table class="data-table">
+                        <tr><th>Field</th><th>Goal</th><th>Examples</th></tr>
+                        <tr><td>NLU</td><td>Understand language</td><td>Sentiment extraction, NER</td></tr>
+                        <tr><td>NLG</td><td>Generate language</td><td>Translation, summarization</td></tr>
+                    </table>
+
+                    <h4>Classification Tasks</h4>
+                    <table class="data-table">
+                        <tr><th>Task</th><th>Input</th><th>Output</th></tr>
+                        <tr><td>Sentiment</td><td>Sentence</td><td>positive/neutral/negative</td></tr>
+                        <tr><td>Intent detection</td><td>Query</td><td>Intent label</td></tr>
+                        <tr><td>Language detection</td><td>Text</td><td>Language code</td></tr>
+                        <tr><td>Topic modeling</td><td>Documents</td><td>Topic set</td></tr>
+                    </table>
+
+                    <h4>Token-Level Classification</h4>
+                    <table class="data-table">
+                        <tr><th>Task</th><th>Description</th></tr>
+                        <tr><td>PoS tagging</td><td>Part-of-speech tags</td></tr>
+                        <tr><td>NER</td><td>Named entity recognition</td></tr>
+                        <tr><td>Dependency parsing</td><td>Grammatical dependencies</td></tr>
+                        <tr><td>Constituency parsing</td><td>Word groupings</td></tr>
+                    </table>
+
+                    <h4>Generation Tasks</h4>
+                    <table class="data-table">
+                        <tr><th>Task</th><th>Description</th></tr>
+                        <tr><td>Machine Translation</td><td>Source → Target language</td></tr>
+                        <tr><td>Question Answering</td><td>Document + Q → Answer</td></tr>
+                        <tr><td>Summarization</td><td>Document → Summary</td></tr>
+                        <tr><td>Text Generation</td><td>Prompt → Completion</td></tr>
+                    </table>
+                </div>
+
+                <div class="topic-block">
+                    <h3>5.1.2 Common Benchmarks</h3>
+
+                    <h4>GLUE</h4>
+                    <p>General Language Understanding Evaluation - aggregate score across 9 tasks:</p>
+                    <table class="data-table">
+                        <tr><th>Task</th><th>Dataset</th><th>Description</th></tr>
+                        <tr><td>Acceptability</td><td>CoLA</td><td>Is sentence grammatically correct?</td></tr>
+                        <tr><td>Paraphrase</td><td>MRPC</td><td>Are sentences paraphrases?</td></tr>
+                        <tr><td>Similarity</td><td>QQP, STS-B</td><td>Similarity score</td></tr>
+                        <tr><td>Entailment</td><td>RTE, MNLI</td><td>Logical relationship</td></tr>
+                        <tr><td>Sentiment</td><td>SST-2</td><td>Positive/negative</td></tr>
+                        <tr><td>QA</td><td>QNLI</td><td>Contains answer?</td></tr>
+                    </table>
+
+                    <h4>SuperGLUE</h4>
+                    <p>Harder follow-up tasks to GLUE</p>
+
+                    <h4>MMLU</h4>
+                    <p>Massive Multitask Language Understanding - 57 tasks, multiple-choice:</p>
+                    <table class="data-table">
+                        <tr><th>Category</th><th>Count</th><th>Topics</th></tr>
+                        <tr><td>STEM</td><td>18</td><td>Biology, math, physics</td></tr>
+                        <tr><td>Humanities</td><td>13</td><td>History, philosophy</td></tr>
+                        <tr><td>Social Sciences</td><td>12</td><td>Economics, psychology</td></tr>
+                        <tr><td>Misc</td><td>14</td><td>Business, health</td></tr>
+                    </table>
+
+                    <h4>BIG-bench</h4>
+                    <p>200+ tasks: logic, language, reasoning, knowledge, visual</p>
+
+                    <h4>Coding & Reasoning</h4>
+                    <ul>
+                        <li><strong>MBPP:</strong> ~1000 Python tasks</li>
+                        <li><strong>HumanEval:</strong> 164 code problems</li>
+                        <li><strong>GSM8K:</strong> Grade school math (8.5K problems)</li>
+                        <li><strong>MATH:</strong> 12,500 math problems</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 5.2 Classification Tasks -->
+            <section id="classification" class="section alt-bg">
+                <h2 class="section-title">5.2 Classification Tasks</h2>
+
+                <div class="topic-block">
+                    <h3>5.2.1 Sentiment Extraction</h3>
+
+                    <h4>Task</h4>
+                    <p>Predict whether input text has positive or negative sentiment</p>
+
+                    <h4>Datasets</h4>
+                    <ul>
+                        <li>Product reviews (Amazon, Yelp)</li>
+                        <li>Movie reviews (IMDB)</li>
+                        <li>Social media (Reddit, Twitter)</li>
+                    </ul>
+
+                    <h4>Metrics</h4>
+                    <ul>
+                        <li><strong>Accuracy:</strong> Overall performance</li>
+                        <li><strong>Precision:</strong> Accuracy of positive predictions</li>
+                        <li><strong>Recall:</strong> Coverage of actual positives</li>
+                        <li><strong>F1:</strong> Harmonic mean of precision/recall</li>
+                    </ul>
+                </div>
+
+                <div class="topic-block">
+                    <h3>5.2.2 Named Entity Recognition (NER)</h3>
+
+                    <h4>Task</h4>
+                    <p>Predict token categories (entities): PERSON, LOCATION, ORGANIZATION, etc.</p>
+
+                    <h4>Dataset</h4>
+                    <p>CoNLL-2003: annotated text with PER, LOC, ORG, MISC</p>
+
+                    <h4>Metrics</h4>
+                    <ul>
+                        <li>Per-class precision, recall, F1</li>
+                        <li>Macro-averaged across classes</li>
+                    </ul>
+                    <div class="formula">
+                        <code>Macro-Metric = (1/|C|) Σ<sub>c∈C</sub> Metric<sub>c</sub></code>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5.3 Generation Tasks -->
+            <section id="generation" class="section">
+                <h2 class="section-title">5.3 Generation Tasks</h2>
+
+                <div class="topic-block">
+                    <h3>5.3.1 Machine Translation</h3>
+
+                    <h4>Task</h4>
+                    <p>Translate from source to target language while maintaining meaning and fluency</p>
+
+                    <h4>Datasets</h4>
+                    <table class="data-table">
+                        <tr><th>Dataset</th><th>Size</th><th>Description</th></tr>
+                        <tr><td>WMT</td><td>Millions</td><td>Various sources, news</td></tr>
+                        <tr><td>Europarl</td><td>Millions</td><td>European Parliament</td></tr>
+                        <tr><td>IWSLT</td><td>~Millions</td><td>TED talks, spoken</td></tr>
+                    </table>
+
+                    <h4>Language Categories</h4>
+                    <ul>
+                        <li><strong>High-resource:</strong> Plenty of data (English, French, German)</li>
+                        <li><strong>Low-resource:</strong> Limited data (dialects, rare languages)</li>
+                    </ul>
+                    <p><strong>Example:</strong> NLLB covers 200+ languages including low-resource</p>
+
+                    <h4>Perplexity</h4>
+                    <div class="formula">
+                        <code>PP(X) = exp(-(1/n) Σ<sub>i=1</sub><sup>n</sup> log P(x<sub>i</sub>|x<sub>1</sub>,...,x<sub>i-1</sub>))</code>
+                    </div>
+                    <ul>
+                        <li>PP → 1: Model is confident</li>
+                        <li>PP → ∞: Model is uncertain</li>
+                    </ul>
+
+                    <h4>BLEU Score</h4>
+                    <p>BiLingual Evaluation Understudy - measures n-gram precision:</p>
+                    <div class="formula">
+                        <code>BLEU = BP · exp((1/N) Σ<sub>n=1</sub><sup>N</sup> log p<sub>n</sub>)</code>
+                    </div>
+                    <p>Where:</p>
+                    <ul>
+                        <li>p<sub>n</sub> = n-gram precision</li>
+                        <li>BP = Brevity Penalty (prevents short translations)</li>
+                    </ul>
+                    <div class="formula">
+                        <code>BP = min(1, exp(1 - n<sub>ref</sub>/n<sub>pred</sub>))</code>
+                    </div>
+
+                    <h4>METEOR</h4>
+                    <p>Metric for Evaluation of Translation with Explicit Ordering</p>
+                    <div class="formula">
+                        <code>METEOR = F<sub>mean</sub> · (1 - p)</code>
+                    </div>
+                    <p>Uses precision, recall, and chunk penalty for word order</p>
+
+                    <h4>WER</h4>
+                    <p>Word Error Rate for speech recognition:</p>
+                    <div class="formula">
+                        <code>WER = (n<sub>S</sub> + n<sub>D</sub> + n<sub>I</sub>) / n</code>
+                    </div>
+                    <ul>
+                        <li>n<sub>S</sub>: Substitutions</li>
+                        <li>n<sub>D</sub>: Deletions</li>
+                        <li>n<sub>I</sub>: Insertions</li>
+                    </ul>
+                </div>
+
+                <div class="topic-block">
+                    <h3>5.3.2 Summarization</h3>
+
+                    <h4>Task</h4>
+                    <p>Extract key facts into concise summary</p>
+
+                    <h4>Datasets</h4>
+                    <table class="data-table">
+                        <tr><th>Dataset</th><th>Size</th><th>Description</th></tr>
+                        <tr><td>XSUM</td><td>~230K</td><td>BBC articles, one-sentence summaries</td></tr>
+                        <tr><td>CNN/DailyMail</td><td>~300K</td><td>Articles with highlights</td></tr>
+                        <tr><td>WikiHow</td><td>~200K</td><td>How-to articles</td></tr>
+                    </table>
+
+                    <h4>ROUGE</h4>
+                    <p>Recall-Oriented Understudy for Gisting Evaluation</p>
+
+                    <h5>ROUGE-N</h5>
+                    <p>N-gram overlap:</p>
+                    <div class="formula">
+                        <code>ROUGE-N Precision = matched N-grams / predicted N-grams</code>
+                    </div>
+                    <div class="formula">
+                        <code>ROUGE-N Recall = matched N-grams / reference N-grams</code>
+                    </div>
+
+                    <h5>ROUGE-L</h5>
+                    <p>Longest Common Subsequence:</p>
+                    <div class="formula">
+                        <code>ROUGE-L F1 = (2 · LCS / prediction + reference)</code>
+                    </div>
+
+                    <h5>ROUGE-S</h5>
+                    <p>Skip bigrams (non-contiguous pairs)</p>
+
+                    <h4>Common ROUGE Metrics</h4>
+                    <p>F1 scores of ROUGE-1, ROUGE-2, ROUGE-L</p>
+                </div>
+
+                <div class="topic-block">
+                    <h3>5.3.3 Retrieval-Augmented Generation (RAG)</h3>
+
+                    <h4>Motivation</h4>
+                    <ul>
+                        <li>Training is expensive and done once</li>
+                        <li>Knowledge can be outdated (cutoff date)</li>
+                        <li>Hallucination risk</li>
+                    </ul>
+
+                    <h4>Solution</h4>
+                    <p>Combine LLM knowledge with external documents</p>
+
+                    <div class="diagram">
+                        <pre class="ascii-diagram">
+User Question
+      ↓
+[Retriever] ←→ [Vector Database]
+      ↓
+[Augmented Prompt]
+      ↓
+[Generator (LLM)]
+      ↓
+Answer</pre>
+                    </div>
+
+                    <h4>Retriever</h4>
+                    <ol>
+                        <li><strong>Embed prompt:</strong> q = E<sub>q</sub>(query)</li>
+                        <li><strong>Search:</strong> Compute similarity with documents</li>
+                        <li><strong>Select:</strong> Top-K most relevant documents</li>
+                    </ol>
+
+                    <h4>Generator</h4>
+                    <ol>
+                        <li><strong>Augment:</strong> Add retrieved docs to context</li>
+                        <li><strong>Generate:</strong> Produce response with augmented prompt</li>
+                    </ol>
+
+                    <h4>Training</h4>
+                    <ul>
+                        <li><strong>Retriever:</strong> Train E<sub>d</sub> for document embeddings</li>
+                        <li><strong>Generator:</strong> Train LLM with augmented prompts</li>
+                    </ul>
+
+                    <h4>RAG vs Vanilla LLM</h4>
+                    <table class="data-table">
+                        <tr><th>Aspect</th><th>Vanilla LLM</th><th>RAG</th></tr>
+                        <tr><td>Knowledge</td><td>Training data only</td><td>Training + external</td></tr>
+                        <tr><td>Hallucination</td><td>Higher risk</td><td>Lower risk</td></tr>
+                        <tr><td>Freshness</td><td>Limited by cutoff</td><td>Updated via sources</td></tr>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="nav-footer">
+            <a href="llm.html">← LLMs</a>
+            <a href="index.html">Home</a>
+        </div>
+        <p>Super Study Guide: Transformers and Large Language Models</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

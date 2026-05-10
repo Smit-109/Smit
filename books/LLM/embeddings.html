@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embeddings - Transformers & LLMs</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <h1>Transformers & LLMs</h1>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="foundations.html">Foundations</a></li>
+                <li><a href="embeddings.html">Embeddings</a></li>
+                <li><a href="transformers.html">Transformers</a></li>
+                <li><a href="llm.html">LLMs</a></li>
+                <li><a href="applications.html">Applications</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="hero-content">
+            <div class="badge">Section 2</div>
+            <h1>Embeddings</h1>
+            <p class="subtitle">Tokenization, Word Embeddings, and Document Representations</p>
+        </div>
+    </header>
+
+    <main class="content-area">
+        <div class="container">
+
+            <!-- 2.1 Tokenization -->
+            <section id="tokenization" class="section">
+                <h2 class="section-title">2.1 Tokenization</h2>
+
+                <div class="topic-block">
+                    <h3>2.1.1 Notations</h3>
+
+                    <div class="definition-box">
+                        <h4>Token</h4>
+                        <p>An arbitrarily defined unit of text. Granularity levels:</p>
+                    </div>
+
+                    <table class="data-table">
+                        <tr><th>Level</th><th>Description</th><th>Pros</th><th>Cons</th></tr>
+                        <tr>
+                            <td>Word</td>
+                            <td>Each word is a token</td>
+                            <td>Easy to understand, fewer tokens</td>
+                            <td>Large vocabulary, OOV words</td>
+                        </tr>
+                        <tr>
+                            <td>Subword</td>
+                            <td>Words divided into subunits</td>
+                            <td>Reduced vocab, handles OOV</td>
+                            <td>More complex, longer input</td>
+                        </tr>
+                        <tr>
+                            <td>Character</td>
+                            <td>Each character is a token</td>
+                            <td>Small vocab, solves OOV</td>
+                            <td>Very long input, poor embeddings</td>
+                        </tr>
+                        <tr>
+                            <td>Byte</td>
+                            <td>Raw encoding (e.g. UTF-8)</td>
+                            <td>Handles any text/emoji</td>
+                            <td>Long input, hard to interpret</td>
+                        </tr>
+                    </table>
+
+                    <h4>Vocabulary</h4>
+                    <p>A fixed set of predefined tokens <strong>V = {token<sub>1</sub>, token<sub>2</sub>, ...}</strong></p>
+
+                    <h4>Special Tokens</h4>
+                    <table class="data-table">
+                        <tr><th>Token</th><th>Purpose</th><th>Example</th></tr>
+                        <tr><td>[PAD]</td><td>Fills sequence to max length</td><td>my teddy [PAD] [PAD]</td></tr>
+                        <tr><td>[UNK]</td><td>Unknown tokens not in vocab</td><td>my teddy [UNK]</td></tr>
+                        <tr><td>[CLS]</td><td>Classification token (BERT)</td><td>[CLS] this is ...</td></tr>
+                        <tr><td>[SEP]</td><td>Separator between segments</td><td>s1 [SEP] s2</td></tr>
+                        <tr><td>[MASK]</td><td>Token to predict</td><td>this [MASK] bear</td></tr>
+                    </table>
+
+                    <h4>Tokenizer</h4>
+                    <p>Converts text to tokens:</p>
+                    <ul>
+                        <li><strong>Encode:</strong> Text → Tokens</li>
+                        <li><strong>Decode:</strong> Tokens → Text</li>
+                    </ul>
+
+                    <h4>Types</h4>
+                    <ul>
+                        <li><strong>Rule-based:</strong> Word-level, character-level (no training)</li>
+                        <li><strong>Learned:</strong> BPE, WordPiece, Unigram (trained on corpus)</li>
+                    </ul>
+
+                    <h4>Normalization</h4>
+                    <table class="data-table">
+                        <tr><th>Method</th><th>Description</th><th>Example</th></tr>
+                        <tr><td>Casing</td><td>Convert to lowercase</td><td>Teddy → teddy</td></tr>
+                        <tr><td>Accents</td><td>Remove accents</td><td>knüddelbär → knuddelbar</td></tr>
+                        <tr><td>Unicode</td><td>Remove special symbols</td><td>teddy bear🤩 → teddy bear</td></tr>
+                    </table>
+                </div>
+
+                <div class="topic-block">
+                    <h3>2.1.2 Subword Algorithms</h3>
+
+                    <h4>BPE (Byte-Pair Encoding)</h4>
+                    <p>Constructs vocabulary by learning most common pairs:</p>
+
+                    <h5>Training:</h5>
+                    <ol>
+                        <li>Initialize: Divide corpus into characters, count frequencies</li>
+                        <li>Count pairs: Count frequency of adjacent pairs</li>
+                        <li>Merge: Replace most common pair with new token</li>
+                        <li>Repeat until vocabulary reaches desired size</li>
+                    </ol>
+
+                    <h5>Encoding:</h5>
+                    <ol>
+                        <li>Divide text into characters</li>
+                        <li>Apply merge rules in order</li>
+                    </ol>
+                    <p><strong>Used by:</strong> GPT, LLaMA</p>
+
+                    <h4>WordPiece</h4>
+                    <p>Similar to BPE but selects pairs based on maximum likelihood rather than frequency.</p>
+                    <p><strong>Used by:</strong> BERT</p>
+
+                    <h4>Unigram</h4>
+                    <p>Assumes token appearance is independent. Starts with large vocabulary and prunes:</p>
+                    <ol>
+                        <li>Initialize with all possible subwords</li>
+                        <li>Compute loss for each subword using EM algorithm</li>
+                        <li>Prune 80% with highest loss increase</li>
+                        <li>Repeat until desired vocabulary size</li>
+                    </ol>
+                    <p><strong>Used by:</strong> T5</p>
+                </div>
+            </section>
+
+            <!-- 2.2 Token Embeddings -->
+            <section id="token-embeddings" class="section alt-bg">
+                <h2 class="section-title">2.2 Token Embeddings</h2>
+
+                <div class="topic-block">
+                    <h3>2.2.1 One-Hot Encoding</h3>
+                    <p>Vector of size |V| with 1 at token index, 0 elsewhere:</p>
+                    <div class="formula">
+                        <code>token<sub>i</sub> → [0, ..., 0, 1, 0, ..., 0]</code>
+                    </div>
+
+                    <h4>Limitations</h4>
+                    <ul>
+                        <li><strong>Token similarity:</strong> All vectors orthogonal - no semantic similarity</li>
+                        <li><strong>Dimensionality:</strong> |V| can be 10<sup>4</sup>-10<sup>5</sup></li>
+                    </ul>
+                </div>
+
+                <div class="topic-block">
+                    <h3>2.2.2 Continuous Encodings (Word2Vec)</h3>
+
+                    <div class="definition-box">
+                        <h4>Word2Vec</h4>
+                        <p>Generates continuous, fixed-dimension embeddings (typically d<sub>model</sub> ~ 10<sup>2</sup>-10<sup>3</sup>)</p>
+                    </div>
+
+                    <h4>CBOW (Continuous Bag of Words)</h4>
+                    <p>Predicts target token from average of context token embeddings:</p>
+                    <div class="diagram">
+                        <pre class="ascii-diagram">
+[Context] → Average → Projection → Prediction → [Target]
+  my cute teddy       [Avg]       [Proj]       [Softmax]     bear</pre>
+                    </div>
+                    <p><strong>Fast training:</strong> One prediction per target token</p>
+
+                    <h4>Skip-gram</h4>
+                    <p>Predicts context tokens given target token:</p>
+                    <div class="diagram">
+                        <pre class="ascii-diagram">
+[Target] → Projection → [Context 1, 2, ...]
+ teddy          [Proj]       my cute is reading</pre>
+                    </div>
+                    <p><strong>Slower training:</strong> 2×C predictions per target token</p>
+
+                    <h4>Negative Sampling</h4>
+                    <p>Approximates softmax by sampling ~10 negative examples:</p>
+                    <div class="formula">
+                        <code>L = -log σ(w<sub>p</sub> · w<sub>t</sub>) - Σ<sub>w<sub>n</sub>∈N</sub> log σ(-w<sub>n</sub> · w<sub>t</sub>)</code>
+                    </div>
+
+                    <h4>GloVe</h4>
+                    <p>Global Vectors - uses co-occurrence matrix:</p>
+                    <ol>
+                        <li>Build co-occurrence matrix X</li>
+                        <li>Model: log(X<sub>i,j</sub>) = w<sub>t,i</sub><sup>T</sup>c<sub>j</sub> + b<sub>i</sub> + b<sub>j</sub></li>
+                        <li>Learn embeddings via weighted loss</li>
+                    </ol>
+                    <div class="formula">
+                        <code>w = (w<sub>t</sub> + w<sub>c</sub>) / 2</code>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2.3 Document Embeddings -->
+            <section id="document-embeddings" class="section">
+                <h2 class="section-title">2.3 Document Embeddings</h2>
+
+                <div class="topic-block">
+                    <h3>2.3.1 Heuristic Methods</h3>
+
+                    <h4>BOW (Bag of Words)</h4>
+                    <p>Sum of one-hot encodings weighted by frequency:</p>
+                    <div class="formula">
+                        <code>x<sub>BOW</sub> = [freq("this"), freq("is"), freq("a"), ...]</code>
+                    </div>
+                    <p><strong>Limitation:</strong> Order doesn't matter</p>
+
+                    <h4>TF-IDF</h4>
+                    <p>Term Frequency × Inverse Document Frequency:</p>
+                    <div class="formula">
+                        <code>TF(t,d) = f<sub>t,d</sub> / Σ<sub>t'</sub> f<sub>t',d</sub></code>
+                    </div>
+                    <div class="formula">
+                        <code>IDF(t,D) = log(N<sub>D</sub> / N<sub>t,D</sub>)</code>
+                    </div>
+                    <div class="formula">
+                        <code>TF-IDF(t,d,D) = TF(t,d) × IDF(t,D)</code>
+                    </div>
+                    <p>Filters out common words, focuses on important ones.</p>
+
+                    <h4>N-gram</h4>
+                    <p>BOW extended to sequences of n consecutive words. Trade-off:</p>
+                    <ul>
+                        <li>Higher n → captures word colocation</li>
+                        <li>Lower n → less sparse, lower computation</li>
+                    </ul>
+                </div>
+
+                <div class="topic-block">
+                    <h3>2.3.2 Recurrent Neural Networks</h3>
+
+                    <h4>RNN</h4>
+                    <p>Maintains hidden state h<sup>(t)</sup> for sequence processing:</p>
+                    <div class="formula">
+                        <code>h<sup>(t)</sup> = A<sub>1</sub>(W<sub>hh</sub>h<sup>(t-1)</sup> + W<sub>hx</sub>x<sup>(t)</sup> + b<sub>h</sub>)</code>
+                    </div>
+                    <div class="formula">
+                        <code>ŷ<sup>(t)</sup> = A<sub>2</sub>(W<sub>yh</sub>h<sup>(t)</sup> + b<sub>y</sub>)</code>
+                    </div>
+
+                    <h4>Vanishing Gradient Problem</h4>
+                    <p>RNNs struggle with long-term dependencies. Gradients become small during backpropagation.</p>
+
+                    <h4>GRU (Gated Recurrent Unit)</h4>
+                    <p>Uses gates to control information flow:</p>
+                    <ul>
+                        <li><strong>Input gate i:</strong> Filter new information</li>
+                        <li><strong>Forget gate f:</strong> Discard information</li>
+                    </ul>
+                    <div class="formula">
+                        <code>c̃<sup>(t)</sup> = tanh(W<sub>c</sub>[f ⊙ h<sup>(t-1)</sup>, x<sup>(t)</sup>] + b<sub>c</sub>)</code>
+                    </div>
+                    <div class="formula">
+                        <code>c<sup>(t)</sup> = i ⊙ c̃<sup>(t)</sup> + (1-i) ⊙ c<sup>(t-1)</sup></code>
+                    </div>
+
+                    <h4>LSTM</h4>
+                    <p>Adds output gate o for better long-term memory:</p>
+                    <div class="formula">
+                        <code>c<sup>(t)</sup> = f ⊙ c<sup>(t-1)</sup> + i ⊙ c̃<sup>(t)</sup></code>
+                    </div>
+                    <div class="formula">
+                        <code>h<sup>(t)</sup> = o ⊙ tanh(c<sup>(t)</sup>)</code>
+                    </div>
+
+                    <h4>ELMo</h4>
+                    <p>Embeddings from Language Models - bidirectional LSTMs with character-level input:</p>
+                    <div class="formula">
+                        <code>ELMo<sub>t</sub> = [h<sub>t,L</sub><sup>→</sup>, h<sub>t,L</sub><sup>←</sup>]</code>
+                    </div>
+                </div>
+
+                <div class="topic-block">
+                    <h3>2.3.3 Attention-Based Methods</h3>
+
+                    <h4>Motivation</h4>
+                    <p>Attention injects context that's a direct function of past tokens, addressing vanishing gradients:</p>
+                    <div class="formula">
+                        <code>c<sub>i</sub> = Σ<sub>j</sub> α<sub>i,j</sub> h<sub>j</sub></code>
+                    </div>
+
+                    <h4>Attention Weights</h4>
+                    <div class="formula">
+                        <code>α<sub>i,j</sub> = exp(e<sub>i,j</sub>) / Σ<sub>k</sub> exp(e<sub>i,k</sub>)</code>
+                    </div>
+                    <p>Where e<sub>i,j</sub> = score from alignment model A(h<sub>i-1</sub>, h<sub>j</sub>)</p>
+                </div>
+            </section>
+
+            <!-- 2.4 Embedding Operations -->
+            <section id="operations" class="section alt-bg">
+                <h2 class="section-title">2.4 Embedding Operations</h2>
+
+                <div class="topic-block">
+                    <h3>2.4.1 Similarity</h3>
+
+                    <h4>Vector Norms</h4>
+                    <table class="data-table">
+                        <tr><th>Norm</th><th>Formula</th><th>Pros</th><th>Cons</th></tr>
+                        <tr><td>L1</td><td>||x||<sub>1</sub> = Σ|x<sub>i</sub>|</td><td>Robust to outliers</td><td>Not differentiable at 0</td></tr>
+                        <tr><td>L2</td><td>||x||<sub>2</sub> = √(Σx<sub>i</sub><sup>2</sup>)</td><td>Intuitive, differentiable</td><td>Sensitive to outliers</td></tr>
+                        <tr><td>L<sub>∞</sub></td><td>||x||<sub>∞</sub> = max(|x<sub>i</sub>|)</td><td>Simple</td><td>Sensitive to outliers</td></tr>
+                    </table>
+
+                    <h4>Cosine Similarity</h4>
+                    <div class="formula">
+                        <code>similarity = cos(θ) = (t<sub>1</sub> · t<sub>2</sub>) / (||t<sub>1</sub>|| ||t<sub>2</sub>||)</code>
+                    </div>
+                </div>
+
+                <div class="topic-block">
+                    <h3>2.4.2 Dimension Reduction (t-SNE)</h3>
+                    <p>t-Distributed Stochastic Neighbor Embedding reduces D → d dimensions preserving similarities:</p>
+                    <ol>
+                        <li>Compute pairwise distances ||x<sub>i</sub> - x<sub>j</sub>|| in high-D space</li>
+                        <li>Convert to similarity scores using Gaussian kernel</li>
+                        <li>Initialize low-dim points y<sub>i</sub></li>
+                        <li>Compute similarities in low-dim space using t-distribution</li>
+                        <li>Minimize KL-divergence via gradient descent</li>
+                    </ol>
+                    <p><strong>Perplexity:</strong> Controls balance between local and global aspects</p>
+                </div>
+
+                <div class="topic-block">
+                    <h3>2.4.3 Fast Retrieval (LSH)</h3>
+                    <p>Locality-Sensitive Hashing for efficient nearest neighbor search in O(log n):</p>
+                    <ol>
+                        <li>Generate K random hyperplanes</li>
+                        <li>Each hyperplane divides space into 0/1 regions</li>
+                        <li>Build hash table with K-bit codes</li>
+                        <li>Elements with same hash code → likely similar</li>
+                        <li>Verify within same bucket</li>
+                    </ol>
+                    <p><strong>Use cases:</strong> Real-time applications, approximate results, near-duplicate detection</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="nav-footer">
+            <a href="foundations.html">← Foundations</a>
+            <a href="transformers.html">Transformers →</a>
+        </div>
+        <p>Super Study Guide: Transformers and Large Language Models</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

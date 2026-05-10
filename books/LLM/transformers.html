@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformers - Transformers & LLMs</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <h1>Transformers & LLMs</h1>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="foundations.html">Foundations</a></li>
+                <li><a href="embeddings.html">Embeddings</a></li>
+                <li><a href="transformers.html">Transformers</a></li>
+                <li><a href="llm.html">LLMs</a></li>
+                <li><a href="applications.html">Applications</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="hero-content">
+            <div class="badge">Section 3</div>
+            <h1>Transformers</h1>
+            <p class="subtitle">Self-Attention, Architecture, BERT, GPT, and Efficiency</p>
+        </div>
+    </header>
+
+    <main class="content-area">
+        <div class="container">
+
+            <!-- 3.1 Self-Attention -->
+            <section id="self-attention" class="section">
+                <h2 class="section-title">3.1 Self-Attention Mechanism</h2>
+
+                <div class="topic-block">
+                    <h3>3.1.1 Query, Key, Value</h3>
+
+                    <div class="definition-box">
+                        <h4>Self-Attention</h4>
+                        <p>Allows each token to attend to all other tokens regardless of distance. Enables context-aware embeddings.</p>
+                    </div>
+
+                    <h4>The Attention Mechanism</h4>
+                    <p>Three projections per token:</p>
+                    <ul>
+                        <li><strong>Query (Q):</strong> "What am I looking for?"</li>
+                        <li><strong>Key (K):</strong> "What do I contain?"</li>
+                        <li><strong>Value (V):</strong> "What information do I carry?"</li>
+                    </ul>
+
+                    <h4>Attention Formula</h4>
+                    <div class="formula">
+                        <code>Attention(Q, K, V) = softmax(QK<sup>T</sup> / √d<sub>k</sub>)V</code>
+                    </div>
+                    <p>Where d<sub>k</sub> = dimension of keys (d<sub>q</sub> = d<sub>k</sub>)</p>
+
+                    <h4>Step-by-Step Process</h4>
+                    <ol>
+                        <li>Compute dot products: q · k<sub>i</sub> for all tokens</li>
+                        <li>Scale by √d<sub>k</sub></li>
+                        <li>Apply softmax to get weights p<sub>i</sub></li>
+                        <li>Compute weighted sum: Σ p<sub>i</sub> · v<sub>i</sub></li>
+                    </ol>
+
+                    <h4>Why Scale by √d<sub>k</sub>?</h4>
+                    <p>Variance of dot product increases with dimension. Scaling prevents softmax saturation.</p>
+
+                    <h4>Complexity</h4>
+                    <div class="formula">
+                        <code>O(n<sup>2</sup>) where n = sequence length</code>
+                    </div>
+                </div>
+
+                <div class="topic-block">
+                    <h3>3.1.2 Multi-Head Attention</h3>
+                    <p>h attention heads enable learning different relationship types in parallel:</p>
+
+                    <div class="diagram">
+                        <pre class="ascii-diagram">
+Input Q,K,V
+    ↓
+[Head 1: W₁Q, W₁K, W₁V] → O₁
+[Head 2: W₂Q, W₂K, W₂V] → O₂
+    ...
+[Head h: WhQ, WhK, WhV] → Oh
+    ↓
+Concat(O₁,...,Oₕ) · Wᴼ</pre>
+                    </div>
+
+                    <h4>Within Head i</h4>
+                    <div class="formula">
+                        <code>Q<sub>i</sub> = XW<sub>i</sub><sup>Q</sup>, K<sub>i</sub> = XW<sub>i</sub><sup>K</sup>, V<sub>i</sub> = XW<sub>i</sub><sup>V</sup></code>
+                    </div>
+                    <div class="formula">
+                        <code>Attention(Q<sub>i</sub>, K<sub>i</sub>, V<sub>i</sub>) = softmax(Q<sub>i</sub>K<sub>i</sub><sup>T</sup>/√d<sub>k</sub>)V<sub>i</sub></code>
+                    </div>
+
+                    <h4>Parameters</h4>
+                    <div class="formula">
+                        <code>N<sub>MHA</sub> = 2 · (d<sub>k</sub> + d<sub>v</sub>) · d<sub>model</sub> · h</code>
+                    </div>
+
+                    <h4>Types of Attention</h4>
+                    <table class="data-table">
+                        <tr><th>Type</th><th>Q, K, V Source</th><th>Use</th></tr>
+                        <tr><td>Self-Attention</td><td>Same input</td><td>Encoder, Decoder self-attention</td></tr>
+                        <tr><td>Cross-Attention</td><td>Q from decoder, K,V from encoder</td><td>Decoder cross-attention</td></tr>
+                    </table>
+                </div>
+
+                <div class="topic-block">
+                    <h3>3.1.3 Transformer Architecture</h3>
+
+                    <div class="diagram">
+                        <pre class="ascii-diagram">
+Input → [Encoder × N] → → [Decoder × N] → Output
+              ↓              ↓
+          Encoders        Decoders
+</pre>
+                    </div>
+
+                    <h4>Hyperparameters</h4>
+                    <table class="data-table">
+                        <tr><th>Parameter</th><th>Description</th></tr>
+                        <tr><td>|V|</td><td>Vocabulary size (~10<sup>4</sup>)</td></tr>
+                        <tr><td>n<sub>max</sub></td><td>Maximum sequence length</td></tr>
+                        <tr><td>d<sub>model</sub></td><td>Embedding dimension</td></tr>
+                        <tr><td>d<sub>ff</sub></td><td>Feed-forward hidden dimension</td></tr>
+                        <tr><td>d<sub>k</sub>, d<sub>v</sub></td><td>Query/key/value dimensions</td></tr>
+                        <tr><td>h</td><td>Number of attention heads</td></tr>
+                        <tr><td>N</td><td>Number of layers</td></tr>
+                    </table>
+                    <p><strong>Original Transformer:</strong> 213M parameters</p>
+
+                    <h4>Properties of Encoded Embeddings</h4>
+                    <ul>
+                        <li><strong>Token-aware:</strong> Considers original token embedding</li>
+                        <li><strong>Position-aware:</strong> Position in sequence encoded</li>
+                        <li><strong>Context-aware:</strong> Varies with surrounding context</li>
+                    </ul>
+                </div>
+
+                <div class="topic-block">
+                    <h3>3.1.4 End-to-End Example (Translation)</h3>
+
+                    <h4>Translation: "My teddy bear is cute." → "Mon ours en peluche est mignon."</h4>
+
+                    <h5>Step 1: Tokenization</h5>
+                    <p>Convert source sentence to tokens using tokenizer T and vocabulary V</p>
+
+                    <h5>Step 2: Encoded Embeddings</h5>
+                    <ol>
+                        <li><strong>Token embedding:</strong> Look up d<sub>model</sub>-dim vector for each token</li>
+                        <li><strong>Position embedding:</strong> Add position-specific vector</li>
+                        <li><strong>Self-attention:</strong> Each token attends to all others</li>
+                        <li><strong>Feed-forward:</strong> Project through FFNN</li>
+                    </ol>
+
+                    <h5>Step 3: Decoder Predictions</h5>
+                    <ol>
+                        <li>Input [BOS] token</li>
+                        <li>Masked self-attention on decoded tokens</li>
+                        <li>Cross-attention with encoder output</li>
+                        <li>Project to vocabulary → softmax → next token</li>
+                        <li>Repeat until [EOS]</li>
+                    </ol>
+
+                    <h4>Training vs Inference</h4>
+                    <ul>
+                        <li><strong>Training:</strong> Parallel (teacher forcing)</li>
+                        <li><strong>Inference:</strong> Autoregressive (one token at a time)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 3.2 Components -->
+            <section id="components" class="section alt-bg">
+                <h2 class="section-title">3.2 Components</h2>
+
+                <div class="topic-block">
+                    <h3>3.2.1 Input</h3>
+
+                    <h4>Token Embedding</h4>
+                    <p>Each token → d<sub>model</sub>-dim vector</p>
+
+                    <h4>Position Embedding</h4>
+                    <p>Added to token embedding for position awareness</p>
+
+                    <h4>Parameters</h4>
+                    <div class="formula">
+                        <code>N<sub>input</sub> = (|V| + n<sub>max</sub>) · d<sub>model</sub></code>
+                    </div>
+                </div>
+
+                <div class="topic-block">
+                    <h3>3.2.2 Encoder</h3>
+
+                    <div class="diagram">
+                        <pre class="ascii-diagram">
+Input
+  ↓
+[Multi-Head Self-Attention + Residual + LayerNorm]
+  ↓
+[Feed-Forward + Residual + LayerNorm]
+  ↓
+Output → (repeat N times)</pre>
+                    </div>
+
+                    <h4>Parameters per Layer</h4>
+                    <div class="formula">
+                        <code>N<sub>encoder</sub> = 4·d<sub>model</sub>·d<sub>k</sub>·h + 2·d<sub>model</sub>·d<sub>ff</sub> + 5·d<sub>model</sub> + d<sub>ff</sub></code>
+                    </div>
+                </div>
+
+                <div class="topic-block">
+                    <h3>3.2.3 Decoder</h3>
+
+                    <div class="diagram">
+                        <pre class="ascii-diagram">
+Output
+  ↓
+[Masked Self-Attention + Residual + LayerNorm]
+  ↓
+[Cross-Attention + Residual + LayerNorm]
+  ↓
+[Feed-Forward + Residual + LayerNorm]
+  ↓
+Output → (repeat N times)</pre>
+                    </div>
+
+                    <h4>Masking</h4>
+                    <p>Prevents attending to future tokens during training</p>
+
+                    <h4>Parameters per Layer</h4>
+                    <div class="formula">
+                        <code>N<sub>decoder</sub> = 8·d<sub>model</sub>·d<sub>k</sub>·h + 2·d<sub>model</sub>·d<sub>ff</sub> + 7·d<sub>model</sub> + d<sub>ff</sub></code>
+                    </div>
+                </div>
+
+                <div class="topic-block">
+                    <h3>3.2.4 Output</h3>
+                    <p>Projects decoder embedding to vocabulary space:</p>
+                    <div class="formula">
+                        <code>N<sub>output</sub> = (d<sub>model</sub> + 1) · |V|</code>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3.3 Computational Improvements -->
+            <section id="improvements" class="section">
+                <h2 class="section-title">3.3 Computational Improvements</h2>
+
+                <div class="topic-block">
+                    <h3>3.3.1 Position Awareness</h3>
+
+                    <h4>Learned Embedding</h4>
+                    <ul>
+                        <li>Model learns position-specific embeddings</li>
+                        <li>Cannot generalize beyond training length</li>
+                    </ul>
+
+                    <h4>Sinusoidal Embedding</h4>
+                    <div class="formula">
+                        <code>PE(pos)<sub>2i</sub> = sin(pos / 10000<sup>2i/d<sub>model</sub></sup>)</code>
+                    </div>
+                    <div class="formula">
+                        <code>PE(pos)<sub>2i+1</sub> = cos(pos / 10000<sup>2i/d<sub>model</sub></sup>)</code>
+                    </div>
+                    <ul>
+                        <li>Hardcoded, no parameters</li>
+                        <li>Generalizes beyond training length</li>
+                    </ul>
+
+                    <h4>RoPE (Rotary Position Embeddings)</h4>
+                    <p>Injects relative position via rotation matrices:</p>
+                    <div class="formula">
+                        <code>q<sub>m</sub> → q<sub>m</sub>R<sub>m</sub>, k<sub>n</sub> → k<sub>n</sub>R<sub>n</sub></code>
+                    </div>
+                    <ul>
+                        <li>Used by LLaMA</li>
+                        <li>Flexible: no max length limitation</li>
+                    </ul>
+                </div>
+
+                <div class="topic-block">
+                    <h3>3.3.2 Layer-Related Tricks</h3>
+
+                    <h4>Attention Variants</h4>
+                    <table class="data-table">
+                        <tr><th>Method</th><th>Description</th></tr>
+                        <tr><td>MHA</td><td>Standard multi-head attention</td></tr>
+                        <tr><td>MQA</td><td>Multi-Query: share K,V across heads (G=h)</td></tr>
+                        <tr><td>GQA</td><td>Grouped-Query: G groups (1&lt;G&lt;h)</td></tr>
+                    </table>
+                    <p>GQA balances speed and quality. Used by LLaMA 2+.</p>
+
+                    <h4>Layer Normalization</h4>
+                    <div class="formula">
+                        <code>μ = (1/d)Σx<sub>i</sub>, σ<sup>2</sup> = (1/d)Σ(x<sub>i</sub>-μ)<sup>2</sup></code>
+                    </div>
+                    <div class="formula">
+                        <code>LN(x) = γ(x-μ)/√(σ<sup>2</sup>+ε) + β</code>
+                    </div>
+
+                    <h4>Label Smoothing</h4>
+                    <p>Replaces hard labels with soft distribution:</p>
+                    <div class="formula">
+                        <code>label<sub>i</sub> = (1-ε)·hard<sub>i</sub> + ε/|V|</code>
+                    </div>
+                    <p>Prevents overconfidence, improves generalization.</p>
+                </div>
+            </section>
+
+            <!-- 3.4 Architecture Variations -->
+            <section id="variations" class="section alt-bg">
+                <h2 class="section-title">3.4 Architecture Variations</h2>
+
+                <div class="topic-block">
+                    <h3>3.4.1 BERT (Encoder-Only)</h3>
+
+                    <h4>Bidirectional Encoder Representations from Transformers</h4>
+                    <p>Uses MLM + NSP pretraining objectives</p>
+
+                    <h4>BERT Variants</h4>
+                    <table class="data-table">
+                        <tr><th>Model</th><th>Parameters</th><th>d<sub>model</sub></th><th>h</th><th>N</th></tr>
+                        <tr><td>BERT-Tiny</td><td>4M</td><td>128</td><td>2</td><td>2</td></tr>
+                        <tr><td>BERT-Base</td><td>110M</td><td>768</td><td>12</td><td>12</td></tr>
+                        <tr><td>BERT-Large</td><td>340M</td><td>1024</td><td>16</td><td>24</td></tr>
+                    </table>
+
+                    <h4>Training</h4>
+                    <ul>
+                        <li><strong>MLM:</strong> Mask 15% tokens, predict masked</li>
+                        <li><strong>NSP:</strong> Predict if sentences follow each other</li>
+                    </ul>
+
+                    <h4>Variants</h4>
+                    <ul>
+                        <li><strong>DistilBERT:</strong> 40% smaller, 97% performance</li>
+                        <li><strong>ALBERT:</strong> Parameter sharing, factorization</li>
+                        <li><strong>RoBERTa:</strong> More data, dynamic masking, no NSP</li>
+                        <li><strong>ELECTRA:</strong> Token replacement detection</li>
+                    </ul>
+                </div>
+
+                <div class="topic-block">
+                    <h3>3.4.2 GPT (Decoder-Only)</h3>
+
+                    <h4>Generative Pre-trained Transformer</h4>
+                    <p>Autoregressive, next-token prediction</p>
+
+                    <h4>GPT Timeline</h4>
+                    <table class="data-table">
+                        <tr><th>Model</th><th>Parameters</th><th>Context</th><th>Year</th></tr>
+                        <tr><td>GPT-1</td><td>117M</td><td>512</td><td>2018</td></tr>
+                        <tr><td>GPT-2</td><td>1.5B</td><td>1024</td><td>2019</td></tr>
+                        <tr><td>GPT-3</td><td>175B</td><td>2048</td><td>2020</td></tr>
+                        <tr><td>GPT-4</td><td>?</td><td>8K-32K</td><td>2023</td></tr>
+                    </table>
+
+                    <h4>LLaMA</h4>
+                    <ul>
+                        <li>Uses RoPE position embeddings</li>
+                        <li>SwiGLU activation</li>
+                        <li>RMSNorm</li>
+                        <li>GQA for efficiency</li>
+                    </ul>
+
+                    <h4>Chinchilla Scaling Law</h4>
+                    <p>Model size and training tokens should scale proportionally:</p>
+                    <div class="formula">
+                        <code>Parameters ∝ Training Tokens</code>
+                    </div>
+                </div>
+
+                <div class="topic-block">
+                    <h3>3.4.3 T5 (Encoder-Decoder)</h3>
+
+                    <h4>Text-To-Text Transfer Transformer</h4>
+                    <p>Converts all tasks to text-to-text format</p>
+
+                    <h4>T5 Variants</h4>
+                    <table class="data-table">
+                        <tr><th>Model</th><th>Parameters</th></tr>
+                        <tr><td>T5-Small</td><td>60M</td></tr>
+                        <tr><td>T5-Base</td><td>220M</td></tr>
+                        <tr><td>T5-Large</td><td>770M</td></tr>
+                        <tr><td>T5-XXL</td><td>11B</td></tr>
+                    </table>
+
+                    <h4>Training</h4>
+                    <p>Span corruption: replaces consecutive tokens with sentinel token</p>
+
+                    <h4>BART</h4>
+                    <p>Bidirectional Auto-Regressive Transformer with denoising pretraining</p>
+                </div>
+
+                <div class="topic-block">
+                    <h3>3.4.4 Switch Transformer (MoE)</h3>
+
+                    <h4>Mixture of Experts</h4>
+                    <p>Multiple expert networks with routing gate:</p>
+                    <div class="formula">
+                        <code>y = Σ<sub>i∈I<sub>k</sub></sub> G(x)<sub>i</sub> E<sub>i</sub>(x)</code>
+                    </div>
+                    <p>Only top-k experts activated per forward pass</p>
+
+                    <h4>Switch Transformer</h4>
+                    <ul>
+                        <li>Over 1 trillion parameters</li>
+                        <li>Each FFNN is an expert</li>
+                        <li>Only one expert per token</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 3.5 Efficiency -->
+            <section id="efficiency" class="section">
+                <h2 class="section-title">3.5 Attention Computation Speedup</h2>
+
+                <div class="topic-block">
+                    <h3>3.5.1 Sparse Attention</h3>
+
+                    <h4>Reformer</h4>
+                    <ul>
+                        <li>Uses LSH to group similar Q and K</li>
+                        <li>Reduces complexity O(n<sup>2</sup>) → O(n log n)</li>
+                        <li>Reversible layers for memory efficiency</li>
+                    </ul>
+
+                    <h4>Longformer</h4>
+                    <ul>
+                        <li>Sliding window attention for local context</li>
+                        <li>Global attention for special tokens</li>
+                        <li>Efficient for long documents</li>
+                    </ul>
+                </div>
+
+                <div class="topic-block">
+                    <h3>3.5.2 Low-Rank Attention</h3>
+
+                    <h4>Linformer</h4>
+                    <div class="formula">
+                        <code>attention(Q, K, V) ≈ softmax(Q(EP<sub>K</sub>)<sup>T</sup>/√d<sub>k</sub>) (EP<sub>V</sub>)V</code>
+                    </div>
+                    <p>Projects K, V to lower dimension k &lt; n. Complexity O(n)</p>
+
+                    <h4>Performer</h4>
+                    <p>Uses kernel approximation (FAVOR+) for unbiased softmax estimation</p>
+                </div>
+
+                <div class="topic-block">
+                    <h3>3.5.3 Hardware Optimization</h3>
+
+                    <h4>Flash Attention</h4>
+                    <ul>
+                        <li>Tiling: divide attention into blocks fitting in SRAM</li>
+                        <li>Recomputation: don't store O(n<sup>2</sup>) activations</li>
+                        <li>No approximation - exact results, faster execution</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 3.6 Interpretability -->
+            <section id="interpretability" class="section alt-bg">
+                <h2 class="section-title">3.6 Interpretability</h2>
+
+                <div class="topic-block">
+                    <h3>3.6.1 Attention-Specific Methods</h3>
+
+                    <h4>Attention Maps</h4>
+                    <p>Visualize attention weights to see which tokens influenced predictions</p>
+
+                    <h4>Saliency</h4>
+                    <p>Attribute scores to input features based on output contribution</p>
+                </div>
+
+                <div class="topic-block">
+                    <h3>3.6.2 Model-Agnostic Methods</h3>
+
+                    <h4>TCAV</h4>
+                    <p>Testing with Concept Activation Vectors:</p>
+                    <ol>
+                        <li>Define concept from examples</li>
+                        <li>Train classifier on activations</li>
+                        <li>Compute directional derivative</li>
+                    </ol>
+
+                    <h4>Integrated Gradients</h4>
+                    <div class="formula">
+                        <code>IG<sub>i</sub> = (x<sub>i</sub> - x̃<sub>i</sub>) · (1/m) Σ<sub>k=1</sub><sup>m</sup> ∂f(x̃ + (k/m)(x-x̃))/∂x<sub>i</sub></code>
+                    </div>
+
+                    <h4>LIME</h4>
+                    <p>Local Interpretable Model-agnostic Explanations</p>
+                    <ol>
+                        <li>Sample and perturb data</li>
+                        <li>Train interpretable model nearby</li>
+                        <li>Use coefficients for interpretation</li>
+                    </ol>
+
+                    <h4>TracIn</h4>
+                    <p>Traces influence of training examples on test predictions</p>
+                </div>
+            </section>
+
+            <!-- Timeline -->
+            <section id="timeline" class="section">
+                <h2 class="section-title">Timeline: NLP Evolution</h2>
+                <table class="data-table">
+                    <tr><th>Year</th><th>Milestone</th></tr>
+                    <tr><td>2013</td><td>word2vec</td></tr>
+                    <tr><td>2014</td><td>GRU, LSTM</td></tr>
+                    <tr><td>2015</td><td>Deep learning frameworks expand</td></tr>
+                    <tr><td>2017</td><td>Transformer paper "Attention Is All You Need"</td></tr>
+                    <tr><td>2018</td><td>GPT-1, BERT, WordPiece</td></tr>
+                    <tr><td>2019</td><td>GPT-2, RoBERTa, T5</td></tr>
+                    <tr><td>2020</td><td>GPT-3 (175B), PaLM</td></tr>
+                    <tr><td>2021</td><td>InstructGPT, Gopher</td></tr>
+                    <tr><td>2022</td><td>ChatGPT, LLaMA, Chinchilla</td></tr>
+                    <tr><td>2023</td><td>GPT-4, LLaMA 2, Mixtral, Mistral</td></tr>
+                    <tr><td>2024</td><td>LLaMA 3, GPT-4o</td></tr>
+                </table>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="nav-footer">
+            <a href="embeddings.html">← Embeddings</a>
+            <a href="llm.html">LLMs →</a>
+        </div>
+        <p>Super Study Guide: Transformers and Large Language Models</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

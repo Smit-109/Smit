@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foundations - Transformers & LLMs</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <h1>Transformers & LLMs</h1>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="foundations.html">Foundations</a></li>
+                <li><a href="embeddings.html">Embeddings</a></li>
+                <li><a href="transformers.html">Transformers</a></li>
+                <li><a href="llm.html">LLMs</a></li>
+                <li><a href="applications.html">Applications</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="hero-content">
+            <div class="badge">Section 1</div>
+            <h1>Foundations</h1>
+            <p class="subtitle">Neural Networks, Training, and Evaluation</p>
+        </div>
+    </header>
+
+    <main class="content-area">
+        <div class="container">
+
+            <!-- 1.1 Neural Networks -->
+            <section id="neural-networks" class="section">
+                <h2 class="section-title">1.1 Neural Networks</h2>
+
+                <div class="topic-block">
+                    <h3>1.1.1 Overview</h3>
+
+                    <div class="definition-box">
+                        <h4>Neural Network (NN)</h4>
+                        <p>A model inspired by how the brain works. Contains neurons connected to one another, separated by nonlinearities, which allow them to learn complex patterns.</p>
+                    </div>
+
+                    <div class="definition-box">
+                        <h4>Feed-Forward Neural Network (FFNN)</h4>
+                        <p>Composed of three types of layers:</p>
+                        <ul>
+                            <li><strong>Input layer:</strong> Receives input as a vector of numbers</li>
+                            <li><strong>Hidden layers:</strong> Transform input using multiplications, additions, and nonlinearities</li>
+                            <li><strong>Output layer:</strong> Outputs final vector representing model prediction</li>
+                        </ul>
+                    </div>
+
+                    <div class="diagram">
+                        <pre class="ascii-diagram">
+Input → [h1] → [h2] → ... → [hk] → Output</pre>
+                    </div>
+                    <p class="note"><strong>Note:</strong> A network with small number of hidden layers (typically k ≤ 3) is called a <em>shallow network</em>.</p>
+                </div>
+
+                <div class="topic-block">
+                    <h3>1.1.2 Components</h3>
+
+                    <h4>Input Layer</h4>
+                    <p>Represented by an embedding vector <strong>i ∈ ℝ<sup>m</sup></strong>. Examples by modality:</p>
+
+                    <table class="data-table">
+                        <tr><th>Modality</th><th>Description</th><th>Example</th></tr>
+                        <tr><td>Text</td><td>Text divided into entities, each represented by a vector</td><td>One-hot encoding</td></tr>
+                        <tr><td>Audio</td><td>Audio divided into time segments</td><td>Mel-spectrograms</td></tr>
+                        <tr><td>Image</td><td>Each pixel represented by a vector</td><td>RGB encoding</td></tr>
+                    </table>
+
+                    <h4>Hidden Layer</h4>
+                    <p>A hidden layer allows the network to learn complex patterns. It consists of:</p>
+                    <ul>
+                        <li><strong>Weights w:</strong> Learned parameters multiplied with input</li>
+                        <li><strong>Biases b:</strong> Learned parameters added to result</li>
+                        <li><strong>Activation function A:</strong> Introduces nonlinearities</li>
+                    </ul>
+
+                    <h4>Activation Functions</h4>
+                    <table class="data-table">
+                        <tr><th>Name</th><th>Function</th><th>Output Range</th></tr>
+                        <tr><td>Sigmoid</td><td>σ(z) = 1/(1+e<sup>-z</sup>)</td><td>(0, 1)</td></tr>
+                        <tr><td>Tanh</td><td>tanh(z) = (e<sup>z</sup>-e<sup>-z</sup>)/(e<sup>z</sup>+e<sup>-z</sup>)</td><td>(-1, 1)</td></tr>
+                        <tr><td>ReLU</td><td>max(0, z)</td><td>[0, +∞)</td></tr>
+                        <tr><td>Leaky ReLU</td><td>max(αz, z), α &lt; 1</td><td>(-∞, +∞)</td></tr>
+                        <tr><td>GELU</td><td>z·Φ(z), Φ ~ N(0,1)</td><td>(-0.17, +∞)</td></tr>
+                        <tr><td>ELU</td><td>max(α(e<sup>z</sup>-1), z)</td><td>(-∞, +∞)</td></tr>
+                    </table>
+
+                    <h4>Gated Linear Unit (GLU)</h4>
+                    <div class="formula">
+                        <code>A(z) = A<sub>1</sub>(z) ⊙ A<sub>2</sub>(z)</code>
+                    </div>
+                    <p>Variants:</p>
+                    <ul>
+                        <li><strong>GLU:</strong> (z<sup>W</sup>+b) ⊙ σ(z<sup>V</sup>+c)</li>
+                        <li><strong>SwiGLU:</strong> (z<sup>W</sup>+b) ⊙ SiLU(z<sup>V</sup>+c)</li>
+                        <li><strong>ReGLU:</strong> ReLU(z<sup>W</sup>+b) ⊙ (z<sup>V</sup>+c)</li>
+                    </ul>
+
+                    <h4>Output Layer</h4>
+                    <p>Returns final prediction via vector <strong>o ∈ ℝ<sup>n</sup></strong>:</p>
+                    <ul>
+                        <li><strong>Classification:</strong> Softmax to convert to probability distribution</li>
+                        <li><strong>Regression:</strong> Returns o as is</li>
+                    </ul>
+                    <div class="formula">
+                        <code>softmax(o)<sub>i</sub> = e<sup>oi</sup> / Σ<sub>j</sub> e<sup>oj</sup></code>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 1.2 Training -->
+            <section id="training" class="section alt-bg">
+                <h2 class="section-title">1.2 Training</h2>
+
+                <div class="topic-block">
+                    <h3>1.2.1 Parameter Learning</h3>
+
+                    <h4>Weight Initialization</h4>
+                    <p>Critical for training convergence. Common methods:</p>
+
+                    <table class="data-table">
+                        <tr><th>Method</th><th>Activation</th><th>Initialization</th></tr>
+                        <tr><td>Xavier/Glorot</td><td>Sigmoid, Tanh</td><td>Uniform [-√(6/(n<sub>i</sub>+n<sub>o</sub>)), √(6/(n<sub>i</sub>+n<sub>o</sub>))]</td></tr>
+                        <tr><td>He</td><td>ReLU</td><td>Normal with σ = √(2/n<sub>i</sub>)</td></tr>
+                    </table>
+                    <p>Where n<sub>i</sub> = input neurons, n<sub>o</sub> = output neurons</p>
+
+                    <h4>Epoch and Batch</h4>
+                    <ul>
+                        <li><strong>Training size N:</strong> Number of observations in training set</li>
+                        <li><strong>Batch size b:</strong> Observations processed at each pass</li>
+                        <li><strong>Steps per epoch:</strong> s = N/b</li>
+                    </ul>
+                    <div class="formula">
+                        <code>N = b × s</code>
+                    </div>
+
+                    <h4>Loss Function</h4>
+                    <p>Quantifies how close predictions ŷ are to targets y. Higher values = worse performance.</p>
+
+                    <h4>Labels</h4>
+                    <ul>
+                        <li><strong>Hard label:</strong> Observation belongs to class (yi = 1) or not (yi = 0)</li>
+                        <li><strong>Soft label:</strong> Probability yi ∈ [0, 1] of belonging to class</li>
+                    </ul>
+
+                    <h4>Backpropagation</h4>
+                    <p>Minimizes loss by adjusting parameters through gradient calculation:</p>
+                    <ol>
+                        <li><strong>Forward step:</strong> Compute predictions ŷ and loss L(ŷ, y)</li>
+                        <li><strong>Backward step:</strong> Compute ∂L/∂θ for each parameter</li>
+                        <li><strong>Update step:</strong> θ ← θ - η ∂L/∂θ</li>
+                    </ol>
+
+                    <h4>Gradient Clipping</h4>
+                    <p>Prevents exploding gradients by capping gradients at ceiling C:</p>
+                    <div class="formula">
+                        <code>∇θ<sub>clipped</sub> = clip(∇θ, -C, C)</code>
+                    </div>
+
+                    <h4>Learning Rate (η)</h4>
+                    <table class="data-table">
+                        <tr><th>Rate</th><th>Effect</th></tr>
+                        <tr><td>Too Low</td><td>Slow convergence, stuck in non-optimal region</td></tr>
+                        <tr><td>Just Right</td><td>Optimal convergence</td></tr>
+                        <tr><td>Too High</td><td>May diverge and miss optimal region</td></tr>
+                    </table>
+
+                    <h4>Warmup</h4>
+                    <p>Use lower learning rate during first s<sub>w</sub> steps to prevent early overfitting:</p>
+                    <div class="formula">
+                        <code>η(s) = C × min(1, s/s<sub>w</sub><sup>3</sup>)</code>
+                    </div>
+                </div>
+
+                <div class="topic-block">
+                    <h3>1.2.2 Optimizers</h3>
+
+                    <h4>Gradient Descent</h4>
+                    <div class="formula">
+                        <code>θ<sub>t+1</sub> = θ<sub>t</sub> - η ∇L(θ<sub>t</sub>)</code>
+                    </div>
+
+                    <h4>Momentum</h4>
+                    <p>Accelerates convergence by dampening oscillations:</p>
+                    <div class="formula">
+                        <code>v<sub>t+1</sub> = βv<sub>t</sub> + (1-β)∇L(θ<sub>t</sub>)</code>
+                    </div>
+                    <div class="formula">
+                        <code>θ<sub>t+1</sub> = θ<sub>t</sub> - ηv<sub>t+1</sub></code>
+                    </div>
+                    <p>β typically set to 0.9</p>
+
+                    <h4>RMSProp</h4>
+                    <p>Adaptive learning rates using moving average of squared gradients:</p>
+                    <div class="formula">
+                        <code>v<sub>t+1</sub> = βv<sub>t</sub> + (1-β)(∇L(θ<sub>t</sub>))<sup>2</sup></code>
+                    </div>
+                    <div class="formula">
+                        <code>θ<sub>t+1</sub> = θ<sub>t</sub> - η ∇L(θ<sub>t</sub>) / √(v<sub>t+1</sub>+ε)</code>
+                    </div>
+
+                    <h4>Adam</h4>
+                    <p>Combines benefits of Momentum and RMSProp:</p>
+                    <div class="formula">
+                        <code>m<sub>t+1</sub> = β<sub>1</sub>m<sub>t</sub> + (1-β<sub>1</sub>)∇L(θ<sub>t</sub>)</code>
+                    </div>
+                    <div class="formula">
+                        <code>v<sub>t+1</sub> = β<sub>2</sub>v<sub>t</sub> + (1-β<sub>2</sub>)(∇L(θ<sub>t</sub>))<sup>2</sup></code>
+                    </div>
+                    <div class="formula">
+                        <code>θ<sub>t+1</sub> = θ<sub>t</sub> - η m<sub>t+1</sub>/(√v<sub>t+1</sub>+ε)</code>
+                    </div>
+                    <p>Typical values: β<sub>1</sub>=0.9, β<sub>2</sub>=0.999, η=0.001</p>
+
+                    <h4>AdamW</h4>
+                    <p>Removes L2 regularization from loss gradient, incorporates it in weight update. Improves convergence over Adam.</p>
+                </div>
+
+                <div class="topic-block">
+                    <h3>1.2.3 Common Loss Functions</h3>
+
+                    <h4>Cross-Entropy Loss</h4>
+                    <ul>
+                        <li><strong>Binary:</strong> BCE = -y log(ŷ) - (1-y)log(1-ŷ)</li>
+                        <li><strong>Multi-class:</strong> CE = -Σ y<sub>i</sub> log(ŷ<sub>i</sub>)</li>
+                    </ul>
+
+                    <h4>KL Divergence</h4>
+                    <div class="formula">
+                        <code>KL(P||Q) = Σ p<sub>i</sub> log(p<sub>i</sub>/q<sub>i</sub>)</code>
+                    </div>
+
+                    <h4>MAE (L1 Loss)</h4>
+                    <div class="formula">
+                        <code>MAE = (1/n) Σ |y<sub>i</sub> - ŷ<sub>i</sub>|</code>
+                    </div>
+                    <p>Less sensitive to outliers than MSE.</p>
+
+                    <h4>MSE (L2 Loss)</h4>
+                    <div class="formula">
+                        <code>MSE = (1/n) Σ (y<sub>i</sub> - ŷ<sub>i</sub>)<sup>2</sup></code>
+                    </div>
+
+                    <h4>RMSE</h4>
+                    <div class="formula">
+                        <code>RMSE = √MSE</code>
+                    </div>
+                </div>
+
+                <div class="topic-block">
+                    <h3>1.2.4 Regularization</h3>
+
+                    <h4>Dropout</h4>
+                    <p>During training, randomly drop neurons with probability p:</p>
+                    <ul>
+                        <li><strong>Forward pass:</strong> Each neuron dropped with probability p</li>
+                        <li><strong>Inference:</strong> Scale activations by (1-p)</li>
+                    </ul>
+
+                    <h4>Weight Regularization</h4>
+                    <table class="data-table">
+                        <tr><th>Type</th><th>Formula</th><th>Effect</th></tr>
+                        <tr><td>LASSO</td><td>L + λ||θ||<sub>1</sub></td><td>Shrinks coefficients to 0</td></tr>
+                        <tr><td>Ridge</td><td>L + λ||θ||<sub>2</sub></td><td>Reduces magnitude</td></tr>
+                        <tr><td>Elastic Net</td><td>L + λ((1-ρ)||θ||<sub>1</sub>+ρ||θ||<sub>2</sub>)</td><td>Trade-off</td></tr>
+                    </table>
+
+                    <h4>Early Stopping</h4>
+                    <p>Stop training when validation loss reaches plateau or increases.</p>
+
+                    <h4>Batch Normalization</h4>
+                    <p>Normalizes inputs across a batch:</p>
+                    <div class="formula">
+                        <code>x̂ = (x - μ<sub>B</sub>)/√(σ<sub>B</sub><sup>2</sup>+ε)</code>
+                    </div>
+                    <div class="formula">
+                        <code>BN(x) = γx̂ + β</code>
+                    </div>
+                    <p>Where γ, β are learnable parameters.</p>
+                </div>
+            </section>
+
+            <!-- 1.3 Evaluation -->
+            <section id="evaluation" class="section">
+                <h2 class="section-title">1.3 Evaluation</h2>
+
+                <div class="topic-block">
+                    <h3>1.3.1 Data Splits</h3>
+
+                    <h4>Training Set</h4>
+                    <ul>
+                        <li>Used for model f to learn patterns from features x<sub>train</sub> with labels y<sub>train</sub></li>
+                        <li>Should be big enough, representative, and high quality</li>
+                    </ul>
+
+                    <h4>Evaluation (Validation) Set</h4>
+                    <ul>
+                        <li>Used to tune hyperparameters</li>
+                        <li>Should be representative proxy, independent of training data</li>
+                    </ul>
+
+                    <h4>Test Set</h4>
+                    <ul>
+                        <li>Only used to report final results</li>
+                        <li>Check for: dataset contamination, feature leakage, distribution mismatches</li>
+                    </ul>
+                </div>
+
+                <div class="topic-block">
+                    <h3>1.3.2 Metrics</h3>
+
+                    <h4>Confusion Matrix</h4>
+                    <table class="data-table">
+                        <tr><th></th><th>ŷ = -</th><th>ŷ = +</th></tr>
+                        <tr><td>y = -</td><td>TN</td><td>FP</td></tr>
+                        <tr><td>y = +</td><td>FN</td><td>TP</td></tr>
+                    </table>
+
+                    <h4>Accuracy</h4>
+                    <div class="formula">
+                        <code>Accuracy = (TN + TP) / (TN + FN + FP + TP)</code>
+                    </div>
+
+                    <h4>Precision & Recall</h4>
+                    <div class="formula">
+                        <code>Precision = TP / (TP + FP)</code>
+                    </div>
+                    <div class="formula">
+                        <code>Recall = TP / (TP + FN)</code>
+                    </div>
+
+                    <h4>F1 Score</h4>
+                    <div class="formula">
+                        <code>F1 = 2 × (Precision × Recall) / (Precision + Recall)</code>
+                    </div>
+
+                    <h4>ROC Curve</h4>
+                    <p>Plots TPR vs FPR at different thresholds:</p>
+                    <ul>
+                        <li>TPR (Recall) = TP/(TP+FN)</li>
+                        <li>FPR = FP/(FP+TN)</li>
+                    </ul>
+
+                    <h4>AUC</h4>
+                    <p>Area Under ROC Curve, ranges from 0.5 (random) to 1 (perfect).</p>
+                </div>
+
+                <div class="topic-block">
+                    <h3>1.3.3 Bias-Variance Trade-off</h3>
+
+                    <h4>Bias</h4>
+                    <p>Difference between average prediction and true value. High bias → underfitting.</p>
+
+                    <h4>Variance</h4>
+                    <p>How much predictions change with training data. High variance → overfitting.</p>
+
+                    <table class="data-table">
+                        <tr><th>State</th><th>Training Error</th><th>Bias</th><th>Variance</th></tr>
+                        <tr><td>Underfitting</td><td>High</td><td>High</td><td>Low</td></tr>
+                        <tr><td>Just Right</td><td>Slightly &lt; test</td><td>Balanced</td><td>Balanced</td></tr>
+                        <tr><td>Overfitting</td><td>Low</td><td>Low</td><td>High</td></tr>
+                    </table>
+
+                    <h4>Remedies</h4>
+                    <ul>
+                        <li><strong>Underfitting:</strong> Complexify model, add features, train longer</li>
+                        <li><strong>Overfitting:</strong> Regularize, get more data</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="nav-footer">
+            <a href="index.html">← Home</a>
+            <a href="embeddings.html">Embeddings →</a>
+        </div>
+        <p>Super Study Guide: Transformers and Large Language Models</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

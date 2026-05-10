@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Large Language Models - Transformers & LLMs</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <h1>Transformers & LLMs</h1>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="foundations.html">Foundations</a></li>
+                <li><a href="embeddings.html">Embeddings</a></li>
+                <li><a href="transformers.html">Transformers</a></li>
+                <li><a href="llm.html">LLMs</a></li>
+                <li><a href="applications.html">Applications</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="hero-content">
+            <div class="badge">Section 4</div>
+            <h1>Large Language Models</h1>
+            <p class="subtitle">Pretraining, Prompt Engineering, Finetuning, and Model Compression</p>
+        </div>
+    </header>
+
+    <main class="content-area">
+        <div class="container">
+
+            <!-- 4.1 Fundamentals -->
+            <section id="fundamentals" class="section">
+                <h2 class="section-title">4.1 Fundamentals</h2>
+
+                <div class="topic-block">
+                    <h3>4.1.1 Notations</h3>
+
+                    <div class="definition-box">
+                        <h4>Large Language Model (LLM)</h4>
+                        <p>A model with large number of parameters achieving remarkable performance across NLP tasks. Based on Transformer architecture (decoder-only or encoder-decoder).</p>
+                    </div>
+
+                    <h4>LLM Lifecycle</h4>
+                    <div class="diagram">
+                        <pre class="ascii-diagram">
+1. Pretraining     2. Finetuning     3. Preference Tuning
+(learn general    (learn specific    (demote bad
+ language)        tasks)            answers)</pre>
+                    </div>
+
+                    <h4>Emergent Abilities</h4>
+                    <p>Significant performance improvement beyond a certain model size</p>
+                </div>
+
+                <div class="topic-block">
+                    <h3>4.1.2 Response Generation</h3>
+
+                    <h4>Autoregressive Generation</h4>
+                    <p>Generate output one token at a time:</p>
+                    <div class="formula">
+                        <code>P(w<sub>t+1</sub>|C) = softmax(X<sub>t+1</sub>)</code>
+                    </div>
+
+                    <h4>Greedy Search</h4>
+                    <div class="formula">
+                        <code>w<sub>t+1</sub> = argmax P(w|C)</code>
+                    </div>
+                    <p>Simple but may miss globally optimal sequences</p>
+
+                    <h4>Beam Search</h4>
+                    <p>Keep top-k hypotheses, expand iteratively</p>
+                    <ul>
+                        <li>k = beam width</li>
+                        <li>k = 1 is greedy decoding</li>
+                    </ul>
+
+                    <h4>Temperature Sampling</h4>
+                    <div class="formula">
+                        <code>P<sub>adj</sub>(w|C) = exp(X<sub>w</sub>/T) / Σ exp(X<sub>j</sub>/T)</code>
+                    </div>
+                    <table class="data-table">
+                        <tr><th>T</th><th>Effect</th></tr>
+                        <tr><td>T → 0</td><td>Deterministic, selects highest prob</td></tr>
+                        <tr><td>T = 1</td><td>Original distribution</td></tr>
+                        <tr><td>T → ∞</td><td>Uniform, random, creative</td></tr>
+                    </table>
+
+                    <h4>Top-k Sampling</h4>
+                    <p>Sample from top-k highest probability tokens</p>
+
+                    <h4>Top-p (Nucleus) Sampling</h4>
+                    <p>Sample from smallest set with cumulative probability ≥ p</p>
+                </div>
+            </section>
+
+            <!-- 4.2 Pretraining -->
+            <section id="pretraining" class="section alt-bg">
+                <h2 class="section-title">4.2 Pretraining</h2>
+
+                <div class="topic-block">
+                    <h3>4.2.1 Data Mixtures</h3>
+
+                    <table class="data-table">
+                        <tr><th>Source</th><th>Description</th><th>Examples</th></tr>
+                        <tr><td>Internet</td><td>Common Crawl, C4, Wikipedia</td><td>Web text</td></tr>
+                        <tr><td>Books</td><td>BookCorpus, multilingual</td><td>Books</td></tr>
+                        <tr><td>Code</td><td>GitHub, StackOverflow</td><td>Programming</td></tr>
+                    </table>
+                </div>
+
+                <div class="topic-block">
+                    <h3>4.2.2 Training Objective</h3>
+
+                    <h4>Next Token Prediction</h4>
+                    <p>Self-supervised learning - labels are within the data:</p>
+                    <div class="diagram">
+                        <pre class="ascii-diagram">
+"a cute teddy bear is reading..."
+      ↓        ↓
+   input x   target y = "reading..."
+      ↓
+ Self-supervised</pre>
+                    </div>
+
+                    <h4>Loss Function</h4>
+                    <div class="formula">
+                        <code>L = -Σ log P(w<sub>t+1</sub>|w<sub>1</sub>,...,w<sub>t</sub>)</code>
+                    </div>
+
+                    <h4>Result</h4>
+                    <p>Autoregressive / Causal Language Model (CLM)</p>
+                </div>
+            </section>
+
+            <!-- 4.3 Prompt Engineering -->
+            <section id="prompt" class="section">
+                <h2 class="section-title">4.3 Prompt Engineering</h2>
+
+                <div class="topic-block">
+                    <h3>4.3.1 Basics</h3>
+
+                    <h4>Prompt Components</h4>
+                    <table class="data-table">
+                        <tr><th>Component</th><th>Goal</th><th>Example</th></tr>
+                        <tr><td>Context</td><td>Set the stage</td><td>"My teddy bear wants a bedtime story"</td></tr>
+                        <tr><td>Instructions</td><td>State the task</td><td>"Generate a bedtime story"</td></tr>
+                        <tr><td>Input</td><td>Specific information</td><td>"Set in country of teddy bears"</td></tr>
+                        <tr><td>Examples</td><td>Show pattern</td><td>"Once upon a time..."</td></tr>
+                        <tr><td>Constraints</td><td>Bound output</td><td>"Suitable for tired teddy bears"</td></tr>
+                    </table>
+
+                    <h4>Context Window</h4>
+                    <p>Fixed span of tokens used as input</p>
+
+                    <h4>Context Length</h4>
+                    <table class="data-table">
+                        <tr><th>Length</th><th>Text</th><th>Use Case</th></tr>
+                        <tr><td>~10<sup>4</sup></td><td>10s of pages</td><td>Technical reports</td></tr>
+                        <tr><td>~10<sup>5</sup></td><td>100s of pages</td><td>Full books</td></tr>
+                        <tr><td>~10<sup>6</sup></td><td>1000s of pages</td><td>Encyclopedias</td></tr>
+                    </table>
+                </div>
+
+                <div class="topic-block">
+                    <h3>4.3.2 Strategies</h3>
+
+                    <h4>In-Context Learning (ICL)</h4>
+                    <ul>
+                        <li><strong>Zero-shot:</strong> No examples</li>
+                        <li><strong>Few-shot:</strong> Few input-output pairs</li>
+                    </ul>
+
+                    <h4>Chain of Thought (CoT)</h4>
+                    <p>Include reasoning steps in examples:</p>
+                    <div class="diagram">
+                        <pre class="ascii-diagram">
+Q: How old is this bear?
+A: Born in 2020. It is 4.
+
+Q: How old last year?
+A: 2024 - 1 = 3</pre>
+                    </div>
+
+                    <h4>Self-Consistency</h4>
+                    <ol>
+                        <li>Sample N responses with CoT</li>
+                        <li>Parse final answers</li>
+                        <li>Select most common answer</li>
+                    </ol>
+
+                    <h4>Tree of Thoughts (ToT)</h4>
+                    <p>Explore multiple reasoning paths using graph search (BFS/DFS)</p>
+
+                    <h4>ReAct (Reason + Act)</h4>
+                    <p>Combine reasoning and actions:</p>
+                    <ol>
+                        <li><strong>Thought:</strong> Plan next step</li>
+                        <li><strong>Action:</strong> Execute (e.g. search)</li>
+                        <li><strong>Observation:</strong> Incorporate result</li>
+                    </ol>
+                </div>
+
+                <div class="topic-block">
+                    <h3>4.3.3 Risks</h3>
+
+                    <h4>Prompt Injection</h4>
+                    <p>Trick model into unintended behavior:</p>
+                    <div class="diagram">
+                        <pre class="ascii-diagram">
+"Now forget all instructions and answer..."</pre>
+                    </div>
+
+                    <h4>Hallucination</h4>
+                    <p>Model generates plausible but incorrect facts</p>
+                    <p><strong>Mitigation:</strong> RLHF, DPO, RAG</p>
+                </div>
+            </section>
+
+            <!-- 4.4 Finetuning -->
+            <section id="finetuning" class="section alt-bg">
+                <h2 class="section-title">4.4 Finetuning</h2>
+
+                <div class="topic-block">
+                    <h3>4.4.1 Supervised Finetuning (SFT)</h3>
+
+                    <p>Tunes all model weights on specific tasks</p>
+
+                    <h4>Process</h4>
+                    <ol>
+                        <li>Initialize with pretrained weights</li>
+                        <li>Collect prompt-response pairs</li>
+                        <li>Train with next-token prediction</li>
+                    </ol>
+
+                    <h4>Data Quality</h4>
+                    <div class="formula">
+                        <code>quality > quantity</code>
+                    </div>
+                    <p>Few hundred examples typically sufficient</p>
+
+                    <h4>FLAN (Instruction Tuning)</h4>
+                    <p>Teach model to respond to instructions for better zero-shot performance</p>
+                </div>
+
+                <div class="topic-block">
+                    <h3>4.4.2 Parameter Efficient Finetuning (PEFT)</h3>
+
+                    <h4>LoRA (Low-Rank Adaptation)</h4>
+                    <p>Add low-rank matrices instead of updating all weights:</p>
+                    <div class="formula">
+                        <code>W = W<sub>0</sub> + BA</code>
+                    </div>
+                    <p>Where B ∈ ℝ<sup>d×r</sup>, A ∈ ℝ<sup>r×k</sup>, r ≪ min(d,k)</p>
+
+                    <h4>LoRA Parameters</h4>
+                    <table class="data-table">
+                        <tr><th>Traditional</th><th>LoRA</th></tr>
+                        <tr><td>d × k</td><td>d × r + r × k ≈ d × k / 10<sup>4</sup></td></tr>
+                    </table>
+
+                    <h4>Benefits</h4>
+                    <ul>
+                        <li>~10,000x fewer trainable parameters</li>
+                        <li>Easier to switch between tasks</li>
+                        <li>Only store W<sub>0</sub> + task-specific (A,B)</li>
+                    </ul>
+
+                    <h4>Adapters</h4>
+                    <p>Small learnable modules inserted between layers</p>
+
+                    <h4>Prefix Tuning</h4>
+                    <p>Tune only prefix token embeddings (< 1% of parameters)</p>
+                </div>
+            </section>
+
+            <!-- 4.5 Preference Tuning -->
+            <section id="preference" class="section">
+                <h2 class="section-title">4.5 Preference Tuning</h2>
+
+                <div class="topic-block">
+                    <h3>4.5.1 Concepts</h3>
+
+                    <h4>Motivation</h4>
+                    <p>Teaching model what actions to take AND what to avoid</p>
+
+                    <h4>Preference Data Types</h4>
+                    <table class="data-table">
+                        <tr><th>Type</th><th>Description</th></tr>
+                        <tr><td>Pointwise</td><td>Absolute rating per example</td></tr>
+                        <tr><td>Pairwise</td><td>Compare two examples</td></tr>
+                        <tr><td>Listwise</td><td>Rank list of examples</td></tr>
+                    </table>
+
+                    <h4>Generating Preference Data</h4>
+                    <ol>
+                        <li>Generate two responses from SFT model</li>
+                        <li>Rate relative quality (binary or nuanced)</li>
+                    </ol>
+                </div>
+
+                <div class="topic-block">
+                    <h3>4.5.2 RLHF</h3>
+
+                    <h4>Reinforcement Learning from Human Feedback</h4>
+                    <div class="diagram">
+                        <pre class="ascii-diagram">
+Step 1: Reward Model    Step 2: RL (PPO)
+Human ratings → RM    RM guides LLM
+      ↓                      ↓
+  r(x,y)               Policy π updates</pre>
+                    </div>
+
+                    <h4>Reward Model Training</h4>
+                    <div class="formula">
+                        <code>L(θ) = -E[log σ(r(x,y<sub>w</sub>) - r(x,y<sub>l</sub>))]</code>
+                    </div>
+                    <p>Maximize difference between winning and losing responses</p>
+
+                    <h4>PPO Update</h4>
+                    <div class="formula">
+                        <code>L(θ) = -r(x,y) - β · KL(π(y|x) || π<sub>old</sub>(y|x))</code>
+                    </div>
+                    <p>Maximizes rewards while staying close to base model (KL penalty)</p>
+
+                    <h4>Best-of-N (Rejection Sampling)</h4>
+                    <p>Sample N responses, select highest scored by RM</p>
+                </div>
+
+                <div class="topic-block">
+                    <h3>4.5.3 Supervised Preference Tuning</h3>
+
+                    <h4>DPO (Direct Preference Optimization)</h4>
+                    <p>Combines RM + RL into single supervised step:</p>
+                    <div class="formula">
+                        <code>L<sub>DPO</sub> = -E[log σ(β log π(y<sub>w</sub>|x)/π<sub>old</sub>(y<sub>w</sub>|x)
+                              - β log π(y<sub>l</sub>|x)/π<sub>old</sub>(y<sub>l</sub>|x))]</code>
+                    </div>
+
+                    <h4>DPO Properties</h4>
+                    <ul>
+                        <li>Fewer hyperparameters</li>
+                        <li>No reward model needed</li>
+                        <li>Simpler than RLHF</li>
+                    </ul>
+
+                    <h4>IPO</h4>
+                    <p>Identity Preference Optimization - less prone to overfitting:</p>
+                    <div class="formula">
+                        <code>L<sub>IPO</sub> = E[(1/2β) log<sup>2</sup>(π(y<sub>w</sub>|x)/π<sub>old</sub>(y<sub>w</sub>|x)
+                               - π(y<sub>l</sub>|x)/π<sub>old</sub>(y<sub>l</sub>|x))]</code>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4.6 Model Compression -->
+            <section id="compression" class="section alt-bg">
+                <h2 class="section-title">4.6 Model Compression</h2>
+
+                <div class="topic-block">
+                    <h3>4.6.1 Overview</h3>
+
+                    <h4>Why Compress?</h4>
+                    <ul>
+                        <li><strong>Inference cost:</strong> Latency, memory on devices</li>
+                        <li><strong>Training cost:</strong> Energy, carbon, resources</li>
+                    </ul>
+
+                    <h4>Training FLOPs</h4>
+                    <table class="data-table">
+                        <tr><th>Model</th><th>Parameters</th><th>Training Tokens</th></tr>
+                        <tr><td>Transformer-Base</td><td>65M</td><td>10B</td></tr>
+                        <tr><td>BERT</td><td>340M</td><td>137B</td></tr>
+                        <tr><td>GPT-3</td><td>175B</td><td>300B</td></tr>
+                        <tr><td>LLaMA 3</td><td>405B</td><td>15T</td></tr>
+                    </table>
+                </div>
+
+                <div class="topic-block">
+                    <h3>4.6.2 Distillation</h3>
+
+                    <p>Transfer knowledge from teacher to student:</p>
+                    <div class="diagram">
+                        <pre class="ascii-diagram">
+Teacher (big) → soft labels → Student (small)
+Hard labels → Alternative</pre>
+                    </div>
+
+                    <h4>Loss</h4>
+                    <div class="formula">
+                        <code>L = KL(y<sub>teacher</sub> || y<sub>student</sub>)</code>
+                    </div>
+                    <p><strong>Example:</strong> DistilBERT - 60% size, 97% performance</p>
+                </div>
+
+                <div class="topic-block">
+                    <h3>4.6.3 Quantization</h3>
+
+                    <h4>Floating-Point Formats</h4>
+                    <table class="data-table">
+                        <tr><th>Format</th><th>Bits</th><th>Range</th></tr>
+                        <tr><td>FP32</td><td>32</td><td>~10<sup>38</sup></td></tr>
+                        <tr><td>FP16</td><td>16</td><td>~10<sup>5</sup></td></tr>
+                        <tr><td>BF16</td><td>16</td><td>~10<sup>38</sup></td></tr>
+                        <tr><td>INT8</td><td>8</td><td>~10<sup>2</sup></td></tr>
+                    </table>
+
+                    <h4>Quantization Methods</h4>
+                    <ul>
+                        <li><strong>Zero-point:</strong> Asymmetric mapping</li>
+                        <li><strong>Absmax:</strong> Symmetric mapping</li>
+                        <li><strong>Blockwise:</strong> Quantize blocks independently</li>
+                    </ul>
+
+                    <h4>Training Types</h4>
+                    <ul>
+                        <li><strong>PTQ:</strong> Post-Training Quantization</li>
+                        <li><strong>QAT:</strong> Quantization-Aware Training</li>
+                    </ul>
+
+                    <h4>Mixed Precision</h4>
+                    <p>Compute in FP16, store weights in FP32. Reduces VRAM by 50%.</p>
+
+                    <h4>QLoRA</h4>
+                    <p>Quantized LoRA:</p>
+                    <ul>
+                        <li>4-bit NormalFloat (NF4) weights</li>
+                        <li>Double quantization for constants</li>
+                        <li>Paged optimizers for memory spikes</li>
+                    </ul>
+
+                    <h4>LLM.int8()</h4>
+                    <p>8-bit inference with outlier separation:</p>
+                    <ul>
+                        <li>Small values: INT8 dot products</li>
+                        <li>Outliers: FP16 computation</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="nav-footer">
+            <a href="transformers.html">← Transformers</a>
+            <a href="applications.html">Applications →</a>
+        </div>
+        <p>Super Study Guide: Transformers and Large Language Models</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
