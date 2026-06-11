@@ -57,10 +57,16 @@ const resumeData = {
     ],
     projects: [
         {
-            title: "Evolvo 2048",
-            tech: "Flutter",
-            description: "Cross-platform puzzle game shipped to production with polished mobile interactions.",
-            link: "#"
+            title: "Evolvo: 2048 History Puzzle",
+            tech: "Flutter · Live on Google Play",
+            description: "Swipe to merge historical milestones — from Fire to the Digital Age. Features a Museum of Ages, progressive XP, and relaxing yet rewarding gameplay.",
+            link: "https://play.google.com/store/apps/details?id=com.puzzlearcade.puzzle_2048"
+        },
+        {
+            title: "PDF Master – All PDF Toolkit",
+            tech: "Flutter · Live on Google Play",
+            description: "All-in-one PDF toolkit: read, merge, split, extract text & images, and convert images to PDF — 100% offline and secure with no cloud uploads.",
+            link: "https://play.google.com/store/apps/details?id=com.spcreation.pdfmaster"
         },
         {
             title: "PVF Studio Web Platform",
@@ -94,6 +100,12 @@ const resumeData = {
         }
     ],
     experience: [
+        {
+            title: "AI First Engineer - Trainee",
+            company: "Groovy Technoweb Pvt. Ltd.",
+            date: "Jun 2025 - Present",
+            detail: "Building AI-first solutions as a trainee engineer, working on real-world product features and delivery."
+        },
         {
             title: "Data Science and Machine Learning Intern",
             company: "Brainy Beams",
@@ -436,10 +448,36 @@ function setupContactForm() {
     const form = document.getElementById("contactForm");
     const feedback = document.getElementById("formFeedback");
 
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
         event.preventDefault();
-        feedback.textContent = "Thanks. Your message has been queued locally for this demo.";
-        form.reset();
+        const btn = form.querySelector('button[type="submit"]');
+        const originalText = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = "Sending...";
+        feedback.textContent = "";
+
+        try {
+            const res = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Accept: "application/json" },
+                body: JSON.stringify(Object.fromEntries(new FormData(form))),
+            });
+            const data = await res.json();
+            if (data.success) {
+                feedback.textContent = "Message sent successfully!";
+                feedback.style.color = "#4ade80";
+                form.reset();
+            } else {
+                feedback.textContent = data.message || "Something went wrong. Please try again.";
+                feedback.style.color = "#f87171";
+            }
+        } catch {
+            feedback.textContent = "Network error. Please try again.";
+            feedback.style.color = "#f87171";
+        } finally {
+            btn.disabled = false;
+            btn.textContent = originalText;
+        }
     });
 }
 
