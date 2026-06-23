@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Smit Patel portfolio featuring AI projects, engineering skills, and interactive 3D experiences.">
-    <title>Smit Patel | Futuristic Portfolio</title>
+    <meta name="description" content="Smit Patel — AI Engineer. Building production systems at the intersection of machine learning, security, and full-stack engineering.">
+    <title>Smit Patel — AI Engineer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r160/three.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -17,51 +17,46 @@
     <script defer src="main.js"></script>
 </head>
 <body>
-    <div class="noise-overlay" aria-hidden="true"></div>
-    <div id="scrollProgress" class="scroll-progress" aria-hidden="true"></div>
-
     <div id="preloader" aria-hidden="true">
-        <div class="preloader-ring"></div>
-        <p>Booting Experience</p>
+        <div class="preloader-origami">
+            <span class="origami-letter origami-s">S</span>
+            <span class="origami-letter origami-p">P</span>
+        </div>
     </div>
-
+    <div class="noise-overlay" aria-hidden="true"></div>
     <div class="cursor-dot" aria-hidden="true"></div>
-    <div class="cursor-glow" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true"></div>
 
     <nav class="nav" id="navbar" aria-label="Primary">
         <div class="container nav-inner">
-            <a class="brand" href="#home">SP</a>
+            <a class="brand" href="#home">Smit Patel</a>
             <button id="menuToggle" class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
                 <span></span>
                 <span></span>
             </button>
             <ul class="nav-links" id="navLinks">
-                <li><a class="nav-link" href="#home">Home</a></li>
                 <li><a class="nav-link" href="#about">About</a></li>
                 <li><a class="nav-link" href="#skills">Skills</a></li>
                 <li><a class="nav-link" href="#projects">Projects</a></li>
                 <li><a class="nav-link" href="#experience">Experience</a></li>
                 <li><a class="nav-link" href="#contact">Contact</a></li>
             </ul>
-            <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">Light</button>
+            <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">Light Mode</button>
         </div>
     </nav>
 
     <header id="home" class="section hero">
         <div id="hero-canvas" class="hero-canvas" aria-hidden="true"></div>
-        <div class="hero-gradient" aria-hidden="true"></div>
         <div class="container hero-content">
-            <p class="eyebrow" data-reveal>Computer Science x AI First </p>
-            <h1 class="hero-title" data-reveal>
-                Smit Patel
-                <span>Building premium AI-driven experiences.</span>
-            </h1>
+            <p class="eyebrow" data-reveal>AI Engineer</p>
+            <h1 class="hero-title" data-reveal> Smit Patel </h1>
             <p class="hero-description" data-reveal>
-                I design intelligent products with immersive interfaces, blending machine learning, clean engineering, and cinematic front-end interactions.
+                Building production AI systems at the intersection of machine learning,
+                security engineering, and full-stack development.
             </p>
             <div class="hero-cta" data-reveal>
-                <a class="btn btn-primary magnetic" href="#projects">Explore Work</a>
-                <a class="btn btn-ghost magnetic" href="#contact">Collaborate</a>
+                <a class="btn btn-primary magnetic" href="#projects">View Work</a>
+                <a class="btn btn-ghost magnetic" href="#contact">Get in Touch</a>
             </div>
             <div id="heroStats" class="hero-stats" data-reveal></div>
         </div>
@@ -71,10 +66,10 @@
         <section id="about" class="section">
             <div class="container split-layout">
                 <div>
-                    <p class="section-kicker">01 / About</p>
-                    <h2 class="section-title">Human-centered, performance-first engineering.</h2>
+                    <p class="section-kicker">About</p>
+                    <h2 class="section-title">Human-centered engineering, built to scale.</h2>
                 </div>
-                <div class="glass-panel about-panel">
+                <div class="card about-card">
                     <div id="aboutParagraphs" class="about-paragraphs"></div>
                     <div id="aboutBadges" class="about-badges"></div>
                 </div>
@@ -83,23 +78,23 @@
 
         <section id="skills" class="section">
             <div class="container">
-                <p class="section-kicker">02 / Skills</p>
-                <h2 class="section-title">Capabilities tuned for modern AI products.</h2>
+                <p class="section-kicker">Capabilities</p>
+                <h2 class="section-title">Technical expertise across the stack.</h2>
                 <div id="skillsGrid" class="skills-grid"></div>
             </div>
         </section>
 
         <section id="projects" class="section">
             <div class="container">
-                <p class="section-kicker">03 / Projects</p>
-                <h2 class="section-title">Selected launches and experimental builds.</h2>
+                <p class="section-kicker">Selected Work</p>
+                <h2 class="section-title">Projects and launches.</h2>
                 <div id="projectsGrid" class="projects-grid"></div>
             </div>
         </section>
 
         <section id="experience" class="section">
             <div class="container">
-                <p class="section-kicker">04 / Experience</p>
+                <p class="section-kicker">Experience</p>
                 <h2 class="section-title">Timeline of growth and delivery.</h2>
                 <div id="experienceTimeline" class="timeline"></div>
             </div>
@@ -108,14 +103,14 @@
         <section id="contact" class="section">
             <div class="container contact-wrap">
                 <div>
-                    <p class="section-kicker">05 / Contact</p>
-                    <h2 class="section-title">Let us build something unforgettable.</h2>
-                    <p class="contact-copy">Available for internships, freelance engineering, and product collaborations.</p>
+                    <p class="section-kicker">Connect</p>
+                    <h2 class="section-title">Let us build something meaningful.</h2>
+                    <p class="contact-copy">Open to select opportunities in AI engineering, product development, and strategic collaboration.</p>
                     <div id="contactCards" class="contact-cards"></div>
                 </div>
-                <form class="glass-panel contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                <form class="card contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
                     <input type="hidden" name="access_key" value="14889333-ec28-49a8-8a7c-2c755ab83e15">
-                    <input type="hidden" name="subject" value="New Contact Form Submission - Smit Patel">
+                    <input type="hidden" name="subject" value="New Contact Form Submission — Smit Patel">
                     <input type="checkbox" name="botcheck" class="hidden" style="display:none">
                     <label>
                         Name
@@ -123,13 +118,13 @@
                     </label>
                     <label>
                         Email
-                        <input type="email" name="email" placeholder="mail@gmail.com" required>
+                        <input type="email" name="email" placeholder="mail@example.com" required>
                     </label>
                     <label>
                         Message
                         <textarea name="message" rows="5" placeholder="Tell me about your project" required></textarea>
                     </label>
-                    <button type="submit" class="btn btn-primary magnetic">Send Message</button>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
                     <p id="formFeedback" class="form-feedback" aria-live="polite"></p>
                 </form>
             </div>
@@ -138,8 +133,8 @@
 
     <footer class="footer">
         <div class="container footer-inner">
-            <p>Designed and engineered by Smit Patel.</p>
-            <p>© 2026 All rights reserved.</p>
+            <p>Smit Patel</p>
+            <p>&copy; 2026 All rights reserved.</p>
         </div>
     </footer>
 </body>

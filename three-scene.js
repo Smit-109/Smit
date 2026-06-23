@@ -1,103 +1,82 @@
 (() => {
     function createHeroScene({ container, lowMotion = false }) {
-        if (!window.THREE || !container) {
-            return;
-        }
+        if (!window.THREE || !container) return;
 
         const scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x07090f, 0.06);
-
         const camera = new THREE.PerspectiveCamera(
-            58,
+            50,
             container.clientWidth / Math.max(1, container.clientHeight),
             0.1,
-            80
+            60
         );
-        camera.position.set(0, 0.2, 8);
+        camera.position.set(0, 0.3, 7);
+        camera.lookAt(0, 0, 0);
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+        const renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true,
+            powerPreference: "high-performance"
+        });
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setSize(container.clientWidth, container.clientHeight);
         container.appendChild(renderer.domElement);
 
-        const ambientLight = new THREE.AmbientLight(0x62b2ff, 1.1);
+        const ambientLight = new THREE.AmbientLight(0x444444, 1.4);
         scene.add(ambientLight);
 
-        const pointLightA = new THREE.PointLight(0x18f7d3, 2.1, 24, 2);
-        pointLightA.position.set(3, 1.2, 4);
-        scene.add(pointLightA);
+        const keyLight = new THREE.DirectionalLight(0xc49b5c, 2.2);
+        keyLight.position.set(3, 1.8, 4);
+        scene.add(keyLight);
 
-        const pointLightB = new THREE.PointLight(0xff5cb8, 2.4, 20, 2);
-        pointLightB.position.set(-3.2, -1.6, 1.5);
-        scene.add(pointLightB);
+        const fillLight = new THREE.DirectionalLight(0x666666, 0.9);
+        fillLight.position.set(-3, -1.2, 2);
+        scene.add(fillLight);
 
-        const group = new THREE.Group();
-        scene.add(group);
-
-        const torusKnot = new THREE.Mesh(
-            new THREE.TorusKnotGeometry(1.35, 0.34, 180, 28),
-            new THREE.MeshPhysicalMaterial({
-                color: 0x38a0ff,
-                emissive: 0x082042,
-                roughness: 0.22,
-                metalness: 0.8,
-                clearcoat: 0.7,
-                clearcoatRoughness: 0.15,
-                transparent: true,
-                opacity: 0.95
-            })
-        );
-        group.add(torusKnot);
-
-        const ring = new THREE.Mesh(
-            new THREE.TorusGeometry(2.5, 0.03, 24, 220),
-            new THREE.MeshBasicMaterial({ color: 0x18f7d3, transparent: true, opacity: 0.52 })
-        );
-        ring.rotation.x = 1.1;
-        group.add(ring);
-
-        const sphere = new THREE.Mesh(
-            new THREE.IcosahedronGeometry(0.62, 1),
-            new THREE.MeshStandardMaterial({
-                color: 0xff5cb8,
-                roughness: 0.42,
-                metalness: 0.55,
-                emissive: 0x220918
-            })
-        );
-        sphere.position.set(-2.15, 0.8, -1.3);
-        group.add(sphere);
-
-        const particlesCount = lowMotion ? 450 : 1200;
-        const positions = new Float32Array(particlesCount * 3);
-        for (let i = 0; i < particlesCount * 3; i += 1) {
-            positions[i] = (Math.random() - 0.5) * 22;
-        }
-
-        const particlesGeometry = new THREE.BufferGeometry();
-        particlesGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-
-        const particlesMaterial = new THREE.PointsMaterial({
-            color: 0x8cc7ff,
-            size: 0.03,
+        const geo = new THREE.IcosahedronGeometry(1.9, 1);
+        const mat = new THREE.MeshStandardMaterial({
+            color: 0xb8a06a,
+            roughness: 0.55,
+            metalness: 0.15,
             transparent: true,
-            opacity: 0.78,
+            opacity: 0.25
+        });
+        const mesh = new THREE.Mesh(geo, mat);
+        scene.add(mesh);
+
+        const wireframe = new THREE.LineSegments(
+            new THREE.EdgesGeometry(geo),
+            new THREE.LineBasicMaterial({
+                color: 0xd4b36c,
+                transparent: true,
+                opacity: 0.18
+            })
+        );
+        scene.add(wireframe);
+
+        const particleCount = lowMotion ? 120 : 280;
+        const positions = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount * 3; i++) {
+            positions[i] = (Math.random() - 0.5) * 18;
+        }
+        const particleGeo = new THREE.BufferGeometry();
+        particleGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+        const particleMat = new THREE.PointsMaterial({
+            color: 0xd4b36c,
+            size: 0.025,
+            transparent: true,
+            opacity: 0.45,
             blending: THREE.AdditiveBlending,
             depthWrite: false
         });
-
-        const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+        const particles = new THREE.Points(particleGeo, particleMat);
         scene.add(particles);
 
-        const pointer = { x: 0, y: 0 };
-
-        function onPointerMove(event) {
-            const rect = container.getBoundingClientRect();
-            pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-            pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+        let scrollRatio = 0;
+        function onScroll() {
+            const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+            scrollRatio = window.scrollY / maxScroll;
         }
-
-        window.addEventListener("pointermove", onPointerMove);
+        window.addEventListener("scroll", onScroll, { passive: true });
 
         function onResize() {
             const width = container.clientWidth;
@@ -112,24 +91,24 @@
 
         let rafId = 0;
         const clock = new THREE.Clock();
+        let currentScroll = 0;
 
         function render() {
             const elapsed = clock.getElapsedTime();
+            const speed = lowMotion ? 0.06 : 0.15;
 
-            torusKnot.rotation.x += lowMotion ? 0.0025 : 0.0042;
-            torusKnot.rotation.y += lowMotion ? 0.003 : 0.005;
+            mesh.rotation.x = Math.sin(elapsed * speed * 0.4) * 0.3;
+            mesh.rotation.y += speed * 0.012;
 
-            sphere.rotation.x += 0.004;
-            sphere.rotation.y += 0.005;
+            wireframe.rotation.copy(mesh.rotation);
 
-            ring.rotation.z = elapsed * 0.25;
+            particles.rotation.y += 0.002;
+            particles.rotation.x += Math.sin(elapsed * 0.06) * 0.004;
 
-            particles.rotation.y = elapsed * 0.025;
-            particles.rotation.x = Math.sin(elapsed * 0.09) * 0.08;
-
-            camera.position.x += (pointer.x * 0.8 - camera.position.x) * 0.03;
-            camera.position.y += (pointer.y * 0.5 - camera.position.y) * 0.03;
-            camera.lookAt(scene.position);
+            currentScroll += (scrollRatio - currentScroll) * 0.06;
+            camera.position.y = 0.3 - currentScroll * 1.2 + Math.sin(elapsed * 0.15) * 0.12;
+            camera.position.z = 7 + currentScroll * 0.6;
+            camera.lookAt(0, 0, 0);
 
             renderer.render(scene, camera);
             rafId = requestAnimationFrame(render);
@@ -137,14 +116,17 @@
 
         render();
 
-        // Expose a cleanup callback in case future navigation removes the hero scene.
         return () => {
             cancelAnimationFrame(rafId);
-            window.removeEventListener("pointermove", onPointerMove);
+            window.removeEventListener("scroll", onScroll);
             window.removeEventListener("resize", onResize);
             renderer.dispose();
-            particlesGeometry.dispose();
-            particlesMaterial.dispose();
+            geo.dispose();
+            mat.dispose();
+            wireframe.geometry.dispose();
+            wireframe.material.dispose();
+            particleGeo.dispose();
+            particleMat.dispose();
         };
     }
 

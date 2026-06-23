@@ -6,7 +6,6 @@ const resumeData = {
             { value: "10+", label: "Projects" },
             { value: "5+", label: "Internships" },
             { value: "2+", label: "Years Building" },
-            { value: "30%", label: "Profile Unlocked" }
         ]
     },
     about: {
@@ -133,22 +132,16 @@ const resumeData = {
     ]
 };
 
-const state = {
-    scroll: {
-        lenis: null
-    }
-};
-
 function renderResume() {
     const heroStats = document.getElementById("heroStats");
     heroStats.innerHTML = resumeData.profile.heroStats
         .map(
             (stat) => `
-            <div class="stat-pill">
-                <strong>${stat.value}</strong>
-                <span>${stat.label}</span>
-            </div>
-        `
+                <div class="stat-pill">
+                    <strong>${stat.value}</strong>
+                    <span>${stat.label}</span>
+                </div>
+            `
         )
         .join("");
 
@@ -162,25 +155,25 @@ function renderResume() {
     skillsGrid.innerHTML = resumeData.skills
         .map(
             (group) => `
-            <article class="skill-card">
-                <h3>${group.title}</h3>
-                ${group.items
-                    .map(
-                        (item) => `
-                        <div class="skill-row">
-                            <div class="skill-row-head">
-                                <span>${item.name}</span>
-                                <span>${item.level}%</span>
-                            </div>
-                            <div class="skill-track">
-                                <div class="skill-fill" data-level="${item.level}"></div>
-                            </div>
-                        </div>
-                    `
-                    )
-                    .join("")}
-            </article>
-        `
+                <article class="skill-card">
+                    <h3>${group.title}</h3>
+                    ${group.items
+                        .map(
+                            (item) => `
+                                <div class="skill-row">
+                                    <div class="skill-row-head">
+                                        <span>${item.name}</span>
+                                        <span>${item.level}%</span>
+                                    </div>
+                                    <div class="skill-track">
+                                        <div class="skill-fill" data-level="${item.level}"></div>
+                                    </div>
+                                </div>
+                            `
+                        )
+                        .join("")}
+                </article>
+            `
         )
         .join("");
 
@@ -188,13 +181,13 @@ function renderResume() {
     projectsGrid.innerHTML = resumeData.projects
         .map(
             (project) => `
-            <article class="project-card tilt-card magnetic">
-                <h3>${project.title}</h3>
-                <span class="project-meta">${project.tech}</span>
-                <p>${project.description}</p>
-                <a class="project-link" href="${project.link}" aria-label="View ${project.title} project details">View details</a>
-            </article>
-        `
+                <article class="project-card tilt-card">
+                    <h3>${project.title}</h3>
+                    <span class="project-meta">${project.tech}</span>
+                    <p>${project.description}</p>
+                    <a class="project-link" href="${project.link}" target="_blank" rel="noreferrer" aria-label="View ${project.title}">View details</a>
+                </article>
+            `
         )
         .join("");
 
@@ -202,13 +195,13 @@ function renderResume() {
     timeline.innerHTML = resumeData.experience
         .map(
             (item) => `
-            <article class="timeline-item">
-                <h3>${item.company}</h3>
-                <p class="timeline-role">${item.title}</p>
-                <p class="timeline-date">${item.date}</p>
-                <p>${item.detail}</p>
-            </article>
-        `
+                <article class="timeline-item">
+                    <h3>${item.company}</h3>
+                    <p class="timeline-role">${item.title}</p>
+                    <p class="timeline-date">${item.date}</p>
+                    <p>${item.detail}</p>
+                </article>
+            `
         )
         .join("");
 
@@ -216,11 +209,11 @@ function renderResume() {
     contactCards.innerHTML = resumeData.contact
         .map(
             (entry) => `
-            <article class="contact-item magnetic">
-                <span>${entry.label}</span>
-                <a href="${entry.href}" target="_blank" rel="noreferrer">${entry.value}</a>
-            </article>
-        `
+                <article class="contact-item">
+                    <span>${entry.label}</span>
+                    <a href="${entry.href}" target="_blank" rel="noreferrer">${entry.value}</a>
+                </article>
+            `
         )
         .join("");
 }
@@ -250,7 +243,7 @@ function setupThemeToggle() {
 
     if (storedTheme === "light") {
         root.setAttribute("data-theme", "light");
-        toggle.textContent = "Dark";
+        toggle.textContent = "Dark Mode";
     }
 
     toggle.addEventListener("click", () => {
@@ -258,77 +251,12 @@ function setupThemeToggle() {
         if (isLight) {
             root.removeAttribute("data-theme");
             localStorage.setItem("portfolio-theme", "dark");
-            toggle.textContent = "Light";
+            toggle.textContent = "Light Mode";
         } else {
             root.setAttribute("data-theme", "light");
             localStorage.setItem("portfolio-theme", "light");
-            toggle.textContent = "Dark";
+            toggle.textContent = "Dark Mode";
         }
-    });
-}
-
-function setupCustomCursor() {
-    const dot = document.querySelector(".cursor-dot");
-    const glow = document.querySelector(".cursor-glow");
-
-    if (window.matchMedia("(hover: none)").matches) {
-        return;
-    }
-
-    let x = window.innerWidth / 2;
-    let y = window.innerHeight / 2;
-    let gx = x;
-    let gy = y;
-
-    window.addEventListener("pointermove", (event) => {
-        x = event.clientX;
-        y = event.clientY;
-        dot.style.transform = `translate(${x}px, ${y}px)`;
-    });
-
-    function loop() {
-        gx += (x - gx) * 0.15;
-        gy += (y - gy) * 0.15;
-        glow.style.transform = `translate(${gx}px, ${gy}px)`;
-        requestAnimationFrame(loop);
-    }
-
-    loop();
-}
-
-function setupMagneticButtons() {
-    const targets = document.querySelectorAll(".magnetic");
-
-    targets.forEach((element) => {
-        element.addEventListener("mousemove", (event) => {
-            const rect = element.getBoundingClientRect();
-            const mx = event.clientX - rect.left - rect.width / 2;
-            const my = event.clientY - rect.top - rect.height / 2;
-            element.style.transform = `translate3d(${mx * 0.08}px, ${my * 0.08}px, 0)`;
-        });
-
-        element.addEventListener("mouseleave", () => {
-            element.style.transform = "translate3d(0, 0, 0)";
-        });
-    });
-}
-
-function setupProjectTilt() {
-    const cards = document.querySelectorAll(".tilt-card");
-
-    cards.forEach((card) => {
-        card.addEventListener("mousemove", (event) => {
-            const rect = card.getBoundingClientRect();
-            const px = (event.clientX - rect.left) / rect.width;
-            const py = (event.clientY - rect.top) / rect.height;
-            const rotateY = (px - 0.5) * 13;
-            const rotateX = (0.5 - py) * 11;
-            card.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
-        });
-
-        card.addEventListener("mouseleave", () => {
-            card.style.transform = "perspective(700px) rotateX(0deg) rotateY(0deg)";
-        });
     });
 }
 
@@ -339,17 +267,14 @@ function setupSectionSpy() {
     const observer = new IntersectionObserver(
         (entries) => {
             entries.forEach((entry) => {
-                if (!entry.isIntersecting) {
-                    return;
-                }
-
+                if (!entry.isIntersecting) return;
                 links.forEach((link) => {
                     const active = link.getAttribute("href") === `#${entry.target.id}`;
                     link.classList.toggle("active", active);
                 });
             });
         },
-        { threshold: 0.5 }
+        { threshold: 0.45 }
     );
 
     sections.forEach((section) => observer.observe(section));
@@ -357,23 +282,16 @@ function setupSectionSpy() {
 
 function setupSmoothScroll() {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion || window.matchMedia("(pointer: coarse)").matches) {
-        return;
-    }
-
-    if (!window.Lenis) {
-        return;
-    }
+    if (prefersReducedMotion || window.matchMedia("(pointer: coarse)").matches) return;
+    if (!window.Lenis) return;
 
     const lenis = new window.Lenis({
-        duration: 1,
+        duration: 0.8,
         smoothWheel: true,
-        wheelMultiplier: 0.9,
+        wheelMultiplier: 0.7,
         touchMultiplier: 1,
         gestureOrientation: "vertical"
     });
-
-    state.scroll.lenis = lenis;
 
     function raf(time) {
         lenis.raf(time);
@@ -383,64 +301,24 @@ function setupSmoothScroll() {
     requestAnimationFrame(raf);
 
     if (window.ScrollTrigger) {
-        lenis.on("scroll", () => {
-            window.ScrollTrigger.update();
-        });
+        lenis.on("scroll", () => window.ScrollTrigger.update());
     }
 
     document.querySelectorAll('a[href^="#"]').forEach((link) => {
         link.addEventListener("click", (event) => {
             const targetId = link.getAttribute("href");
-            if (!targetId || targetId === "#") {
-                return;
-            }
+            if (!targetId || targetId === "#") return;
 
             const target = document.querySelector(targetId);
-            if (!target) {
-                return;
-            }
+            if (!target) return;
 
             event.preventDefault();
             lenis.scrollTo(target, {
-                offset: -72,
-                duration: 1.1,
+                offset: -64,
+                duration: 1,
                 easing: (t) => 1 - Math.pow(1 - t, 3)
             });
         });
-    });
-}
-
-function setupScrollProgress() {
-    const progress = document.getElementById("scrollProgress");
-    if (!progress) {
-        return;
-    }
-
-    const updateProgress = () => {
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        if (maxScroll <= 0) {
-            progress.style.transform = "scaleX(0)";
-            return;
-        }
-
-        const ratio = Math.min(1, Math.max(0, window.scrollY / maxScroll));
-        progress.style.transform = `scaleX(${ratio})`;
-    };
-
-    window.addEventListener("scroll", updateProgress, { passive: true });
-    window.addEventListener("resize", updateProgress);
-    updateProgress();
-}
-
-function setupPreloader() {
-    const preloader = document.getElementById("preloader");
-
-    const hidePreloader = () => {
-        preloader.classList.add("is-hidden");
-    };
-
-    window.addEventListener("load", () => {
-        setTimeout(hidePreloader, 450);
     });
 }
 
@@ -464,8 +342,8 @@ function setupContactForm() {
             });
             const data = await res.json();
             if (data.success) {
-                feedback.textContent = "Message sent successfully!";
-                feedback.style.color = "#4ade80";
+                feedback.textContent = "Message sent. I will get back to you shortly.";
+                feedback.style.color = "var(--brand)";
                 form.reset();
             } else {
                 feedback.textContent = data.message || "Something went wrong. Please try again.";
@@ -481,19 +359,158 @@ function setupContactForm() {
     });
 }
 
-function setupGsapAnimations() {
-    if (!window.gsap || !window.ScrollTrigger) {
+function setupCustomCursor() {
+    const dot = document.querySelector(".cursor-dot");
+    const ring = document.querySelector(".cursor-ring");
+    if (!dot || !ring) return;
+    if (window.matchMedia("(hover: none)").matches) {
+        dot.style.display = "none";
+        ring.style.display = "none";
         return;
     }
+
+    let x = window.innerWidth / 2;
+    let y = window.innerHeight / 2;
+    let rx = x;
+    let ry = y;
+
+    window.addEventListener("pointermove", (event) => {
+        x = event.clientX;
+        y = event.clientY;
+        dot.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    document.querySelectorAll("a, button, input, textarea, .card, .contact-item, .stat-pill").forEach((el) => {
+        el.addEventListener("mouseenter", () => ring.classList.add("ring-hover"));
+        el.addEventListener("mouseleave", () => ring.classList.remove("ring-hover"));
+    });
+
+    function loop() {
+        rx += (x - rx) * 0.12;
+        ry += (y - ry) * 0.12;
+        ring.style.transform = `translate(${rx}px, ${ry}px)`;
+        requestAnimationFrame(loop);
+    }
+
+    loop();
+}
+
+function setupMagneticButtons() {
+    const targets = document.querySelectorAll(".magnetic");
+    targets.forEach((el) => {
+        el.addEventListener("mousemove", (event) => {
+            const rect = el.getBoundingClientRect();
+            const mx = event.clientX - rect.left - rect.width / 2;
+            const my = event.clientY - rect.top - rect.height / 2;
+            el.style.transform = `translate3d(${mx * 0.06}px, ${my * 0.06}px, 0)`;
+        });
+        el.addEventListener("mouseleave", () => {
+            el.style.transform = "translate3d(0, 0, 0)";
+        });
+    });
+}
+
+function setupTiltCards() {
+    const cards = document.querySelectorAll(".tilt-card");
+    cards.forEach((card) => {
+        card.addEventListener("mousemove", (event) => {
+            const rect = card.getBoundingClientRect();
+            const px = (event.clientX - rect.left) / rect.width;
+            const py = (event.clientY - rect.top) / rect.height;
+            const rotateY = (px - 0.5) * 8;
+            const rotateX = (0.5 - py) * 6;
+            card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
+        });
+        card.addEventListener("mouseleave", () => {
+            card.style.transform = "perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0)";
+        });
+    });
+}
+
+function animateStats() {
+    const values = document.querySelectorAll(".stat-pill strong");
+    const statData = resumeData.profile.heroStats;
+
+    values.forEach((el, i) => {
+        const raw = statData[i]?.value || "";
+        const num = parseInt(raw.match(/\d+/)?.[0] || "0", 10);
+        const suffix = (raw.match(/\D+$/) || [""])[0];
+        let current = 0;
+        const start = performance.now();
+        const duration = 900;
+
+        function update(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            current = Math.round(eased * num);
+            el.textContent = current + suffix;
+            if (progress < 1) requestAnimationFrame(update);
+        }
+
+        requestAnimationFrame(update);
+    });
+}
+
+function createPreloaderParticles() {
+    const preloader = document.getElementById("preloader");
+    if (!preloader) return;
+
+    const container = document.createElement("div");
+    container.className = "preloader-particles";
+    container.setAttribute("aria-hidden", "true");
+
+    for (let i = 0; i < 50; i++) {
+        const p = document.createElement("span");
+        p.className = "preloader-particle";
+        const size = 1.5 + Math.random() * 3;
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        const dur = 3 + Math.random() * 4;
+        const delay = Math.random() * 4;
+        const dx = (Math.random() - 0.5) * 40;
+        const dy = -(25 + Math.random() * 45);
+        p.style.cssText = `
+            left:${x}%;top:${y}%;
+            width:${size}px;height:${size}px;
+            animation-duration:${dur}s;
+            animation-delay:${delay}s;
+            --dx:${dx}px;--dy:${dy}px;
+        `;
+        container.appendChild(p);
+    }
+
+    preloader.appendChild(container);
+}
+
+function setupPreloader() {
+    const preloader = document.getElementById("preloader");
+    if (!preloader) return;
+
+    createPreloaderParticles();
+
+    const hide = () => {
+        preloader.classList.add("is-hidden");
+        animateStats();
+    };
+
+    if (document.readyState === "complete") {
+        setTimeout(hide, 1200);
+    } else {
+        window.addEventListener("load", () => setTimeout(hide, 1200));
+    }
+}
+
+function setupGsapAnimations() {
+    if (!window.gsap || !window.ScrollTrigger) return;
 
     gsap.registerPlugin(ScrollTrigger);
 
     gsap.to("[data-reveal]", {
         opacity: 1,
         y: 0,
-        duration: 0.9,
-        ease: "power3.out",
-        stagger: 0.11
+        duration: 0.7,
+        ease: "power2.out",
+        stagger: 0.08
     });
 
     const animateOnScroll = [".skill-card", ".project-card", ".timeline-item", ".contact-item", ".contact-form"];
@@ -501,12 +518,12 @@ function setupGsapAnimations() {
         gsap.to(selector, {
             opacity: 1,
             y: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            stagger: 0.1,
+            duration: 0.6,
+            ease: "power2.out",
+            stagger: 0.06,
             scrollTrigger: {
                 trigger: selector,
-                start: "top 84%"
+                start: "top 88%"
             }
         });
     });
@@ -515,11 +532,11 @@ function setupGsapAnimations() {
         const level = Number(fill.dataset.level || 0);
         gsap.to(fill, {
             width: `${level}%`,
-            duration: 1.2,
+            duration: 1,
             ease: "power2.out",
             scrollTrigger: {
                 trigger: fill,
-                start: "top 92%"
+                start: "top 94%"
             }
         });
     });
@@ -527,16 +544,12 @@ function setupGsapAnimations() {
 
 function setupLazyHeroScene() {
     const heroCanvas = document.getElementById("hero-canvas");
-    if (!heroCanvas) {
-        return;
-    }
+    if (!heroCanvas) return;
 
     const observer = new IntersectionObserver(
         (entries) => {
             const [entry] = entries;
-            if (!entry.isIntersecting) {
-                return;
-            }
+            if (!entry.isIntersecting) return;
 
             if (typeof window.createHeroScene === "function") {
                 window.createHeroScene({
@@ -544,10 +557,9 @@ function setupLazyHeroScene() {
                     lowMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches
                 });
             }
-
             observer.disconnect();
         },
-        { threshold: 0.15 }
+        { threshold: 0.1 }
     );
 
     observer.observe(heroCanvas);
@@ -556,15 +568,14 @@ function setupLazyHeroScene() {
 function init() {
     renderResume();
     setupPreloader();
+    setupCustomCursor();
+    setupMagneticButtons();
+    setupTiltCards();
     setupMobileMenu();
     setupThemeToggle();
     setupContactForm();
-    setupCustomCursor();
-    setupMagneticButtons();
-    setupProjectTilt();
     setupSectionSpy();
     setupSmoothScroll();
-    setupScrollProgress();
     setupLazyHeroScene();
     setupGsapAnimations();
 }
